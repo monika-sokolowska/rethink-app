@@ -3,14 +3,6 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getStats } from "../../../reducers/statsSlice";
-import {
-  XYPlot,
-  XAxis,
-  YAxis,
-  VerticalGridLines,
-  HorizontalGridLines,
-  VerticalBarSeries,
-} from "react-vis";
 
 const Stats = () => {
   const dispatch = useDispatch();
@@ -24,7 +16,7 @@ const Stats = () => {
   return (
     <section className="stats">
       <div className="stats-container">
-        {stats && (
+        {/* {stats && (
           <XYPlot
             margin={{ bottom: 200 }}
             xType="ordinal"
@@ -44,7 +36,7 @@ const Stats = () => {
               colorType="linear"
             />
           </XYPlot>
-        )}
+        )} */}
       </div>
     </section>
   );
