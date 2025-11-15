@@ -14,6 +14,12 @@ public class Role {
     @Column(name="name", columnDefinition = "VARCHAR(45)")
     private ERole name;
 
+    public Role() {}
+
+    public Role(ERole name) {
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }
