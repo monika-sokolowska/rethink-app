@@ -1,10 +1,22 @@
-import "./StatsAdmin.css";
 import stats from "../../../assets/images/stats.svg";
+import { createUseStyles } from "react-jss";
+
+const useStyles = createUseStyles({
+  stats: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "white",
+  },
+});
 
 const StatsAdmin = () => {
+  const classes = useStyles();
   return (
-    <section className="stats">
-      <img className="first-page" src={stats} alt="firstPage" />
+    <section className={classes.stats}>
+      <img src={stats} alt="firstPage" />
     </section>
   );
 };
