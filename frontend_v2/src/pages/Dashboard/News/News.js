@@ -67,6 +67,7 @@ const News = () => {
   const [showModal, setShowModal] = useState(false);
   const [articleDescription, setArticleDescription] = useState("");
   const [articleTitle, setArticleTitle] = useState("");
+  const [articleImage, setArticleImage] = useState("");
 
   useEffect(() => {
     dispatch(getAllArticles());
@@ -76,6 +77,7 @@ const News = () => {
     const article = articles.find((a) => a.id_article === id_article);
     setArticleDescription(article.text);
     setArticleTitle(article.title);
+    setArticleImage(article.image);
     setShowModal(true);
   };
 
@@ -90,6 +92,7 @@ const News = () => {
         handleClose={handleModalClose}
         title={articleTitle}
         description={articleDescription}
+        image={articleImage}
       />
       {articles.map((item) => {
         const { id_article, title, image } = item;

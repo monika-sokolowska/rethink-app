@@ -58,6 +58,9 @@ const useStyles = createUseStyles({
       transform: "scale(1.1)",
     },
   },
+  articleImage: {
+    display: "none",
+  },
   articleDescription: {
     padding: "2rem",
     color: "#2d8659",
@@ -89,6 +92,15 @@ const useStyles = createUseStyles({
     modalTitle: {
       fontSize: "1.1rem",
     },
+    articleImage: {
+      display: "block",
+      width: "100%",
+      maxHeight: "200px",
+      objectFit: "cover",
+      marginBottom: "1rem",
+      padding: "0 1.5rem",
+      boxSizing: "border-box",
+    },
     articleDescription: {
       padding: "1.5rem",
       fontSize: "0.9rem",
@@ -109,6 +121,15 @@ const useStyles = createUseStyles({
     modalTitle: {
       fontSize: "1rem",
     },
+    articleImage: {
+      display: "block",
+      width: "100%",
+      maxHeight: "180px",
+      objectFit: "cover",
+      marginBottom: "0.75rem",
+      padding: "0 1rem",
+      boxSizing: "border-box",
+    },
     articleDescription: {
       padding: "1rem",
       fontSize: "0.85rem",
@@ -116,7 +137,7 @@ const useStyles = createUseStyles({
   },
 });
 
-const ArticleModalAdmin = ({ isOpen, handleClose, title, description }) => {
+const ArticleModalAdmin = ({ isOpen, handleClose, title, description, image }) => {
   const classes = useStyles();
   const renderBackdrop = (props) => (
     <div className={classes.backdrop} {...props} />
@@ -137,6 +158,7 @@ const ArticleModalAdmin = ({ isOpen, handleClose, title, description }) => {
             </span>
           </div>
         </div>
+        {image && <img src={image} alt={title} className={classes.articleImage} />}
         <div className={classes.articleDescription}>{description}</div>
       </div>
     </Modal>
