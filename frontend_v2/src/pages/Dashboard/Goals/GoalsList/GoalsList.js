@@ -26,6 +26,17 @@ const useStyles = createUseStyles({
     width: "100%",
     height: "100%",
   },
+  "@media (max-width: 768px)": {
+    goalsList: {
+      width: "95%",
+    },
+  },
+  "@media (max-width: 480px)": {
+    goalsList: {
+      width: "98%",
+      margin: "0.5rem",
+    },
+  },
 });
 
 const GoalsList = () => {

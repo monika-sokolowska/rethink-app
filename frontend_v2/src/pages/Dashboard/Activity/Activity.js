@@ -23,6 +23,16 @@ const useStyles = createUseStyles({
       height: "0",
     },
   },
+  "@media (max-width: 768px)": {
+    activity: {
+      padding: "0.5rem",
+    },
+  },
+  "@media (max-width: 480px)": {
+    activity: {
+      padding: "0.25rem",
+    },
+  },
 });
 
 const Activity = () => {

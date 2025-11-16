@@ -49,6 +49,26 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     justifyContent: "flex-start",
   },
+  "@media (max-width: 768px)": {
+    newsBlock: {
+      "& h1": {
+        fontSize: "16px",
+      },
+      "& h3": {
+        fontSize: "12px",
+      },
+    },
+  },
+  "@media (max-width: 480px)": {
+    newsBlock: {
+      "& h1": {
+        fontSize: "14px",
+      },
+      "& h3": {
+        fontSize: "11px",
+      },
+    },
+  },
 });
 
 const NewsBlock = ({ title, image, openModal }) => {

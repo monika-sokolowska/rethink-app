@@ -20,6 +20,22 @@ const useStyles = createUseStyles({
     margin: "0 auto",
     minWidth: 0,
   },
+  "@media (max-width: 768px)": {
+    dashboard: {
+      flexDirection: "row",
+    },
+    dashboardPage: {
+      padding: "0.5rem",
+    },
+  },
+  "@media (max-width: 480px)": {
+    dashboard: {
+      flexDirection: "row",
+    },
+    dashboardPage: {
+      padding: "0.25rem",
+    },
+  },
 });
 
 const SharedLayout = () => {

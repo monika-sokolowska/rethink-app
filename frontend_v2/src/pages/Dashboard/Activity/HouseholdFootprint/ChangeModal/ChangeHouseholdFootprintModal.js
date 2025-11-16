@@ -142,6 +142,72 @@ const useStyles = createUseStyles({
       transform: "translateY(-2px)",
     },
   },
+  "@media (max-width: 768px)": {
+    modalChange: {
+      width: "90%",
+      left: "5%",
+      top: "20%",
+    },
+    modal: {
+      width: "90%",
+      left: "5%",
+      top: "20%",
+    },
+    modalChangeHeader: {
+      padding: "15px",
+    },
+    modalDesc: {
+      flexDirection: "column",
+      padding: "15px",
+    },
+    footprintInput: {
+      width: "100%",
+      margin: "0.75rem",
+    },
+  },
+  "@media (max-width: 480px)": {
+    modalChange: {
+      width: "95%",
+      left: "2.5%",
+      top: "15%",
+    },
+    modal: {
+      width: "95%",
+      left: "2.5%",
+      top: "15%",
+    },
+    modalChangeHeader: {
+      padding: "12px",
+    },
+    modalTitle: {
+      fontSize: "0.9rem",
+    },
+    modalDesc: {
+      padding: "12px",
+    },
+    footprintInput: {
+      margin: "0.5rem",
+      "& input": {
+        fontSize: "16px",
+        padding: "10px 15px",
+      },
+      "& label": {
+        fontSize: "14px",
+      },
+    },
+    modalFooter: {
+      padding: "6px",
+      paddingRight: "12px",
+    },
+    secondaryButtonChange: {
+      padding: "10px 20px",
+      fontSize: "13px",
+    },
+    primaryButtonChange: {
+      padding: "10px 20px",
+      fontSize: "13px",
+    },
+  },
 });
 
 const initialState = {

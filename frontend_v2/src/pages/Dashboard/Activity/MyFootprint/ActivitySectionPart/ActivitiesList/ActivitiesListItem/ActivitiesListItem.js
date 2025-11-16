@@ -39,6 +39,42 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     margin: "1rem",
   },
+  "@media (max-width: 768px)": {
+    activitiesListItem: {
+      width: "95%",
+      height: "7vh",
+      margin: "0.75rem",
+    },
+    itemTitle: {
+      fontSize: "14px",
+    },
+    itemValue: {
+      fontSize: "14px",
+    },
+  },
+  "@media (max-width: 480px)": {
+    activitiesListItem: {
+      width: "98%",
+      height: "6vh",
+      margin: "0.5rem",
+      flexDirection: "column",
+      alignItems: "flex-start",
+      padding: "0.5rem",
+    },
+    itemTitle: {
+      fontSize: "13px",
+      margin: "0.25rem 0.5rem",
+    },
+    itemValue: {
+      fontSize: "13px",
+      margin: "0.25rem 0.5rem",
+    },
+    activitiesListItemRightSide: {
+      margin: "0.25rem 0.5rem",
+      width: "100%",
+      justifyContent: "space-between",
+    },
+  },
 });
 
 const ActivitiesListItem = ({ name, footprint, info, handleDelete }) => {

@@ -23,6 +23,17 @@ const useStyles = createUseStyles({
     width: "100%",
     minHeight: "100%",
   },
+  "@media (max-width: 768px)": {
+    activitiesList: {
+      width: "95%",
+    },
+  },
+  "@media (max-width: 480px)": {
+    activitiesList: {
+      width: "98%",
+      margin: "0.5rem",
+    },
+  },
 });
 
 const ActivitiesList = ({ data, activityType }) => {

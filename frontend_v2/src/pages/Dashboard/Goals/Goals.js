@@ -55,6 +55,35 @@ const useStyles = createUseStyles({
       transform: "translateY(-2px)",
     },
   },
+  "@media (max-width: 768px)": {
+    other: {
+      width: "95%",
+      flexDirection: "row",
+    },
+    otherLabel: {
+      fontSize: "18px",
+    },
+    button: {
+      padding: "12px 24px",
+      fontSize: "13px",
+    },
+  },
+  "@media (max-width: 480px)": {
+    other: {
+      width: "98%",
+      flexDirection: "column",
+      alignItems: "flex-start",
+    },
+    otherLabel: {
+      fontSize: "16px",
+      margin: "0.5rem 1rem",
+    },
+    button: {
+      padding: "10px 20px",
+      fontSize: "12px",
+      margin: "0.5rem 1rem",
+    },
+  },
 });
 
 const Goals = () => {

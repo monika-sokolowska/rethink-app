@@ -25,6 +25,22 @@ const useStyles = createUseStyles({
     fontSize: "1.1rem",
     fontWeight: 600,
   },
+  "@media (max-width: 768px)": {
+    activityNavbar: {
+      padding: "0.75rem",
+    },
+    footprintDisplay: {
+      fontSize: "1rem",
+    },
+  },
+  "@media (max-width: 480px)": {
+    activityNavbar: {
+      padding: "0.5rem",
+    },
+    footprintDisplay: {
+      fontSize: "0.9rem",
+    },
+  },
 });
 
 const ActivityNavbar = () => {

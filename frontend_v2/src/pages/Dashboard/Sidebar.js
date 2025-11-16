@@ -45,6 +45,32 @@ const useStyles = createUseStyles({
       transform: "translateX(4px)",
     },
   },
+  "@media (max-width: 768px)": {
+    sidebarContainer: {
+      width: "150px",
+      minWidth: "150px",
+    },
+    sidebar: {
+      padding: "1rem 0.5rem",
+    },
+    link: {
+      padding: "0.75rem 0.75rem",
+      fontSize: "0.8rem",
+    },
+  },
+  "@media (max-width: 480px)": {
+    sidebarContainer: {
+      width: "120px",
+      minWidth: "120px",
+    },
+    sidebar: {
+      padding: "0.75rem 0.25rem",
+    },
+    link: {
+      padding: "0.5rem 0.5rem",
+      fontSize: "0.75rem",
+    },
+  },
 });
 
 const Sidebar = () => {

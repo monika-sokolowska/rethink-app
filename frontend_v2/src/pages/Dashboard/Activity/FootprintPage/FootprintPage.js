@@ -71,6 +71,33 @@ const useStyles = createUseStyles({
       transform: "translateY(-2px)",
     },
   },
+  "@media (max-width: 768px)": {
+    footprintPage: {
+      flexDirection: "column",
+      gap: "1.5rem",
+      padding: "0.75rem",
+    },
+    myFootprint: {
+      width: "100%",
+    },
+    householdFootprint: {
+      width: "100%",
+    },
+    householdFootprintButton: {
+      padding: "12px 24px",
+      fontSize: "13px",
+    },
+  },
+  "@media (max-width: 480px)": {
+    footprintPage: {
+      gap: "1rem",
+      padding: "0.5rem",
+    },
+    householdFootprintButton: {
+      padding: "10px 20px",
+      fontSize: "12px",
+    },
+  },
 });
 
 const FootprintPage = () => {

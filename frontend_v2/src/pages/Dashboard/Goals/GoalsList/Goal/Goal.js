@@ -34,6 +34,31 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     marginRight: "1rem",
   },
+  "@media (max-width: 768px)": {
+    goal: {
+      width: "95%",
+      height: "45px",
+      margin: "0.75rem",
+    },
+    goalTitle: {
+      fontSize: "14px",
+    },
+  },
+  "@media (max-width: 480px)": {
+    goal: {
+      width: "98%",
+      height: "40px",
+      margin: "0.5rem",
+      flexDirection: "row",
+    },
+    goalTitle: {
+      fontSize: "13px",
+      margin: "0.5rem",
+    },
+    editGoalButtons: {
+      marginRight: "0.5rem",
+    },
+  },
 });
 
 const Goal = ({ name, deleteItem }) => {

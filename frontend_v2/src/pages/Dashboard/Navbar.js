@@ -24,6 +24,28 @@ const useStyles = createUseStyles({
     color: "white",
     textDecoration: "none",
   },
+  "@media (max-width: 768px)": {
+    navbar: {
+      height: "8%",
+    },
+    links: {
+      paddingRight: "1.5rem",
+    },
+    logOut: {
+      fontSize: "0.9rem",
+    },
+  },
+  "@media (max-width: 480px)": {
+    navbar: {
+      height: "10%",
+    },
+    links: {
+      paddingRight: "1rem",
+    },
+    logOut: {
+      fontSize: "0.8rem",
+    },
+  },
 });
 
 const Navbar = () => {

@@ -66,6 +66,56 @@ const useStyles = createUseStyles({
     textAlign: "center",
     width: "100%",
   },
+  "@media (max-width: 1200px)": {
+    statsContainer: {
+      flexDirection: "column",
+      alignItems: "center",
+      padding: "1.5rem",
+    },
+    chartWrapper: {
+      flex: "1 1 100%",
+      minWidth: "350px",
+      maxWidth: "100%",
+    },
+  },
+  "@media (max-width: 768px)": {
+    stats: {
+      padding: "1rem 0",
+    },
+    statsContainer: {
+      padding: "1rem",
+      gap: "1.5rem",
+    },
+    chartWrapper: {
+      minWidth: "300px",
+    },
+    chartContainer: {
+      minHeight: "400px",
+      height: "400px",
+    },
+    chartTitle: {
+      fontSize: "1.25rem",
+    },
+  },
+  "@media (max-width: 480px)": {
+    stats: {
+      padding: "0.5rem 0",
+    },
+    statsContainer: {
+      padding: "0.5rem",
+      gap: "1rem",
+    },
+    chartWrapper: {
+      minWidth: "250px",
+    },
+    chartContainer: {
+      minHeight: "300px",
+      height: "300px",
+    },
+    chartTitle: {
+      fontSize: "1rem",
+    },
+  },
 });
 
 const Stats = () => {
