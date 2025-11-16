@@ -1,9 +1,141 @@
 import Modal from "react-overlays/Modal";
-import "../AddModal.css";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addFoodFootprint } from "../../../../../../reducers/dailyFootprintSlice";
+import { createUseStyles } from "react-jss";
+
+const useStyles = createUseStyles({
+  modal: {
+    position: "fixed",
+    width: "700px",
+    zIndex: 1040,
+    top: "35%",
+    left: "40%",
+    backgroundColor: "white",
+    borderRadius: "10px",
+    boxShadow: "0 5px 25px rgba(0, 0, 0, 0.7)",
+  },
+  backdrop: {
+    position: "fixed",
+    zIndex: 1040,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "#000",
+    opacity: 0.5,
+  },
+  modalHeader: {
+    borderBottom: "1px solid #e9ecef",
+    display: "flex",
+    justifyContent: "space-between",
+    backgroundColor: "rgb(17, 20, 48)",
+    borderRadius: "10px 10px 0 0",
+    color: "white",
+    padding: "20px",
+  },
+  modalTitle: {
+    fontWeight: 500,
+    fontSize: "1rem",
+  },
+  closeButton: {
+    fontSize: "1.5rem",
+    fontWeight: 700,
+    lineHeight: 1,
+    color: "#ffffff",
+    border: "none",
+    cursor: "pointer",
+  },
+  modalDesc: {
+    height: "40%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "20px",
+  },
+  footprintInput: {
+    display: "flex",
+    alignItems: "flex-start",
+    flexDirection: "column",
+    margin: "1rem",
+    width: "30%",
+    "& input": {
+      padding: "12px 20px",
+      fontSize: "2.5vh",
+      borderWidth: "calc(var(--border-width) * 1px)",
+      borderStyle: "solid",
+      borderColor: "rgb(17, 20, 48)",
+      borderRadius: "10px",
+      textAlign: "center",
+      outline: "transparent",
+      width: "100%",
+    },
+    "& select": {
+      padding: "12px 20px",
+      fontSize: "2.5vh",
+      borderWidth: "calc(var(--border-width) * 1px)",
+      borderStyle: "solid",
+      borderColor: "rgb(17, 20, 48)",
+      borderRadius: "10px",
+      textAlign: "center",
+      outline: "transparent",
+      width: "100%",
+    },
+    "& label": {
+      fontSize: "15px",
+      color: "rgb(17, 20, 48)",
+      textAlign: "center",
+      marginBottom: "0.5rem",
+      marginLeft: "0.5rem",
+    },
+  },
+  modalFooter: {
+    borderTop: "1px solid #e9ecef",
+    display: "flex",
+    justifyContent: "flex-end",
+    padding: "8px",
+    paddingRight: "20px",
+  },
+  secondaryButton: {
+    backgroundColor: "rgb(17, 20, 48)",
+    border: "1px solid rgb(17, 20, 48)",
+    borderRadius: "4px",
+    boxShadow: "rgba(0, 0, 0, 0.1) 0 2px 4px 0",
+    boxSizing: "border-box",
+    color: "#ffffff",
+    cursor: "pointer",
+    fontFamily:
+      '"Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif',
+    fontSize: "14px",
+    fontWeight: 400,
+    padding: "15px 30px",
+    textAlign: "center",
+    transform: "translateY(0)",
+    transition: "transform 150ms, box-shadow 150ms",
+    touchAction: "manipulation",
+    margin: "0.5rem",
+  },
+  primaryButton: {
+    backgroundColor: "rgb(17, 20, 48)",
+    border: "1px solid rgb(17, 20, 48)",
+    borderRadius: "4px",
+    boxShadow: "rgba(0, 0, 0, 0.1) 0 2px 4px 0",
+    boxSizing: "border-box",
+    color: "#fff",
+    cursor: "pointer",
+    fontFamily:
+      '"Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif',
+    fontSize: "14px",
+    fontWeight: 400,
+    textAlign: "center",
+    transform: "translateY(0)",
+    transition: "transform 150ms, box-shadow 150ms",
+    touchAction: "manipulation",
+    padding: "15px 30px",
+    margin: "0.5rem",
+  },
+});
 
 const initialState = {
   name: "",
@@ -12,12 +144,15 @@ const initialState = {
 };
 
 const AddFoodModal = ({ isOpen, handleClose }) => {
+  const classes = useStyles();
   const [values, setValues] = useState(initialState);
   const dispatch = useDispatch();
   const minFootprint = 0;
   const maxFootprint = 5000;
 
-  const renderBackdrop = (props) => <div className="backdrop" {...props} />;
+  const renderBackdrop = (props) => (
+    <div className={classes.backdrop} {...props} />
+  );
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -51,22 +186,22 @@ const AddFoodModal = ({ isOpen, handleClose }) => {
 
   return (
     <Modal
-      className="modal"
+      className={classes.modal}
       show={isOpen}
       onHide={handleClose}
       renderBackdrop={renderBackdrop}>
-      <div className="modal">
-        <div className="modal-header">
-          <div className="modal-title">Add food footprint</div>
+      <div className={classes.modal}>
+        <div className={classes.modalHeader}>
+          <div className={classes.modalTitle}>Add food footprint</div>
           <div>
-            <span className="close-button" onClick={handleClose}>
+            <span className={classes.closeButton} onClick={handleClose}>
               x
             </span>
           </div>
         </div>
         <form className="footprint-form" onSubmit={onSubmit}>
-          <div className="modal-desc">
-            <div className="footprint-input">
+          <div className={classes.modalDesc}>
+            <div className={classes.footprintInput}>
               <label>Meal description</label>
               <input
                 type="text"
@@ -76,7 +211,7 @@ const AddFoodModal = ({ isOpen, handleClose }) => {
                 value={values.name}
               />
             </div>
-            <div className="footprint-input">
+            <div className={classes.footprintInput}>
               <label>Meal</label>
               <select name="meal" onChange={handleChange}>
                 <option value="BREAKFAST">BREAKFAST</option>
@@ -86,7 +221,7 @@ const AddFoodModal = ({ isOpen, handleClose }) => {
                 <option value="SUPPER">SUPPER</option>
               </select>
             </div>
-            <div className="footprint-input">
+            <div className={classes.footprintInput}>
               <label>Footprint</label>
               <input
                 type="number"
@@ -97,17 +232,17 @@ const AddFoodModal = ({ isOpen, handleClose }) => {
               />
             </div>
           </div>
-          <div className="modal-footer">
+          <div className={classes.modalFooter}>
             <button
               type="button"
-              className="secondary-button"
+              className={classes.secondaryButton}
               onClick={onClose}>
               Close
             </button>
             <input
               type="submit"
               value="Save Changes"
-              className="primary-button"></input>
+              className={classes.primaryButton}></input>
           </div>
         </form>
       </div>
