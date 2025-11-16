@@ -34,9 +34,18 @@ const useStyles = createUseStyles({
     textAlign: "center",
     margin: "1rem",
   },
+  editIcon: {
+    color: "#fff",
+    marginRight: "2rem",
+    height: "80%",
+    cursor: "pointer",
+    "&:hover": {
+      opacity: 0.8,
+    },
+  },
 });
 
-const MainFootprint = ({ footprint }) => {
+const MainFootprint = ({ footprint, onEditClick }) => {
   const classes = useStyles();
   return (
     <div className={classes.mainFootprint}>
@@ -45,7 +54,8 @@ const MainFootprint = ({ footprint }) => {
         <h3 className={classes.footprintValue}>{footprint} kg CO2</h3>
         <AiOutlineEdit
           size={25}
-          style={{ color: "#fff", marginRight: "2rem", height: "80%" }}
+          className={classes.editIcon}
+          onClick={onEditClick}
         />
       </div>
     </div>

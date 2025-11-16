@@ -5,6 +5,7 @@ import AddTransportModal from "../MyFootprint/AddModal/AddTransportModal/AddTran
 import AddFoodModal from "../MyFootprint/AddModal/AddFoodModal/AddFoodModal";
 import AddOtherModal from "../MyFootprint/AddModal/AddOtherModal/AddOtherModal";
 import AddCompensatedModal from "../MyFootprint/AddModal/AddCompensatedModal/AddCompensatedModal";
+import ChangeHouseholdFootprintModal from "../HouseholdFootprint/ChangeModal/ChangeHouseholdFootprintModal";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -82,6 +83,8 @@ const FootprintPage = () => {
   const [showFoodModal, setShowFoodModal] = useState(false);
   const [showOtherModal, setShowOtherModal] = useState(false);
   const [showCompensatedModal, setShowCompensatedModal] = useState(false);
+  const [showHouseholdFootprintModal, setShowHouseholdFootprintModal] =
+    useState(false);
 
   useEffect(() => {
     if (user?.id) {
@@ -123,6 +126,14 @@ const FootprintPage = () => {
 
   const handleCompensatedAddModalClose = () => {
     setShowCompensatedModal(false);
+  };
+
+  const openHouseholdFootprintModal = () => {
+    setShowHouseholdFootprintModal(true);
+  };
+
+  const handleHouseholdFootprintModalClose = () => {
+    setShowHouseholdFootprintModal(false);
   };
 
   return (
@@ -171,7 +182,15 @@ const FootprintPage = () => {
       </section>
 
       <section className={classes.householdFootprint}>
-        <MainFootprint footprint={householdFootprint?.footprint ?? 0} />
+        <ChangeHouseholdFootprintModal
+          isOpen={showHouseholdFootprintModal}
+          handleClose={handleHouseholdFootprintModalClose}
+          currentFootprint={householdFootprint?.footprint ?? 0}
+        />
+        <MainFootprint
+          footprint={householdFootprint?.footprint ?? 0}
+          onEditClick={openHouseholdFootprintModal}
+        />
         <Link
           to="https://www.carbonfootprint.com/calculator.aspx"
           className={classes.householdFootprintButton}
