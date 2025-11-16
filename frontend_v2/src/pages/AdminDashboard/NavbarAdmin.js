@@ -6,11 +6,12 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   navbar: {
-    background: "rgb(17, 20, 48)",
+    background:
+      "linear-gradient(135deg,rgb(84, 155, 123) 0%,rgb(216, 232, 223) 50%,rgb(134, 171, 145) 100%)",
     boxShadow: "3px 10px 25px rgba(0, 0, 0, 0.25)",
     display: "flex",
     alignItems: "center",
-    height: "10%",
+    height: "7%",
   },
   links: {
     display: "flex",

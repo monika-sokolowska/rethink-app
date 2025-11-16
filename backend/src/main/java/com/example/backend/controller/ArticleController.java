@@ -19,7 +19,7 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Article> getAllArticles() {
         return articleService.findAll();

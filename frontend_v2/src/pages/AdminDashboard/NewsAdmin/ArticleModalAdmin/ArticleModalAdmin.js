@@ -28,7 +28,7 @@ const useStyles = createUseStyles({
     borderBottom: "1px solid #e9ecef",
     display: "flex",
     justifyContent: "space-between",
-    backgroundColor: "rgb(17, 20, 48)",
+    background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 100%)",
     borderRadius: "10px 10px 0 0",
     color: "white",
     padding: "20px",
@@ -47,7 +47,7 @@ const useStyles = createUseStyles({
   },
   articleDescription: {
     padding: "1rem",
-    color: "rgb(17, 20, 48)",
+    color: "#2d8659",
     fontWeight: 600,
     overflowY: "scroll",
     height: "100%",
