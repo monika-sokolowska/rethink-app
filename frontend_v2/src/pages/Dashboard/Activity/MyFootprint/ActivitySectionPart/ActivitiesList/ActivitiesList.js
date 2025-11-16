@@ -29,44 +29,47 @@ const ActivitiesList = ({ data }) => {
   const dispatch = useDispatch();
 
   const handleFoodDelete = (id) => {
-    dispatch(deleteFoodFootprint({ id: id }));
+    dispatch(deleteFoodFootprint(id));
   };
 
   const handleTransportDelete = (id) => {
-    dispatch(deleteTransportFootprint({ id: id }));
+    dispatch(deleteTransportFootprint(id));
   };
 
   const handleOtherDelete = (id) => {
-    dispatch(deleteOtherFootprint({ id: id }));
+    dispatch(deleteOtherFootprint(id));
   };
 
   const displayActivitiesList = (item) => {
     if (item.kilometers) {
       return (
         <ActivitiesListItem
+          key={item.id}
           name={item.name}
           footprint={item.footprint}
           info={`${item.kilometers} km`}
-          handleDelete={handleTransportDelete}
+          handleDelete={() => handleTransportDelete(item.id)}
         />
       );
     }
     if (item.meal) {
       return (
         <ActivitiesListItem
+          key={item.id}
           name={item.name}
           footprint={item.footprint}
           info={`${item.meal}`}
-          handleDelete={handleFoodDelete}
+          handleDelete={() => handleFoodDelete(item.id)}
         />
       );
     } else {
       return (
         <ActivitiesListItem
+          key={item.id}
           name={item.name}
           footprint={item.footprint}
           info={""}
-          handleDelete={handleOtherDelete}
+          handleDelete={() => handleOtherDelete(item.id)}
         />
       );
     }
