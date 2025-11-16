@@ -9,6 +9,9 @@ const useStyles = createUseStyles({
     minWidth: "200px",
     borderRight: "1px solid rgba(45, 134, 89, 0.2)",
     boxShadow: "2px 0 8px rgba(0, 0, 0, 0.04)",
+    "@media (max-width: 768px)": {
+      display: "none",
+    },
   },
   sidebar: {
     display: "flex",

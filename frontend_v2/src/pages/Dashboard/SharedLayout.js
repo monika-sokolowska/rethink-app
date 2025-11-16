@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
+import BottomNavbar from "./BottomNavbar";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -19,6 +20,9 @@ const useStyles = createUseStyles({
     flex: 1,
     margin: "0 auto",
     minWidth: 0,
+    "@media (max-width: 768px)": {
+      paddingBottom: "70px",
+    },
   },
   "@media (max-width: 768px)": {
     dashboard: {
@@ -49,6 +53,7 @@ const SharedLayout = () => {
           <Outlet />
         </div>
       </div>
+      <BottomNavbar />
     </main>
   );
 };

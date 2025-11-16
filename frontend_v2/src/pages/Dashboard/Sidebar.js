@@ -9,6 +9,9 @@ const useStyles = createUseStyles({
     minWidth: "200px",
     borderRight: "1px solid rgba(45, 134, 89, 0.2)",
     boxShadow: "2px 0 8px rgba(0, 0, 0, 0.04)",
+    "@media (max-width: 768px)": {
+      display: "none",
+    },
   },
   sidebar: {
     display: "flex",
@@ -43,32 +46,6 @@ const useStyles = createUseStyles({
     "&:hover": {
       background: "linear-gradient(90deg, #2d8659 0%, #4a9d6e 100%)",
       transform: "translateX(4px)",
-    },
-  },
-  "@media (max-width: 768px)": {
-    sidebarContainer: {
-      width: "150px",
-      minWidth: "150px",
-    },
-    sidebar: {
-      padding: "1rem 0.5rem",
-    },
-    link: {
-      padding: "0.75rem 0.75rem",
-      fontSize: "0.8rem",
-    },
-  },
-  "@media (max-width: 480px)": {
-    sidebarContainer: {
-      width: "120px",
-      minWidth: "120px",
-    },
-    sidebar: {
-      padding: "0.75rem 0.25rem",
-    },
-    link: {
-      padding: "0.5rem 0.5rem",
-      fontSize: "0.75rem",
     },
   },
 });
