@@ -74,6 +74,46 @@ const useStyles = createUseStyles({
       height: "0",
     },
   },
+  "@media (max-width: 768px)": {
+    articleModal: {
+      width: "100%",
+      height: "100%",
+      left: 0,
+      top: 0,
+      borderRadius: 0,
+    },
+    modalHeader: {
+      padding: "1rem 1.5rem",
+      borderRadius: 0,
+    },
+    modalTitle: {
+      fontSize: "1.1rem",
+    },
+    articleDescription: {
+      padding: "1.5rem",
+      fontSize: "0.9rem",
+    },
+  },
+  "@media (max-width: 480px)": {
+    articleModal: {
+      width: "100%",
+      height: "100%",
+      left: 0,
+      top: 0,
+      borderRadius: 0,
+    },
+    modalHeader: {
+      padding: "0.75rem 1rem",
+      borderRadius: 0,
+    },
+    modalTitle: {
+      fontSize: "1rem",
+    },
+    articleDescription: {
+      padding: "1rem",
+      fontSize: "0.85rem",
+    },
+  },
 });
 
 const ArticleModalAdmin = ({ isOpen, handleClose, title, description }) => {

@@ -77,13 +77,15 @@ const useStyles = createUseStyles({
   },
   "@media (max-width: 768px)": {
     articleModal: {
-      width: "90%",
-      height: "70%",
-      left: "5%",
-      top: "15%",
+      width: "100%",
+      height: "100%",
+      left: 0,
+      top: 0,
+      borderRadius: 0,
     },
     modalHeader: {
       padding: "1rem 1.5rem",
+      borderRadius: 0,
     },
     modalTitle: {
       fontSize: "1.1rem",
@@ -95,13 +97,15 @@ const useStyles = createUseStyles({
   },
   "@media (max-width: 480px)": {
     articleModal: {
-      width: "95%",
-      height: "80%",
-      left: "2.5%",
-      top: "10%",
+      width: "100%",
+      height: "100%",
+      left: 0,
+      top: 0,
+      borderRadius: 0,
     },
     modalHeader: {
       padding: "0.75rem 1rem",
+      borderRadius: 0,
     },
     modalTitle: {
       fontSize: "1rem",
