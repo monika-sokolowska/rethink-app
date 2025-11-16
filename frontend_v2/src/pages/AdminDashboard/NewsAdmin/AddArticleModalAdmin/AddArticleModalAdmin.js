@@ -39,7 +39,7 @@ const useStyles = createUseStyles({
   },
   modalTitle: {
     fontWeight: 500,
-    fontSize: "1rem",
+    fontSize: "1.25rem",
   },
   closeButton: {
     fontSize: "1.5rem",
@@ -78,35 +78,36 @@ const useStyles = createUseStyles({
     width: "90%",
     "& input": {
       padding: "12px 20px",
-      fontSize: "2.5vh",
+      fontSize: "1.1rem",
       borderWidth: "calc(var(--border-width) * 1px)",
       borderStyle: "solid",
       borderColor: "#2d8659",
       borderRadius: "10px",
-      textAlign: "center",
+      textAlign: "left",
       outline: "transparent",
       width: "100%",
     },
     "& textarea": {
       padding: "12px 20px",
-      fontSize: "2.5vh",
+      fontSize: "1.1rem",
       borderWidth: "calc(var(--border-width) * 1px)",
       borderStyle: "solid",
       borderColor: "#2d8659",
       borderRadius: "10px",
-      textAlign: "center",
+      textAlign: "left",
       outline: "transparent",
       width: "100%",
       minWidth: "100%",
-      minHeight: "90px",
+      minHeight: "200px",
       maxWidth: "100%",
     },
     "& label": {
-      fontSize: "15px",
+      fontSize: "18px",
       color: "#2d8659",
       textAlign: "center",
       marginBottom: "0.5rem",
       marginLeft: "0.5rem",
+      fontWeight: 500,
     },
   },
   articleModalFooter: {
@@ -127,9 +128,9 @@ const useStyles = createUseStyles({
     cursor: "pointer",
     fontFamily:
       '"Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif',
-    fontSize: "14px",
-    fontWeight: 400,
-    padding: "15px 30px",
+    fontSize: "16px",
+    fontWeight: 500,
+    padding: "18px 40px",
     textAlign: "center",
     transform: "translateY(0)",
     transition: "transform 150ms, box-shadow 150ms",
@@ -150,17 +151,112 @@ const useStyles = createUseStyles({
     cursor: "pointer",
     fontFamily:
       '"Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif',
-    fontSize: "14px",
-    fontWeight: 400,
+    fontSize: "16px",
+    fontWeight: 500,
     textAlign: "center",
     transform: "translateY(0)",
     transition: "transform 150ms, box-shadow 150ms",
     touchAction: "manipulation",
-    padding: "15px 30px",
+    padding: "18px 40px",
     margin: "0.5rem",
     "&:hover": {
       boxShadow: "rgba(45, 134, 89, 0.3) 0 3px 9px 0",
       transform: "translateY(-2px)",
+    },
+  },
+  "@media (max-width: 768px)": {
+    addArticleModal: {
+      width: "100%",
+      height: "100%",
+      left: 0,
+      top: 0,
+      borderRadius: 0,
+    },
+    articleModalHeader: {
+      padding: "1rem 1.5rem",
+      borderRadius: 0,
+    },
+    modalTitle: {
+      fontSize: "1.2rem",
+    },
+    articleModalDesc: {
+      padding: "1.5rem",
+      maxHeight: "calc(100vh - 200px)",
+    },
+    articleInput: {
+      width: "100%",
+      margin: "0.75rem",
+      "& input": {
+        fontSize: "18px",
+        padding: "12px 18px",
+      },
+      "& textarea": {
+        fontSize: "18px",
+        padding: "12px 18px",
+        minHeight: "150px",
+      },
+      "& label": {
+        fontSize: "16px",
+      },
+    },
+    articleModalFooter: {
+      padding: "6px",
+      paddingRight: "12px",
+    },
+    secondaryButton: {
+      padding: "14px 28px",
+      fontSize: "15px",
+    },
+    primaryButton: {
+      padding: "14px 28px",
+      fontSize: "15px",
+    },
+  },
+  "@media (max-width: 480px)": {
+    addArticleModal: {
+      width: "100%",
+      height: "100%",
+      left: 0,
+      top: 0,
+      borderRadius: 0,
+    },
+    articleModalHeader: {
+      padding: "0.75rem 1rem",
+      borderRadius: 0,
+    },
+    modalTitle: {
+      fontSize: "1.1rem",
+    },
+    articleModalDesc: {
+      padding: "1rem",
+      maxHeight: "calc(100vh - 180px)",
+    },
+    articleInput: {
+      margin: "0.5rem",
+      "& input": {
+        fontSize: "16px",
+        padding: "10px 15px",
+      },
+      "& textarea": {
+        fontSize: "16px",
+        padding: "10px 15px",
+        minHeight: "120px",
+      },
+      "& label": {
+        fontSize: "15px",
+      },
+    },
+    articleModalFooter: {
+      padding: "4px",
+      paddingRight: "8px",
+    },
+    secondaryButton: {
+      padding: "12px 24px",
+      fontSize: "14px",
+    },
+    primaryButton: {
+      padding: "12px 24px",
+      fontSize: "14px",
     },
   },
 });
