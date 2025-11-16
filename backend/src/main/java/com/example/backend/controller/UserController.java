@@ -125,7 +125,7 @@ public class UserController {
         return ResponseEntity.ok(1);
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PatchMapping(path="/goal/change")
     public ResponseEntity<UserDTO> changeMainGoal(@RequestBody MainGoalDTO mainGoalDTO) {
 
@@ -133,7 +133,7 @@ public class UserController {
         return ResponseEntity.ok(userService.changeMainGoalById(user.getId(), mainGoalDTO));
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping(path="/get")
     public ResponseEntity<UserDTO> getUser() {
         UserDetailsImpl user = GetCurrentUser();

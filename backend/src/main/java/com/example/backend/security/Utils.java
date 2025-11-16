@@ -7,6 +7,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 public class Utils {
     public static UserDetailsImpl GetCurrentUser() {
-        return (UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication.getPrincipal() == null) {
+            throw new RuntimeException("User not authenticated");
+        }
+        return (UserDetailsImpl) authentication.getPrincipal();
     }
 }
