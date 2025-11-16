@@ -16,8 +16,9 @@ const useStyles = createUseStyles({
     height: "100%",
   },
   dashboardPage: {
-    width: "80%",
+    flex: 1,
     margin: "0 auto",
+    minWidth: 0,
   },
 });
 

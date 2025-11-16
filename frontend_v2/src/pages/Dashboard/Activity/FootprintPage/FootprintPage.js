@@ -127,7 +127,6 @@ const FootprintPage = () => {
 
   return (
     <div className={classes.footprintPage}>
-      {/* My Footprint Section */}
       <section className={classes.myFootprint}>
         <AddTransportModal
           isOpen={showTransportModal}
@@ -167,7 +166,6 @@ const FootprintPage = () => {
         />
       </section>
 
-      {/* Household Footprint Section */}
       <section className={classes.householdFootprint}>
         <MainFootprint footprint={householdFootprint?.footprint ?? 0} />
         <Link

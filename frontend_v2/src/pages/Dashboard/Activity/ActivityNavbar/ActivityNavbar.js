@@ -1,5 +1,7 @@
-import { NavLink } from "react-router-dom";
 import { createUseStyles } from "react-jss";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getStats } from "../../../../reducers/statsSlice";
 
 const useStyles = createUseStyles({
   activityNav: {
@@ -12,38 +14,39 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "row",
     width: "100%",
-    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
     fontWeight: "bold",
     boxShadow: "3px 5px 20px rgba(0, 0, 0, 0.15)",
-  },
-  link: {
-    width: "50%",
     padding: "1rem",
-    height: "auto",
-    color: "rgb(0, 0, 0)",
-    textDecoration: "none",
   },
-  activeLink: {
-    width: "50%",
-    padding: "1rem",
-    height: "auto",
-    color: "rgb(0, 0, 0)",
+  footprintDisplay: {
+    color: "rgb(17, 20, 48)",
+    fontSize: "1.1rem",
+    fontWeight: 600,
   },
 });
 
 const ActivityNavbar = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { user } = useSelector((store) => store.user);
+  const { stats } = useSelector((store) => store.stats);
+
+  useEffect(() => {
+    if (user?.id) {
+      dispatch(getStats(user.id));
+    }
+  }, [dispatch, user?.id]);
+
+  const dailyFootprint = stats?.userDailyFootprint ?? 0;
+
   return (
     <div className={classes.activityNav}>
       <nav className={classes.activityNavbar}>
-        <NavLink
-          to="/home/activity"
-          end
-          className={({ isActive }) =>
-            `${classes.link} ${isActive ? classes.activeLink : ""}`
-          }>
-          Carbon Footprint
-        </NavLink>
+        <div className={classes.footprintDisplay}>
+          Daily Carbon Footprint: {dailyFootprint.toFixed(2)} kg CO2
+        </div>
       </nav>
     </div>
   );
