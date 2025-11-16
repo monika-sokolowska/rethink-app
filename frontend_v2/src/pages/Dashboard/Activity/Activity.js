@@ -10,10 +10,12 @@ const useStyles = createUseStyles({
     width: "100%",
     height: "100%",
     backgroundColor: "white",
+    overflow: "hidden",
   },
   activityPage: {
     width: "100%",
-    height: "100%",
+    flex: 1,
+    minHeight: 0,
     overflow: "auto",
     scrollbarWidth: "none",
     msOverflowStyle: "none",

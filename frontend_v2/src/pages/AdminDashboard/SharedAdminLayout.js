@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./NavbarAdmin";
 import Sidebar from "./SidebarAdmin";
+import BottomNavbarAdmin from "./BottomNavbarAdmin";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -19,6 +20,9 @@ const useStyles = createUseStyles({
     flex: 1,
     margin: "0 auto",
     minWidth: 0,
+    "@media (max-width: 768px)": {
+      paddingBottom: "70px",
+    },
   },
 });
 
@@ -33,6 +37,7 @@ const SharedAdminLayout = () => {
           <Outlet />
         </div>
       </div>
+      <BottomNavbarAdmin />
     </main>
   );
 };

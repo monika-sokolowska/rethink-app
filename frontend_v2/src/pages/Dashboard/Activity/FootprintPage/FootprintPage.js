@@ -76,12 +76,14 @@ const useStyles = createUseStyles({
       flexDirection: "column",
       gap: "1.5rem",
       padding: "0.75rem",
+      marginBottom: "5rem",
     },
     myFootprint: {
       width: "100%",
     },
     householdFootprint: {
       width: "100%",
+      marginBottom: "4rem",
     },
     householdFootprintButton: {
       padding: "12px 24px",
@@ -92,6 +94,7 @@ const useStyles = createUseStyles({
     footprintPage: {
       gap: "1rem",
       padding: "0.5rem",
+      marginBottom: "3rem",
     },
     householdFootprintButton: {
       padding: "10px 20px",
