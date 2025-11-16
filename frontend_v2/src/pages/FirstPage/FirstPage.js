@@ -6,7 +6,8 @@ import { createUseStyles } from "react-jss";
 const useStyles = createUseStyles({
   firstPageContainer: {
     minHeight: "100vh",
-    background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 25%, #6bb884 50%, #8dd19f 75%, #a8e4b8 100%)",
+    background:
+      "linear-gradient(135deg, #2d8659 0%, #4a9d6e 25%, #6bb884 50%, #8dd19f 75%, #a8e4b8 100%)",
     backgroundAttachment: "fixed",
   },
   emptyPage: {
@@ -39,12 +40,13 @@ const useStyles = createUseStyles({
       textAlign: "center",
     },
     "& h4": {
-      fontSize: "20px",
+      fontSize: "18px",
       color: "white",
       fontWeight: 400,
       height: "30%",
       width: "100%",
-      margin: "4rem",
+      margin: "2rem",
+      marginBottom: "4rem",
       textAlign: "center",
     },
   },
@@ -56,12 +58,12 @@ const useStyles = createUseStyles({
     height: "30%",
   },
   logIn: {
-    backgroundColor: "rgb(0, 0, 0)",
-    border: "1px solid rgb(0, 0, 0)",
+    backgroundColor: "#ffffff",
     borderRadius: "4px",
     boxShadow: "rgba(0, 0, 0, 0.1) 0 2px 4px 0",
+    borderStyle: "none",
     boxSizing: "border-box",
-    color: "#fff",
+    color: "#2d8659",
     cursor: "pointer",
     fontFamily:
       '"Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif',
@@ -79,12 +81,12 @@ const useStyles = createUseStyles({
     },
   },
   signUp: {
-    backgroundColor: "rgb(0, 0, 0)",
-    border: "1px solid rgb(0, 0, 0)",
+    backgroundColor: "#ffffff",
     borderRadius: "4px",
     boxShadow: "rgba(0, 0, 0, 0.1) 0 2px 4px 0",
+    borderStyle: "none",
     boxSizing: "border-box",
-    color: "#fff",
+    color: "#2d8659",
     cursor: "pointer",
     fontFamily:
       '"Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif',

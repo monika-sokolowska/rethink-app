@@ -11,7 +11,8 @@ import { createUseStyles } from "react-jss";
 const useStyles = createUseStyles({
   loginPageContainer: {
     minHeight: "100vh",
-    background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 25%, #6bb884 50%, #8dd19f 75%, #a8e4b8 100%)",
+    background:
+      "linear-gradient(135deg, #2d8659 0%, #4a9d6e 25%, #6bb884 50%, #8dd19f 75%, #a8e4b8 100%)",
     backgroundAttachment: "fixed",
   },
   loginPage: {
@@ -65,9 +66,8 @@ const useStyles = createUseStyles({
     "& input": {
       padding: "12px 20px",
       fontSize: "2.5vh",
-      borderWidth: "calc(var(--border-width) * 1px)",
-      borderStyle: "solid",
-      borderColor: "var(--accent)",
+      borderWidth: 0,
+      borderStyle: "none",
       borderRadius: "10px",
       textAlign: "center",
       outline: "transparent",
@@ -81,12 +81,12 @@ const useStyles = createUseStyles({
     },
   },
   logInBtn: {
-    backgroundColor: "rgb(0, 0, 0)",
-    border: "1px solid rgb(0, 0, 0)",
+    backgroundColor: "#ffffff",
     borderRadius: "4px",
     boxShadow: "rgba(0, 0, 0, 0.1) 0 2px 4px 0",
+    borderStyle: "none",
     boxSizing: "border-box",
-    color: "#fff",
+    color: "#2d8659",
     cursor: "pointer",
     fontFamily:
       '"Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif',
@@ -184,11 +184,7 @@ const LoginPage = () => {
                 value={values.password}
               />
             </div>
-            <input
-              type="submit"
-              value="Log in"
-              className={classes.logInBtn}
-            />
+            <input type="submit" value="Log in" className={classes.logInBtn} />
             <Link to="/register" className={classes.registerLink}>
               Create an account
             </Link>
