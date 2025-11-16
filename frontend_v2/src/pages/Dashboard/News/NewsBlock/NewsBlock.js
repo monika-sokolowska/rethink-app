@@ -2,7 +2,7 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   newsBlock: {
-    background: "#dae2e9",
+    background: "rgb(214, 230, 219)",
     borderRadius: "15px",
     display: "flex",
     alignItems: "center",
@@ -12,12 +12,12 @@ const useStyles = createUseStyles({
     height: "100%",
     "& h1": {
       width: "100%",
-      color: "rgb(17, 20, 48)",
+      color: "#2d8659",
       fontSize: "18px",
       marginBottom: 0,
     },
     "& h3": {
-      color: "rgb(17, 20, 48)",
+      color: "#2d8659",
       marginLeft: "1rem",
       marginRight: "1rem",
       fontSize: "13px",

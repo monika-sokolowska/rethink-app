@@ -3,7 +3,7 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   newsBlock: {
-    background: "#dae2e9",
+    background: "rgb(214, 230, 219)",
     borderRadius: "15px",
     display: "flex",
     alignItems: "center",
@@ -14,12 +14,12 @@ const useStyles = createUseStyles({
     position: "relative",
     "& h1": {
       width: "100%",
-      color: "rgb(17, 20, 48)",
+      color: "#2d8659",
       fontSize: "18px",
       marginBottom: 0,
     },
     "& h3": {
-      color: "rgb(17, 20, 48)",
+      color: "#2d8659",
       marginLeft: "1rem",
       marginRight: "1rem",
       fontSize: "13px",
@@ -39,7 +39,7 @@ const useStyles = createUseStyles({
   imageContainer: {
     width: "90%",
     height: "60%",
-    backgroundColor: "black",
+    backgroundColor: "rgb(214, 230, 219)",
     marginTop: "5%",
     borderRadius: "15px",
   },
@@ -55,7 +55,7 @@ const useStyles = createUseStyles({
     position: "absolute",
     bottom: "10px",
     right: "10px",
-    color: "#000000",
+    color: "#2d8659",
     cursor: "pointer",
     transition: "all 0.2s ease-in-out",
     zIndex: 10,
