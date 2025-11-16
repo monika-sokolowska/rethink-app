@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { createUseStyles } from "react-jss";
+import { AiOutlineBarChart, AiOutlineRead } from "react-icons/ai";
 
 const useStyles = createUseStyles({
   sidebarContainer: {
@@ -48,6 +49,12 @@ const useStyles = createUseStyles({
       transform: "translateX(4px)",
     },
   },
+  icon: {
+    fontSize: "1.2rem",
+    marginRight: "0.75rem",
+    display: "flex",
+    alignItems: "center",
+  },
 });
 
 const SidebarAdmin = () => {
@@ -61,6 +68,7 @@ const SidebarAdmin = () => {
           className={({ isActive }) =>
             `${classes.link} ${isActive ? classes.activeLink : ""}`
           }>
+          <AiOutlineBarChart className={classes.icon} />
           Stats
         </NavLink>
         <NavLink
@@ -68,6 +76,7 @@ const SidebarAdmin = () => {
           className={({ isActive }) =>
             `${classes.link} ${isActive ? classes.activeLink : ""}`
           }>
+          <AiOutlineRead className={classes.icon} />
           News
         </NavLink>
       </div>
