@@ -54,8 +54,15 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "center",
-    overflowY: "scroll",
+    overflowY: "auto",
     height: "75%",
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
+    "&::-webkit-scrollbar": {
+      display: "none",
+      width: "0",
+      height: "0",
+    },
   },
   articleForm: {
     display: "flex",

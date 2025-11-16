@@ -11,15 +11,28 @@ import { createUseStyles } from "react-jss";
 const useStyles = createUseStyles({
   registerPageContainer: {
     minHeight: "100vh",
-    background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 25%, #6bb884 50%, #8dd19f 75%, #a8e4b8 100%)",
+    background:
+      "linear-gradient(135deg, #2d8659 0%, #4a9d6e 25%, #6bb884 50%, #8dd19f 75%, #a8e4b8 100%)",
     backgroundAttachment: "fixed",
+    overflowX: "hidden",
+    overflowY: "auto",
+    maxWidth: "100vw",
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
+    "&::-webkit-scrollbar": {
+      display: "none",
+      width: "0",
+      height: "0",
+    },
   },
   registerPage: {
     display: "flex",
     alignItems: "center",
     flexDirection: "row",
     width: "100%",
+    maxWidth: "100%",
     minHeight: "calc(100vh - 80px)",
+    overflowX: "hidden",
   },
   empty: {
     height: "auto",
@@ -109,6 +122,82 @@ const useStyles = createUseStyles({
     textAlign: "center",
     margin: "0.5rem",
     textDecoration: "none",
+  },
+  "@media (max-width: 768px)": {
+    registerPage: {
+      flexDirection: "column",
+      padding: "2rem 1rem",
+    },
+    empty: {
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
+      marginBottom: "2rem",
+    },
+    firstPage: {
+      width: "60%",
+      margin: "2rem",
+    },
+    info: {
+      width: "100%",
+      "& h1": {
+        fontSize: "24px",
+      },
+      "& h4": {
+        fontSize: "16px",
+        margin: "2rem",
+      },
+    },
+    registerForm: {
+      marginBottom: "2rem",
+    },
+    input: {
+      width: "100%",
+      "& input": {
+        fontSize: "16px",
+      },
+    },
+  },
+  "@media (max-width: 480px)": {
+    registerPage: {
+      padding: "1rem",
+    },
+    empty: {
+      marginBottom: "1rem",
+    },
+    firstPage: {
+      width: "80%",
+      margin: "1rem",
+    },
+    info: {
+      "& h1": {
+        fontSize: "20px",
+      },
+      "& h4": {
+        fontSize: "14px",
+        margin: "1rem",
+      },
+    },
+    registerForm: {
+      marginBottom: "1rem",
+    },
+    input: {
+      margin: "0.5rem",
+      "& input": {
+        fontSize: "14px",
+        padding: "10px 15px",
+      },
+      "& label": {
+        fontSize: "13px",
+      },
+    },
+    signUpBtn: {
+      padding: "12px 24px",
+      fontSize: "13px",
+    },
+    loginLink: {
+      fontSize: "13px",
+    },
   },
 });
 

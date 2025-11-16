@@ -14,7 +14,14 @@ const useStyles = createUseStyles({
   activityPage: {
     width: "100%",
     height: "100%",
-    overflow: "scroll",
+    overflow: "auto",
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
+    "&::-webkit-scrollbar": {
+      display: "none",
+      width: "0",
+      height: "0",
+    },
   },
 });
 

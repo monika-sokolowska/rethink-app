@@ -12,8 +12,15 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     width: "90%",
     margin: "1rem",
-    overflowY: "scroll",
+    overflowY: "auto",
     maxHeight: "50%",
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
+    "&::-webkit-scrollbar": {
+      display: "none",
+      width: "0",
+      height: "0",
+    },
   },
   goalsArticle: {
     width: "100%",

@@ -67,19 +67,12 @@ const useStyles = createUseStyles({
     flex: 1,
     lineHeight: "1.6",
     fontSize: "1rem",
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
     "&::-webkit-scrollbar": {
-      width: "8px",
-    },
-    "&::-webkit-scrollbar-track": {
-      background: "#f1f1f1",
-      borderRadius: "4px",
-    },
-    "&::-webkit-scrollbar-thumb": {
-      background: "#2d8659",
-      borderRadius: "4px",
-      "&:hover": {
-        background: "#1a5a3f",
-      },
+      display: "none",
+      width: "0",
+      height: "0",
     },
   },
 });
