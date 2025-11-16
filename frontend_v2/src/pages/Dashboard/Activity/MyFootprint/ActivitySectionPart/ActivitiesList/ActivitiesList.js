@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import "./ActivitiesList.css";
+import React from "react";
 import ActivitiesListItem from "./ActivitiesListItem/ActivitiesListItem";
+import { createUseStyles } from "react-jss";
 import {
   deleteFoodFootprint,
   deleteOtherFootprint,
@@ -8,7 +8,24 @@ import {
 } from "../../../../../../reducers/dailyFootprintSlice";
 import { useDispatch } from "react-redux";
 
+const useStyles = createUseStyles({
+  activitiesList: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    flexDirection: "column",
+    width: "90%",
+    minHeight: "50%",
+    margin: "1rem",
+  },
+  activities: {
+    width: "100%",
+    minHeight: "100%",
+  },
+});
+
 const ActivitiesList = ({ data }) => {
+  const classes = useStyles();
   const dispatch = useDispatch();
 
   const handleFoodDelete = (id) => {
@@ -56,11 +73,11 @@ const ActivitiesList = ({ data }) => {
   };
 
   return (
-    <div className="activities-list">
+    <div className={classes.activitiesList}>
       {data.map((item) => {
         const { id } = item;
         return (
-          <div key={id} className="activities">
+          <div key={id} className={classes.activities}>
             {displayActivitiesList(item)}
           </div>
         );
