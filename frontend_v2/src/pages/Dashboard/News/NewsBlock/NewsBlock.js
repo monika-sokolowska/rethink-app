@@ -51,22 +51,36 @@ const useStyles = createUseStyles({
   },
   "@media (max-width: 768px)": {
     newsBlock: {
+      height: "300px",
       "& h1": {
-        fontSize: "16px",
+        fontSize: "20px",
       },
       "& h3": {
-        fontSize: "12px",
+        fontSize: "16px",
       },
+    },
+    imageContainer: {
+      height: "50%",
+    },
+    textContainer: {
+      height: "25%",
     },
   },
   "@media (max-width: 480px)": {
     newsBlock: {
+      height: "250px",
       "& h1": {
-        fontSize: "14px",
+        fontSize: "18px",
       },
       "& h3": {
-        fontSize: "11px",
+        fontSize: "14px",
       },
+    },
+    imageContainer: {
+      height: "45%",
+    },
+    textContainer: {
+      height: "27.5%",
     },
   },
 });

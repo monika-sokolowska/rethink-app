@@ -45,6 +45,7 @@ const useStyles = createUseStyles({
     mainGoal: {
       flexDirection: "row",
       padding: "0.75rem",
+      boxShadow: "none",
     },
     goalDisplay: {
       fontSize: "1rem",
@@ -60,6 +61,7 @@ const useStyles = createUseStyles({
       flexDirection: "column",
       padding: "0.5rem",
       alignItems: "flex-start",
+      boxShadow: "none",
     },
     goalDisplay: {
       fontSize: "0.9rem",

@@ -30,16 +30,24 @@ const useStyles = createUseStyles({
     fontWeight: 600,
   },
   "@media (max-width: 768px)": {
+    activityNav: {
+      boxShadow: "none",
+    },
     activityNavbar: {
       padding: "0.75rem",
+      boxShadow: "none",
     },
     footprintDisplay: {
       fontSize: "1rem",
     },
   },
   "@media (max-width: 480px)": {
+    activityNav: {
+      boxShadow: "none",
+    },
     activityNavbar: {
       padding: "0.5rem",
+      boxShadow: "none",
     },
     footprintDisplay: {
       fontSize: "0.9rem",

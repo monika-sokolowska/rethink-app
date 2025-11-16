@@ -132,18 +132,43 @@ const useStyles = createUseStyles({
       transform: "translateY(-2px)",
     },
   },
+  bottomSheetHandle: {
+    display: "none",
+  },
   "@media (max-width: 768px)": {
     modal: {
-      width: "90%",
-      left: "5%",
-      top: "20%",
+      width: "100%",
+      left: 0,
+      right: 0,
+      top: "auto",
+      bottom: 0,
+      maxHeight: "85vh",
+      borderRadius: "16px 16px 0 0",
+      transform: "translateY(0)",
+      transition: "transform 0.3s ease-out",
     },
     modalHeader: {
       padding: "15px",
+      borderRadius: "16px 16px 0 0",
+      position: "relative",
+      paddingTop: "25px",
+    },
+    bottomSheetHandle: {
+      display: "block",
+      position: "absolute",
+      top: "8px",
+      left: "50%",
+      transform: "translateX(-50%)",
+      width: "40px",
+      height: "4px",
+      backgroundColor: "rgba(255, 255, 255, 0.5)",
+      borderRadius: "2px",
     },
     modalDesc: {
       flexDirection: "column",
       padding: "15px",
+      maxHeight: "calc(85vh - 200px)",
+      overflowY: "auto",
     },
     footprintInput: {
       width: "100%",
@@ -152,18 +177,25 @@ const useStyles = createUseStyles({
   },
   "@media (max-width: 480px)": {
     modal: {
-      width: "95%",
-      left: "2.5%",
-      top: "15%",
+      width: "100%",
+      left: 0,
+      right: 0,
+      top: "auto",
+      bottom: 0,
+      maxHeight: "90vh",
+      borderRadius: "16px 16px 0 0",
     },
     modalHeader: {
       padding: "12px",
+      paddingTop: "22px",
+      borderRadius: "16px 16px 0 0",
     },
     modalTitle: {
       fontSize: "0.9rem",
     },
     modalDesc: {
       padding: "12px",
+      maxHeight: "calc(90vh - 180px)",
     },
     footprintInput: {
       margin: "0.5rem",
@@ -241,6 +273,7 @@ const AddOtherModal = ({ isOpen, handleClose }) => {
       renderBackdrop={renderBackdrop}>
       <div className={classes.modal}>
         <div className={classes.modalHeader}>
+          <div className={classes.bottomSheetHandle}></div>
           <div className={classes.modalTitle}>Add custom footprint</div>
           <div>
             <span className={classes.closeButton} onClick={handleClose}>

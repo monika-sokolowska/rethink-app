@@ -36,9 +36,14 @@ const useStyles = createUseStyles({
     },
     "@media (max-width: 768px)": {
       gridTemplateColumns: "1fr",
+      gridTemplateRows: "300px",
       padding: "1rem",
-      columnGap: "20px",
-      rowGap: "30px",
+      columnGap: "10px",
+      rowGap: "15px",
+    },
+    "@media (max-width: 480px)": {
+      columnGap: "8px",
+      rowGap: "12px",
     },
   },
   newsWrapper: {
@@ -47,6 +52,10 @@ const useStyles = createUseStyles({
     height: "400px",
     "@media (max-width: 768px)": {
       maxWidth: "100%",
+      height: "300px",
+    },
+    "@media (max-width: 480px)": {
+      height: "250px",
     },
   },
 });
