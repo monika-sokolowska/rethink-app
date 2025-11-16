@@ -1,9 +1,18 @@
 import Logo from "../Logo/Logo";
-import "./Header.css";
+import { createUseStyles } from "react-jss";
+
+const useStyles = createUseStyles({
+  header: {
+    display: "flex",
+    alignItems: "flex-start",
+    flexDirection: "column",
+  },
+});
 
 const Header = () => {
+  const classes = useStyles();
   return (
-    <header>
+    <header className={classes.header}>
       <Logo />
     </header>
   );

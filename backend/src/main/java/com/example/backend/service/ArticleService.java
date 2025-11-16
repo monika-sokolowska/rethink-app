@@ -39,6 +39,17 @@ public class ArticleService {
         return articleRepository.findAll();
     }
 
+    public ArticleDTO deleteArticleById(Integer id) {
+        Article article = articleRepository.findById(id).orElse(null);
+        
+        if (article == null) {
+            return null;
+        }
+        
+        articleRepository.deleteById(id);
+        return convertArticleToArticleDTO(article);
+    }
+
     public ArticleDTO convertArticleToArticleDTO(Article article) {
         return new ArticleDTO(
                 article.getId_article(),

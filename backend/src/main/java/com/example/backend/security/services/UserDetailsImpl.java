@@ -35,9 +35,15 @@ public class UserDetailsImpl implements UserDetails {
   }
 
   public static UserDetailsImpl build(User user) {
-    List<GrantedAuthority> authorities = user.getRoles().stream()
-        .map(role -> new SimpleGrantedAuthority(role.getName().name()))
-            .collect(Collectors.toList());
+    if (user == null) {
+      throw new IllegalArgumentException("User cannot be null");
+    }
+    
+    List<GrantedAuthority> authorities = user.getRoles() != null 
+        ? user.getRoles().stream()
+            .map(role -> new SimpleGrantedAuthority(role.getName().name()))
+            .collect(Collectors.toList())
+        : new java.util.ArrayList<>();
 
     return new UserDetailsImpl(
             user.getId(),

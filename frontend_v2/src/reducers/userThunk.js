@@ -6,7 +6,8 @@ export const loginUserThunk = async (url, user, thunkAPI) => {
     const resp = await customFetch.post(url, user);
     return resp.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.msg);
+    const errorMessage = error.response?.data?.msg || error.response?.data?.message || "Login failed. Please check your credentials.";
+    return thunkAPI.rejectWithValue(errorMessage);
   }
 };
 
@@ -35,9 +36,14 @@ export const changeMainGoalThunk = async (url, goal) => {
   } catch (error) {}
 };
 
-export const getUserThunk = async (url) => {
+export const getUserThunk = async (url, thunkAPI) => {
   try {
     const resp = await customFetch.get(url);
     return resp.data;
-  } catch (error) {}
+  } catch (error) {
+    if (thunkAPI) {
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to fetch user");
+    }
+    return null;
+  }
 };

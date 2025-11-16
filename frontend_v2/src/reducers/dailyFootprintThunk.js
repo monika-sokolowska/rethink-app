@@ -18,7 +18,15 @@ export const addFootprintThunk = async (url, footprint) => {
 
 export const removeFootprintThunk = async (url, id) => {
   try {
-    const resp = await customFetch.delete(url, { data: id });
+    const resp = await customFetch.delete(url, {
+      data: { id: id },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return resp.data;
-  } catch (error) {}
+  } catch (error) {
+    console.error("Delete request error:", error);
+    return Promise.reject(error);
+  }
 };

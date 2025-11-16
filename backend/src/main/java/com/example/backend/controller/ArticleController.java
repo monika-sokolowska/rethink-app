@@ -2,6 +2,7 @@ package com.example.backend.controller;
 
 import com.example.backend.DTO.AddArticleDTO;
 import com.example.backend.DTO.ArticleDTO;
+import com.example.backend.DTO.DeleteDTO;
 import com.example.backend.model.Article;
 import com.example.backend.service.ArticleService;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Article> getAllArticles() {
         return articleService.findAll();
@@ -31,6 +32,12 @@ public class ArticleController {
 
 
         return ResponseEntity.ok(articleService.addArticle(addArticleDTO));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping(path="/delete")
+    public ResponseEntity<ArticleDTO> deleteArticle(@RequestBody DeleteDTO deleteDTO) {
+        return ResponseEntity.ok(articleService.deleteArticleById(deleteDTO.id()));
     }
 
 }

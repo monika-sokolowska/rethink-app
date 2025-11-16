@@ -2,12 +2,15 @@ package com.example.backend.controller;
 
 import com.example.backend.DTO.HouseholdFootprintDTO;
 import com.example.backend.DTO.TransportFootprintDTO;
+import com.example.backend.DTO.UpdateHouseholdFootprintDTO;
 import com.example.backend.security.services.UserDetailsImpl;
 import com.example.backend.service.HouseholdFootprintService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,5 +34,12 @@ public class HouseholdFootprintController {
     public ResponseEntity<HouseholdFootprintDTO> getHousehold() {
         UserDetailsImpl user = GetCurrentUser();
         return ResponseEntity.ok(householdFootprintService.findHouseholdFootprintById(user.getId()));
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @PatchMapping(path="/update")
+    public ResponseEntity<HouseholdFootprintDTO> updateHouseholdFootprint(@RequestBody UpdateHouseholdFootprintDTO updateDTO) {
+        UserDetailsImpl user = GetCurrentUser();
+        return ResponseEntity.ok(householdFootprintService.updateHouseholdFootprintById(user.getId(), updateDTO));
     }
 }

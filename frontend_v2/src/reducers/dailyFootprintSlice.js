@@ -5,6 +5,7 @@ import {
   addFootprintThunk,
   removeFootprintThunk,
 } from "./dailyFootprintThunk";
+import { getStats } from "./statsSlice";
 
 const initialState = {
   isLoading: false,
@@ -50,6 +51,7 @@ export const addTransportFootprint = createAsyncThunk(
       footprint
     );
     thunkAPI.dispatch(getTransportFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );
@@ -59,6 +61,7 @@ export const addFoodFootprint = createAsyncThunk(
   async (footprint, thunkAPI) => {
     const result = await addFootprintThunk(`/footprint/add/food`, footprint);
     thunkAPI.dispatch(getFoodFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );
@@ -66,8 +69,9 @@ export const addFoodFootprint = createAsyncThunk(
 export const addOtherFootprint = createAsyncThunk(
   "user/addOtherFootprint",
   async (footprint, thunkAPI) => {
-    const result = addFootprintThunk(`/footprint/add/other`, footprint);
+    const result = await addFootprintThunk(`/footprint/add/other`, footprint);
     thunkAPI.dispatch(getOtherFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );
@@ -75,47 +79,62 @@ export const addOtherFootprint = createAsyncThunk(
 export const addCompensatedFootprint = createAsyncThunk(
   "user/addCompensatedFootprint",
   async (footprint, thunkAPI) => {
-    const result = addFootprintThunk(`/footprint/add/compensated`, footprint);
+    const result = await addFootprintThunk(
+      `/footprint/add/compensated`,
+      footprint
+    );
     thunkAPI.dispatch(getCompensatedFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );
 
 export const deleteTransportFootprint = createAsyncThunk(
   "user/deleteTransportFootprint",
-  async (id, thunkAPI) => {
+  async (payload, thunkAPI) => {
+    const id = typeof payload === "object" ? payload.id : payload;
     const result = await removeFootprintThunk(
       `/footprint/remove/transport`,
       id
     );
     thunkAPI.dispatch(getTransportFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );
 
 export const deleteFoodFootprint = createAsyncThunk(
   "user/deleteFoodFootprint",
-  async (id, thunkAPI) => {
+  async (payload, thunkAPI) => {
+    const id = typeof payload === "object" ? payload.id : payload;
     const result = await removeFootprintThunk(`/footprint/remove/food`, id);
     thunkAPI.dispatch(getFoodFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );
 
 export const deleteOtherFootprint = createAsyncThunk(
   "user/deleteOtherFootprint",
-  async (id, thunkAPI) => {
-    const result = removeFootprintThunk(`/footprint/remove/other`, id);
+  async (payload, thunkAPI) => {
+    const id = typeof payload === "object" ? payload.id : payload;
+    const result = await removeFootprintThunk(`/footprint/remove/other`, id);
     thunkAPI.dispatch(getOtherFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );
 
 export const deleteCompensatedFootprint = createAsyncThunk(
   "user/deleteCompensatedFootprint",
-  async (id, thunkAPI) => {
-    const result = removeFootprintThunk(`/footprint/remove/compensated`, id);
+  async (payload, thunkAPI) => {
+    const id = typeof payload === "object" ? payload.id : payload;
+    const result = await removeFootprintThunk(
+      `/footprint/remove/compensated`,
+      id
+    );
     thunkAPI.dispatch(getCompensatedFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );

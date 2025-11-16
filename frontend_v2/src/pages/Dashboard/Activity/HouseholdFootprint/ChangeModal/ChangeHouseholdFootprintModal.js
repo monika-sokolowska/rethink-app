@@ -1,11 +1,21 @@
 import Modal from "react-overlays/Modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { addFoodFootprint } from "../../../../../../reducers/dailyFootprintSlice";
+import { updateHouseholdFootprint } from "../../../../../reducers/householdFootprintSlice";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
+  modalChange: {
+    position: "fixed",
+    width: "700px",
+    zIndex: 1040,
+    top: "35%",
+    left: "40%",
+    backgroundColor: "white",
+    borderRadius: "10px",
+    boxShadow: "0 5px 25px rgba(0, 0, 0, 0.7)",
+  },
   modal: {
     position: "fixed",
     width: "700px",
@@ -26,7 +36,7 @@ const useStyles = createUseStyles({
     backgroundColor: "#000",
     opacity: 0.5,
   },
-  modalHeader: {
+  modalChangeHeader: {
     borderBottom: "1px solid #e9ecef",
     display: "flex",
     justifyContent: "space-between",
@@ -71,17 +81,6 @@ const useStyles = createUseStyles({
       outline: "transparent",
       width: "100%",
     },
-    "& select": {
-      padding: "12px 20px",
-      fontSize: "2.5vh",
-      borderWidth: "calc(var(--border-width) * 1px)",
-      borderStyle: "solid",
-      borderColor: "#2d8659",
-      borderRadius: "10px",
-      textAlign: "center",
-      outline: "transparent",
-      width: "100%",
-    },
     "& label": {
       fontSize: "15px",
       color: "#2d8659",
@@ -97,7 +96,7 @@ const useStyles = createUseStyles({
     padding: "8px",
     paddingRight: "20px",
   },
-  secondaryButton: {
+  secondaryButtonChange: {
     background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 100%)",
     border: "none",
     borderRadius: "8px",
@@ -120,7 +119,7 @@ const useStyles = createUseStyles({
       transform: "translateY(-2px)",
     },
   },
-  primaryButton: {
+  primaryButtonChange: {
     background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 100%)",
     border: "none",
     borderRadius: "8px",
@@ -146,17 +145,21 @@ const useStyles = createUseStyles({
 });
 
 const initialState = {
-  name: "",
-  meal: "BREAKFAST",
-  footprint: 0,
+  footprint: "",
 };
 
-const AddFoodModal = ({ isOpen, handleClose }) => {
+const ChangeHouseholdFootprintModal = ({ isOpen, handleClose, currentFootprint }) => {
   const classes = useStyles();
-  const [values, setValues] = useState(initialState);
+  const [values, setValues] = useState({ footprint: currentFootprint || "" });
   const dispatch = useDispatch();
-  const minFootprint = 0;
-  const maxFootprint = 5000;
+
+  useEffect(() => {
+    if (isOpen) {
+      setValues({ footprint: currentFootprint || "" });
+    }
+  }, [isOpen, currentFootprint]);
+
+  const min = 0;
 
   const renderBackdrop = (props) => (
     <div className={classes.backdrop} {...props} />
@@ -164,43 +167,49 @@ const AddFoodModal = ({ isOpen, handleClose }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const { name, meal, footprint } = values;
+    const { footprint } = values;
 
-    if (!name || !meal || !footprint) {
-      toast.error("Please fill out all fields");
+    if (footprint === "" || footprint === null || footprint === undefined) {
+      toast.error("Please enter a footprint value");
       return;
     }
 
-    dispatch(
-      addFoodFootprint({ name: name, meal: meal, footprint: footprint })
-    );
+    if (footprint < min) {
+      toast.error(`Footprint must be at least ${min}`);
+      return;
+    }
+
+    const footprintData = {
+      footprint: parseFloat(footprint),
+    };
+    dispatch(updateHouseholdFootprint(footprintData));
     handleClose();
     setValues(initialState);
   };
 
   const onClose = () => {
     handleClose();
-    setValues(initialState);
+    setValues({ footprint: currentFootprint || "" });
   };
 
-  const handleChange = (e) => {
+  const handleNumberChange = (e) => {
     e.stopPropagation();
 
     const name = e.target.name;
-    const value = e.target.value;
+    const value = e.target.value === "" ? "" : Math.max(min, Number(e.target.value));
 
     setValues({ ...values, [name]: value });
   };
 
   return (
     <Modal
-      className={classes.modal}
+      className={classes.modalChange}
       show={isOpen}
       onHide={handleClose}
       renderBackdrop={renderBackdrop}>
       <div className={classes.modal}>
-        <div className={classes.modalHeader}>
-          <div className={classes.modalTitle}>Add food footprint</div>
+        <div className={classes.modalChangeHeader}>
+          <div className={classes.modalTitle}>Change household footprint</div>
           <div>
             <span className={classes.closeButton} onClick={handleClose}>
               x
@@ -210,51 +219,34 @@ const AddFoodModal = ({ isOpen, handleClose }) => {
         <form className="footprint-form" onSubmit={onSubmit}>
           <div className={classes.modalDesc}>
             <div className={classes.footprintInput}>
-              <label>Meal description</label>
-              <input
-                type="text"
-                id="name"
-                onChange={handleChange}
-                name="name"
-                value={values.name}
-              />
-            </div>
-            <div className={classes.footprintInput}>
-              <label>Meal</label>
-              <select name="meal" onChange={handleChange}>
-                <option value="BREAKFAST">BREAKFAST</option>
-                <option value="LUNCH">LUNCH</option>
-                <option value="DINNER">DINNER</option>
-                <option value="DESSERT">DESSERT</option>
-                <option value="SUPPER">SUPPER</option>
-              </select>
-            </div>
-            <div className={classes.footprintInput}>
-              <label>Footprint</label>
+              <label>Household footprint (kg CO2)</label>
               <input
                 type="number"
                 id="footprint"
-                onChange={handleChange}
+                onChange={handleNumberChange}
                 name="footprint"
                 value={values.footprint}
+                step="0.01"
+                min={min}
               />
             </div>
           </div>
           <div className={classes.modalFooter}>
             <button
               type="button"
-              className={classes.secondaryButton}
+              className={classes.secondaryButtonChange}
               onClick={onClose}>
               Close
             </button>
             <input
               type="submit"
               value="Save Changes"
-              className={classes.primaryButton}></input>
+              className={classes.primaryButtonChange}></input>
           </div>
         </form>
       </div>
     </Modal>
   );
 };
-export default AddFoodModal;
+export default ChangeHouseholdFootprintModal;
+

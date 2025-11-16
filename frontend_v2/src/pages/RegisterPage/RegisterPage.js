@@ -1,12 +1,116 @@
 import firstPage from "../../assets/images/firstPage.svg";
 import Header from "../Header/Header";
-import "./RegisterPage.css";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../reducers/userSlice";
+import { createUseStyles } from "react-jss";
+
+const useStyles = createUseStyles({
+  registerPageContainer: {
+    minHeight: "100vh",
+    background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 25%, #6bb884 50%, #8dd19f 75%, #a8e4b8 100%)",
+    backgroundAttachment: "fixed",
+  },
+  registerPage: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "row",
+    width: "100%",
+    minHeight: "calc(100vh - 80px)",
+  },
+  empty: {
+    height: "auto",
+    width: "50%",
+  },
+  firstPage: {
+    height: "auto",
+    width: "80%",
+    margin: "5rem",
+  },
+  info: {
+    height: "auto",
+    width: "50%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    "& h1": {
+      fontSize: "30px",
+      color: "white",
+      textAlign: "center",
+    },
+    "& h4": {
+      fontSize: "20px",
+      color: "white",
+      fontWeight: 400,
+      height: "30%",
+      width: "100%",
+      margin: "4rem",
+      textAlign: "center",
+    },
+  },
+  registerForm: {
+    display: "grid",
+    gridTemplateColumns: "auto",
+    gridGap: "0.5rem 1rem",
+    justifyItems: "center",
+    marginBottom: "5rem",
+  },
+  input: {
+    display: "flex",
+    alignItems: "flex-start",
+    flexDirection: "column",
+    margin: "1rem",
+    "& input": {
+      padding: "12px 20px",
+      fontSize: "2.5vh",
+      borderWidth: 0,
+      borderStyle: "none",
+      borderRadius: "10px",
+      textAlign: "center",
+      outline: "transparent",
+      width: "100%",
+    },
+    "& label": {
+      fontSize: "15px",
+      color: "white",
+      textAlign: "center",
+      marginBottom: "0.5rem",
+    },
+  },
+  signUpBtn: {
+    backgroundColor: "#ffffff",
+    borderRadius: "4px",
+    boxShadow: "rgba(0, 0, 0, 0.1) 0 2px 4px 0",
+    borderStyle: "none",
+    boxSizing: "border-box",
+    color: "#2d8659",
+    cursor: "pointer",
+    fontFamily:
+      '"Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif',
+    fontSize: "14px",
+    fontWeight: 400,
+    padding: "15px 30px",
+    textAlign: "center",
+    transform: "translateY(0)",
+    transition: "transform 150ms, box-shadow 150ms",
+    touchAction: "manipulation",
+    marginTop: "1rem",
+    "&:hover": {
+      boxShadow: "rgba(0, 0, 0, 0.15) 0 3px 9px 0",
+      transform: "translateY(-2px)",
+    },
+  },
+  loginLink: {
+    fontSize: "15px",
+    color: "white",
+    textAlign: "center",
+    margin: "0.5rem",
+    textDecoration: "none",
+  },
+});
 
 const initialState = {
   name: "",
@@ -16,6 +120,7 @@ const initialState = {
 };
 
 const RegisterPage = () => {
+  const classes = useStyles();
   const [values, setValues] = useState(initialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -58,17 +163,17 @@ const RegisterPage = () => {
   );
 
   return (
-    <>
+    <div className={classes.registerPageContainer}>
       <Header />
 
-      <div className="register-page">
-        <div className="empty">
-          <img className="first-page" src={firstPage} alt="firstPage" />
+      <div className={classes.registerPage}>
+        <div className={classes.empty}>
+          <img className={classes.firstPage} src={firstPage} alt="firstPage" />
         </div>
 
-        <div className="info">
-          <form className="register-form" onSubmit={onSubmit}>
-            <div className="input">
+        <div className={classes.info}>
+          <form className={classes.registerForm} onSubmit={onSubmit}>
+            <div className={classes.input}>
               <label htmlFor="email">Name</label>
               <input
                 type="text"
@@ -78,7 +183,7 @@ const RegisterPage = () => {
                 value={values.name}
               />
             </div>
-            <div className="input">
+            <div className={classes.input}>
               <label htmlFor="email">Last name</label>
               <input
                 type="text"
@@ -88,7 +193,7 @@ const RegisterPage = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className="input">
+            <div className={classes.input}>
               <label htmlFor="email">Email</label>
               <input
                 type="text"
@@ -98,7 +203,7 @@ const RegisterPage = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className="input">
+            <div className={classes.input}>
               <label htmlFor="email">Password</label>
               <input
                 type="password"
@@ -108,14 +213,16 @@ const RegisterPage = () => {
                 onChange={handleChange}
               />
             </div>
-            <button className="sign-up-btn">Register</button>
-            <Link to="/login" className="login-link">
+            <button className={classes.signUpBtn} type="submit">
+              Register
+            </button>
+            <Link to="/login" className={classes.loginLink}>
               Log in
             </Link>
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

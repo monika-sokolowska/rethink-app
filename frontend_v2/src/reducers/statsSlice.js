@@ -8,9 +8,9 @@ const initialState = {
 };
 
 export const getStats = createAsyncThunk(
-  "user/getHouseholdFootprint",
-  async (userId) => {
-    return getStatsThunk(`/stats/daily`, userId);
+  "user/getStats",
+  async (_, thunkAPI) => {
+    return getStatsThunk(`/stats/daily`, thunkAPI);
   }
 );
 

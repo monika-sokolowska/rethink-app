@@ -1,15 +1,65 @@
-import "./MainFootprint.css";
 import { AiOutlineEdit } from "react-icons/ai";
+import { createUseStyles } from "react-jss";
 
-const MainFootprint = ({ footprint }) => {
+const useStyles = createUseStyles({
+  mainFootprint: {
+    background: "rgb(228, 245, 233)",
+    boxShadow: "0 4px 12px rgba(45, 134, 89, 0.2)",
+    borderRadius: "12px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    width: "90%",
+    margin: "1rem",
+    marginTop: "2rem",
+  },
+  title: {
+    color: "#2d8659",
+    textAlign: "start",
+    margin: "1rem",
+    marginLeft: "2rem",
+    width: "60%",
+    fontSize: "18px",
+    fontWeight: 600,
+  },
+  carbonFootprintHousehold: {
+    textAlign: "center",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  footprintValue: {
+    fontSize: "18px",
+    color: "#2d8659",
+    textAlign: "center",
+    margin: "1rem",
+    fontWeight: 600,
+  },
+  editIcon: {
+    color: "#2d8659",
+    marginRight: "2rem",
+    height: "80%",
+    cursor: "pointer",
+    transition: "all 0.2s ease-in-out",
+    "&:hover": {
+      color: "#1a5a3f",
+      transform: "scale(1.1)",
+    },
+  },
+});
+
+const MainFootprint = ({ footprint, onEditClick }) => {
+  const classes = useStyles();
   return (
-    <div className="main-footprint">
-      <h1>Household carbon footprint</h1>
-      <div className="carbon-footprint-household">
-        <h3>{footprint} kg CO2</h3>
+    <div className={classes.mainFootprint}>
+      <h1 className={classes.title}>Household carbon footprint</h1>
+      <div className={classes.carbonFootprintHousehold}>
+        <h3 className={classes.footprintValue}>{footprint} kg CO2</h3>
         <AiOutlineEdit
           size={25}
-          style={{ color: "#fff", marginRight: "2rem", height: "80%" }}
+          className={classes.editIcon}
+          onClick={onEditClick}
         />
       </div>
     </div>

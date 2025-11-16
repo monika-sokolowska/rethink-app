@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { getAllArticlesThunk, addArticleThunk } from "./allArticlesThunk";
+import { getAllArticlesThunk, addArticleThunk, deleteArticleThunk } from "./allArticlesThunk";
 
 const initialState = {
   isLoading: false,
@@ -24,6 +24,15 @@ export const addArticle = createAsyncThunk(
   }
 );
 
+export const deleteArticle = createAsyncThunk(
+  "allArticles/deleteArticle",
+  async (id, thunkAPI) => {
+    const result = await deleteArticleThunk(`/article/delete`, id, thunkAPI);
+    thunkAPI.dispatch(getAllArticles());
+    return result;
+  }
+);
+
 const allArticlesSlice = createSlice({
   name: "allArticles",
   initialState,
@@ -40,6 +49,19 @@ const allArticlesSlice = createSlice({
       .addCase(getAllArticles.rejected, (state, { payload }) => {
         state.isLoading = false;
         toast.error(payload);
+      })
+      .addCase(deleteArticle.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteArticle.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        toast.success("Article deleted successfully");
+      })
+      .addCase(deleteArticle.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        if (payload) {
+          toast.error(payload);
+        }
       });
   },
 });

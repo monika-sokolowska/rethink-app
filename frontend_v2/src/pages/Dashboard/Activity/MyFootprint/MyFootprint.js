@@ -1,5 +1,5 @@
-import "./MyFootprint.css";
 import ActivitySectionPart from "./ActivitySectionPart/ActivitySectionPart";
+import { createUseStyles } from "react-jss";
 import AddTransportModal from "./AddModal/AddTransportModal/AddTransportModal";
 import AddFoodModal from "./AddModal/AddFoodModal/AddFoodModal";
 import AddOtherModal from "./AddModal/AddOtherModal/AddOtherModal";
@@ -15,7 +15,20 @@ import {
   getCompensatedFootprint,
 } from "../../../../reducers/dailyFootprintSlice";
 
+const useStyles = createUseStyles({
+  myFootprint: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    width: "100%",
+    height: "auto",
+    backgroundColor: "white",
+    marginBottom: "2rem",
+  },
+});
+
 const MyFootprint = () => {
+  const classes = useStyles();
   const { user } = useSelector((store) => store.user);
   const { transport, food, other, compensated } = useSelector(
     (store) => store.footprint
@@ -66,7 +79,7 @@ const MyFootprint = () => {
   };
 
   return (
-    <section className="my-footprint">
+    <section className={classes.myFootprint}>
       <AddTransportModal
         isOpen={showTransportModal}
         handleClose={handleTransportModalClose}
