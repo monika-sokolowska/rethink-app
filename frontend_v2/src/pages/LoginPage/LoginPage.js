@@ -10,14 +10,16 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   loginPageContainer: {
-    // Container styles if needed
+    minHeight: "100vh",
+    background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 25%, #6bb884 50%, #8dd19f 75%, #a8e4b8 100%)",
+    backgroundAttachment: "fixed",
   },
   loginPage: {
     display: "flex",
     alignItems: "center",
     flexDirection: "row",
     width: "100%",
-    height: "100%",
+    minHeight: "calc(100vh - 80px)",
   },
   empty: {
     height: "auto",

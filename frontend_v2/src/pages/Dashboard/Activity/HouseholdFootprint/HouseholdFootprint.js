@@ -15,10 +15,10 @@ const useStyles = createUseStyles({
     backgroundColor: "white",
   },
   householdFootprintButton: {
-    backgroundColor: "rgb(17, 20, 48)",
-    border: "1px solid rgb(17, 20, 48)",
-    borderRadius: "4px",
-    boxShadow: "rgba(0, 0, 0, 0.1) 0 2px 4px 0",
+    background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 100%)",
+    border: "none",
+    borderRadius: "8px",
+    boxShadow: "rgba(45, 134, 89, 0.2) 0 2px 4px 0",
     boxSizing: "border-box",
     color: "#fff",
     cursor: "pointer",
@@ -33,6 +33,10 @@ const useStyles = createUseStyles({
     touchAction: "manipulation",
     margin: "1rem",
     textDecoration: "none",
+    "&:hover": {
+      boxShadow: "rgba(45, 134, 89, 0.3) 0 3px 9px 0",
+      transform: "translateY(-2px)",
+    },
   },
 });
 

@@ -3,9 +3,9 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   mainFootprint: {
-    background: "#dae2e9",
-    boxShadow: "3px 10px 25px rgba(0, 0, 0, 0.25)",
-    borderRadius: "15px",
+    background: "rgb(228, 245, 233)",
+    boxShadow: "0 4px 12px rgba(45, 134, 89, 0.2)",
+    borderRadius: "12px",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
@@ -15,12 +15,13 @@ const useStyles = createUseStyles({
     marginTop: "2rem",
   },
   title: {
-    color: "rgb(17, 20, 48)",
+    color: "#2d8659",
     textAlign: "start",
     margin: "1rem",
     marginLeft: "2rem",
     width: "60%",
     fontSize: "18px",
+    fontWeight: 600,
   },
   carbonFootprintHousehold: {
     textAlign: "center",
@@ -30,17 +31,20 @@ const useStyles = createUseStyles({
   },
   footprintValue: {
     fontSize: "18px",
-    color: "rgb(17, 20, 48)",
+    color: "#2d8659",
     textAlign: "center",
     margin: "1rem",
+    fontWeight: 600,
   },
   editIcon: {
-    color: "#fff",
+    color: "#2d8659",
     marginRight: "2rem",
     height: "80%",
     cursor: "pointer",
+    transition: "all 0.2s ease-in-out",
     "&:hover": {
-      opacity: 0.8,
+      color: "#1a5a3f",
+      transform: "scale(1.1)",
     },
   },
 });

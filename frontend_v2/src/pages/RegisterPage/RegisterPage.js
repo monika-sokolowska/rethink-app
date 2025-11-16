@@ -9,12 +9,17 @@ import { registerUser } from "../../reducers/userSlice";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
+  registerPageContainer: {
+    minHeight: "100vh",
+    background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 25%, #6bb884 50%, #8dd19f 75%, #a8e4b8 100%)",
+    backgroundAttachment: "fixed",
+  },
   registerPage: {
     display: "flex",
     alignItems: "center",
     flexDirection: "row",
     width: "100%",
-    height: "100%",
+    minHeight: "calc(100vh - 80px)",
   },
   empty: {
     height: "auto",
@@ -159,7 +164,7 @@ const RegisterPage = () => {
   );
 
   return (
-    <>
+    <div className={classes.registerPageContainer}>
       <Header />
 
       <div className={classes.registerPage}>
@@ -218,7 +223,7 @@ const RegisterPage = () => {
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

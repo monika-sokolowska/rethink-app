@@ -7,7 +7,7 @@ const useStyles = createUseStyles({
     display: "flex",
     width: "200px",
     minWidth: "200px",
-    borderRight: "1px solid #e9ecef",
+    borderRight: "1px solid rgba(45, 134, 89, 0.2)",
     boxShadow: "2px 0 8px rgba(0, 0, 0, 0.04)",
   },
   sidebar: {
@@ -21,7 +21,7 @@ const useStyles = createUseStyles({
     padding: "0.875rem 1rem",
     background: "transparent",
     height: "auto",
-    color: "#6c757d",
+    color: "#2d8659",
     fontWeight: 500,
     fontSize: "0.9rem",
     borderRadius: "8px",
@@ -31,19 +31,17 @@ const useStyles = createUseStyles({
     display: "flex",
     alignItems: "center",
     "&:hover": {
-      background: "#f1f3f5",
-      color: "rgb(198, 203, 251)",
+      background: "rgba(255, 255, 255, 0.3)",
+      color: "#1a5a3f",
       transform: "translateX(4px)",
     },
   },
   activeLink: {
-    background:
-      "linear-gradient(90deg, rgb(17, 20, 48) 0%, rgb(25, 31, 82) 100%)",
+    background: "linear-gradient(90deg, #2d8659 0%, #4a9d6e 100%)",
     color: "#ffffff",
-    boxShadow: "0 2px 8px rgba(17, 20, 48, 0.2)",
+    boxShadow: "0 2px 8px rgba(45, 134, 89, 0.3)",
     "&:hover": {
-      background:
-        "linear-gradient(90deg, rgb(17, 20, 48) 0%, rgb(25, 31, 82) 100%)",
+      background: "linear-gradient(90deg, #2d8659 0%, #4a9d6e 100%)",
       transform: "translateX(4px)",
     },
   },

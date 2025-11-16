@@ -3,7 +3,8 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   activitiesListItem: {
-    borderRadius: "15px",
+    background: "rgb(228, 245, 233)",
+    borderRadius: "8px",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
@@ -11,17 +12,25 @@ const useStyles = createUseStyles({
     width: "90%",
     height: "8vh",
     margin: "1rem",
-    boxShadow: "3px 10px 25px rgba(0, 0, 0, 0.25)",
+    boxShadow: "0 4px 12px rgba(45, 134, 89, 0.15)",
+
+    transition: "all 0.2s ease-in-out",
+    "&:hover": {
+      boxShadow: "0 6px 16px rgba(45, 134, 89, 0.25)",
+      transform: "translateY(-2px)",
+    },
   },
   itemTitle: {
-    color: "black",
+    color: "#2d8659",
     margin: "1rem",
     fontSize: "15px",
+    fontWeight: 500,
   },
   itemValue: {
-    color: "black",
+    color: "#2d8659",
     margin: "1rem",
     fontSize: "15px",
+    fontWeight: 600,
   },
   activitiesListItemRightSide: {
     display: "flex",
@@ -43,11 +52,15 @@ const ActivitiesListItem = ({ name, footprint, info, handleDelete }) => {
         <AiOutlineDelete
           size={25}
           style={{
-            color: "rgb(17, 20, 48)",
+            color: "#2d8659",
             marginRight: "1rem",
             height: "80%",
+            cursor: "pointer",
+            transition: "all 0.2s ease-in-out",
           }}
           onClick={handleDelete}
+          onMouseEnter={(e) => (e.target.style.color = "#1a5a3f")}
+          onMouseLeave={(e) => (e.target.style.color = "#2d8659")}
         />
       </div>
     </div>

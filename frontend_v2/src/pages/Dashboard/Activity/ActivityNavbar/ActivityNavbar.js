@@ -21,7 +21,7 @@ const useStyles = createUseStyles({
     padding: "1rem",
   },
   footprintDisplay: {
-    color: "rgb(17, 20, 48)",
+    color: "#2d8659",
     fontSize: "1.1rem",
     fontWeight: 600,
   },

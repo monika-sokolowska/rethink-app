@@ -4,7 +4,7 @@ import { createUseStyles } from "react-jss";
 const useStyles = createUseStyles({
   logo: {
     width: "auto",
-    height: "4vh",
+    height: "3vh",
     margin: "2rem",
   },
 });
