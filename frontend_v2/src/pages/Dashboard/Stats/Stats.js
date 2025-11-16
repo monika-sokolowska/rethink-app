@@ -87,14 +87,7 @@ const Stats = () => {
     }
   }, [dispatch, user?.id]);
 
-  // Green shades color palette
-  const greenShades = [
-    "#2d8659", // Dark green
-    "#4a9d6e", // Medium-dark green
-    "#6bb884", // Medium green
-    "#8dd19f", // Light-medium green
-    "#a8e4b8", // Light green
-  ];
+  const greenShades = ["#2d8659", "#4a9d6e", "#6bb884", "#8dd19f", "#a8e4b8"];
 
   const chartData =
     stats && user
@@ -117,7 +110,6 @@ const Stats = () => {
         ]
       : [];
 
-  // Calculate totals for each footprint type
   const calculateTotal = (items) => {
     if (!Array.isArray(items)) return 0;
     return items.reduce((sum, item) => sum + (item.footprint || 0), 0);

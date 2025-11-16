@@ -114,8 +114,7 @@ public class UserController {
 
         user.setRoles(roles);
         User savedUser = userRepository.save(user);
-
-        // Initialize household footprint with value 0
+        
         HouseholdFootprint householdFootprint = new HouseholdFootprint();
         householdFootprint.setUser(savedUser);
         householdFootprint.setFootprint(0.0f);
