@@ -47,4 +47,8 @@ public class AveragePerson {
     public Float getHouseholdFootprint() {
         return householdFootprint;
     }
+
+    public void setHouseholdFootprint(Float householdFootprint) {
+        this.householdFootprint = householdFootprint;
+    }
 }
