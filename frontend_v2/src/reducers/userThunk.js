@@ -35,9 +35,14 @@ export const changeMainGoalThunk = async (url, goal) => {
   } catch (error) {}
 };
 
-export const getUserThunk = async (url) => {
+export const getUserThunk = async (url, thunkAPI) => {
   try {
     const resp = await customFetch.get(url);
     return resp.data;
-  } catch (error) {}
+  } catch (error) {
+    if (thunkAPI) {
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to fetch user");
+    }
+    return null;
+  }
 };

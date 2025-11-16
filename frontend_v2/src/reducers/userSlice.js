@@ -26,7 +26,6 @@ export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (user, thunkAPI) => {
     const result = await loginUserThunk("/user/login", user, thunkAPI);
-    thunkAPI.dispatch(getUserAfterLogin());
     return result;
   }
 );
@@ -42,9 +41,14 @@ export const registerUser = createAsyncThunk(
 export const loginUserFlow = createAsyncThunk(
   "user/loginUserFlow",
   async (user, thunkAPI) => {
-    const result = await thunkAPI.dispatch(loginUser(user));
-    thunkAPI.dispatch(getUserAfterLogin());
-    return result;
+    const loginResult = await thunkAPI.dispatch(loginUser(user));
+    // Only dispatch getUserAfterLogin if login was successful
+    // The token is already saved to localStorage by the loginUser.fulfilled reducer
+    if (loginUser.fulfilled.match(loginResult)) {
+      // Dispatch getUserAfterLogin - token should be in localStorage now
+      thunkAPI.dispatch(getUserAfterLogin());
+    }
+    return loginResult;
   }
 );
 
@@ -58,14 +62,14 @@ export const changeMainGoal = createAsyncThunk(
   }
 );
 
-export const getUser = createAsyncThunk("user/getUser", async (_) => {
-  return getUserThunk(`/user/get`);
+export const getUser = createAsyncThunk("user/getUser", async (_, thunkAPI) => {
+  return getUserThunk(`/user/get`, thunkAPI);
 });
 
 const getUserAfterLogin = createAsyncThunk(
   "user/getUserAfterLogin",
-  async (thunkAPI) => {
-    return getUserThunk(`/user/get`);
+  async (_, thunkAPI) => {
+    return getUserThunk(`/user/get`, thunkAPI);
   }
 );
 
@@ -118,8 +122,16 @@ const userSlice = createSlice({
         const user = payload;
         state.isLoading = false;
         state.user = user;
-        addUserToLocalStorage(user);
-        toast.success(`Welcome ${user.name}`);
+        if (user) {
+          addUserToLocalStorage(user);
+          toast.success(`Welcome ${user.name || user.email || "User"}!`);
+        }
+      })
+      .addCase(getUserAfterLogin.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        if (payload) {
+          toast.error(payload);
+        }
       })
       .addCase(registerUser.fulfilled, (state, { payload }) => {
         state.isLoading = false;
