@@ -6,6 +6,8 @@ import com.example.backend.model.Role;
 import com.example.backend.model.User;
 import com.example.backend.repository.RoleRepository;
 import com.example.backend.repository.UserRepository;
+import com.example.backend.repository.HouseholdFootprintRepository;
+import com.example.backend.model.HouseholdFootprint;
 import com.example.backend.security.jwt.JwtUtils;
 import com.example.backend.security.services.UserDetailsImpl;
 import com.example.backend.service.UserService;
@@ -22,6 +24,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,6 +52,9 @@ public class UserController {
 
     @Autowired
     JwtUtils jwtUtils;
+
+    @Autowired
+    HouseholdFootprintRepository householdFootprintRepository;
 
     private UserService userService;
 
@@ -106,7 +113,14 @@ public class UserController {
         roles.add(userRole);
 
         user.setRoles(roles);
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        // Initialize household footprint with value 0
+        HouseholdFootprint householdFootprint = new HouseholdFootprint();
+        householdFootprint.setUser(savedUser);
+        householdFootprint.setFootprint(0.0f);
+        householdFootprint.setDate(Date.valueOf(LocalDate.now()));
+        householdFootprintRepository.save(householdFootprint);
 
         return ResponseEntity.ok(1);
     }

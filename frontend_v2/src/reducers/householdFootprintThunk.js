@@ -1,10 +1,12 @@
 import customFetch from "../utils/axios";
 
-export const getHouseholdThunk = async (url, userId) => {
+export const getHouseholdThunk = async (url, thunkAPI) => {
   try {
-    const resp = await customFetch.get(url, userId);
+    const resp = await customFetch.get(url);
     return resp.data;
-  } catch (error) {}
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to fetch household footprint");
+  }
 };
 
 export const addHouseholdThunk = async (url, footprint) => {

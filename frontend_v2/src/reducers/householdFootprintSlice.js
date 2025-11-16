@@ -4,13 +4,17 @@ import { getHouseholdThunk } from "./householdFootprintThunk";
 
 const initialState = {
   isLoading: false,
-  householdFootprint: {},
+  householdFootprint: {
+    id: null,
+    date: null,
+    footprint: 0,
+  },
 };
 
 export const getHouseholdFootprint = createAsyncThunk(
   "user/getHouseholdFootprint",
-  async (userId, thunkAPI) => {
-    return getHouseholdThunk(`/household/get`, userId);
+  async (_, thunkAPI) => {
+    return getHouseholdThunk(`/household/get`, thunkAPI);
   }
 );
 

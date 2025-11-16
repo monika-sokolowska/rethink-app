@@ -42,14 +42,7 @@ const ActivityNavbar = () => {
           className={({ isActive }) =>
             `${classes.link} ${isActive ? classes.activeLink : ""}`
           }>
-          My carbon footprint
-        </NavLink>
-        <NavLink
-          to="/home/activity/household"
-          className={({ isActive }) =>
-            `${classes.link} ${isActive ? classes.activeLink : ""}`
-          }>
-          Household carbon footprint
+          Carbon Footprint
         </NavLink>
       </nav>
     </div>
