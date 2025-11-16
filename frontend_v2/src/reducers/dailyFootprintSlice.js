@@ -51,6 +51,7 @@ export const addTransportFootprint = createAsyncThunk(
       footprint
     );
     thunkAPI.dispatch(getTransportFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );
@@ -60,6 +61,7 @@ export const addFoodFootprint = createAsyncThunk(
   async (footprint, thunkAPI) => {
     const result = await addFootprintThunk(`/footprint/add/food`, footprint);
     thunkAPI.dispatch(getFoodFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );
@@ -67,8 +69,9 @@ export const addFoodFootprint = createAsyncThunk(
 export const addOtherFootprint = createAsyncThunk(
   "user/addOtherFootprint",
   async (footprint, thunkAPI) => {
-    const result = addFootprintThunk(`/footprint/add/other`, footprint);
+    const result = await addFootprintThunk(`/footprint/add/other`, footprint);
     thunkAPI.dispatch(getOtherFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );
@@ -76,8 +79,12 @@ export const addOtherFootprint = createAsyncThunk(
 export const addCompensatedFootprint = createAsyncThunk(
   "user/addCompensatedFootprint",
   async (footprint, thunkAPI) => {
-    const result = addFootprintThunk(`/footprint/add/compensated`, footprint);
+    const result = await addFootprintThunk(
+      `/footprint/add/compensated`,
+      footprint
+    );
     thunkAPI.dispatch(getCompensatedFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );
