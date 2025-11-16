@@ -133,7 +133,10 @@ const FootprintPage = () => {
           isOpen={showTransportModal}
           handleClose={handleTransportModalClose}
         />
-        <AddFoodModal isOpen={showFoodModal} handleClose={handleFoodModalClose} />
+        <AddFoodModal
+          isOpen={showFoodModal}
+          handleClose={handleFoodModalClose}
+        />
         <AddOtherModal
           isOpen={showOtherModal}
           handleClose={handleOtherModalClose}
@@ -179,4 +182,3 @@ const FootprintPage = () => {
 };
 
 export default FootprintPage;
-
