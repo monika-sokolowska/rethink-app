@@ -25,7 +25,7 @@ const useStyles = createUseStyles({
   },
 });
 
-const ActivitiesList = ({ data }) => {
+const ActivitiesList = ({ data, activityType }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -46,7 +46,7 @@ const ActivitiesList = ({ data }) => {
   };
 
   const displayActivitiesList = (item) => {
-    if (item.kilometers) {
+    if (activityType === "transport") {
       return (
         <ActivitiesListItem
           key={item.id}
@@ -57,7 +57,7 @@ const ActivitiesList = ({ data }) => {
         />
       );
     }
-    if (item.meal) {
+    if (activityType === "food") {
       return (
         <ActivitiesListItem
           key={item.id}
@@ -67,17 +67,27 @@ const ActivitiesList = ({ data }) => {
           handleDelete={() => handleFoodDelete(item.id)}
         />
       );
-    } else {
+    }
+    if (activityType === "compensated") {
       return (
         <ActivitiesListItem
           key={item.id}
           name={item.name}
           footprint={item.footprint}
           info={""}
-          handleDelete={() => handleOtherDelete(item.id)}
+          handleDelete={() => handleCompensatedDelete(item.id)}
         />
       );
     }
+    return (
+      <ActivitiesListItem
+        key={item.id}
+        name={item.name}
+        footprint={item.footprint}
+        info={""}
+        handleDelete={() => handleOtherDelete(item.id)}
+      />
+    );
   };
 
   return (

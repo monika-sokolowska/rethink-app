@@ -47,7 +47,7 @@ const useStyles = createUseStyles({
   },
 });
 
-const ActivitySectionPart = ({ label, data, onAddButton }) => {
+const ActivitySectionPart = ({ label, data, onAddButton, activityType }) => {
   const classes = useStyles();
   return (
     <div className={classes.activitySectionPart}>
@@ -57,7 +57,7 @@ const ActivitySectionPart = ({ label, data, onAddButton }) => {
           Add
         </button>
       </div>
-      <ActivitiesList data={data} />
+      <ActivitiesList data={data} activityType={activityType} />
     </div>
   );
 };

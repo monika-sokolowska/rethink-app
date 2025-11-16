@@ -148,21 +148,25 @@ const FootprintPage = () => {
           label="Transport"
           data={transport}
           onAddButton={openTransportAddModal}
+          activityType="transport"
         />
         <ActivitySectionPart
           label="Food"
           data={food}
           onAddButton={openFoodAddModal}
+          activityType="food"
         />
         <ActivitySectionPart
           label="Other"
           data={other}
           onAddButton={openOtherAddModal}
+          activityType="other"
         />
         <ActivitySectionPart
           label="Compensated"
           data={compensated}
           onAddButton={openCompensatedAddModal}
+          activityType="compensated"
         />
       </section>
 
