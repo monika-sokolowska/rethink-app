@@ -5,6 +5,7 @@ import {
   addFootprintThunk,
   removeFootprintThunk,
 } from "./dailyFootprintThunk";
+import { getStats } from "./statsSlice";
 
 const initialState = {
   isLoading: false,
@@ -90,6 +91,7 @@ export const deleteTransportFootprint = createAsyncThunk(
       id
     );
     thunkAPI.dispatch(getTransportFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );
@@ -100,6 +102,7 @@ export const deleteFoodFootprint = createAsyncThunk(
     const id = typeof payload === "object" ? payload.id : payload;
     const result = await removeFootprintThunk(`/footprint/remove/food`, id);
     thunkAPI.dispatch(getFoodFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );
@@ -110,6 +113,7 @@ export const deleteOtherFootprint = createAsyncThunk(
     const id = typeof payload === "object" ? payload.id : payload;
     const result = await removeFootprintThunk(`/footprint/remove/other`, id);
     thunkAPI.dispatch(getOtherFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );
@@ -123,6 +127,7 @@ export const deleteCompensatedFootprint = createAsyncThunk(
       id
     );
     thunkAPI.dispatch(getCompensatedFootprint());
+    thunkAPI.dispatch(getStats());
     return result;
   }
 );

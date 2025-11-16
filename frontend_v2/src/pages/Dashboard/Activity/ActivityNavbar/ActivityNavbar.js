@@ -35,7 +35,7 @@ const ActivityNavbar = () => {
 
   useEffect(() => {
     if (user?.id) {
-      dispatch(getStats(user.id));
+      dispatch(getStats());
     }
   }, [dispatch, user?.id]);
 

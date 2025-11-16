@@ -2,6 +2,7 @@ import React from "react";
 import ActivitiesListItem from "./ActivitiesListItem/ActivitiesListItem";
 import { createUseStyles } from "react-jss";
 import {
+  deleteCompensatedFootprint,
   deleteFoodFootprint,
   deleteOtherFootprint,
   deleteTransportFootprint,
@@ -38,6 +39,10 @@ const ActivitiesList = ({ data }) => {
 
   const handleOtherDelete = (id) => {
     dispatch(deleteOtherFootprint(id));
+  };
+
+  const handleCompensatedDelete = (id) => {
+    dispatch(deleteCompensatedFootprint(id));
   };
 
   const displayActivitiesList = (item) => {

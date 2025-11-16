@@ -32,8 +32,10 @@ const Stats = () => {
   const { stats } = useSelector((store) => store.stats);
 
   useEffect(() => {
-    dispatch(getStats(user.id));
-  }, []);
+    if (user?.id) {
+      dispatch(getStats());
+    }
+  }, [dispatch, user?.id]);
 
   return (
     <section className={classes.stats}>
