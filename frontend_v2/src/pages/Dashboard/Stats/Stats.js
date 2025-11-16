@@ -180,10 +180,13 @@ const Stats = () => {
                     tick={{ fill: "rgb(17, 20, 48)" }}
                   />
                   <Tooltip
-                    formatter={(value) => [
-                      `${value.toFixed(2)} kg CO2`,
-                      "Value",
-                    ]}
+                    formatter={(value) => {
+                      const numValue =
+                        typeof value === "number"
+                          ? value
+                          : parseFloat(value) || 0;
+                      return [`${numValue.toFixed(2)} kg CO2`, "Value"];
+                    }}
                     contentStyle={{
                       backgroundColor: "white",
                       border: "1px solid #ccc",
@@ -236,10 +239,13 @@ const Stats = () => {
                     tick={{ fill: "rgb(17, 20, 48)" }}
                   />
                   <Tooltip
-                    formatter={(value) => [
-                      `${value.toFixed(2)} kg CO2`,
-                      "Value",
-                    ]}
+                    formatter={(value) => {
+                      const numValue =
+                        typeof value === "number"
+                          ? value
+                          : parseFloat(value) || 0;
+                      return [`${numValue.toFixed(2)} kg CO2`, "Value"];
+                    }}
                     contentStyle={{
                       backgroundColor: "white",
                       border: "1px solid #ccc",

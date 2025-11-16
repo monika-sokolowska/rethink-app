@@ -100,7 +100,19 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
         state.isLoading = false;
-        toast.error(payload);
+        if (payload) {
+          toast.error(payload);
+        } else {
+          toast.error("Login failed. Please check your credentials.");
+        }
+      })
+      .addCase(loginUserFlow.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        if (payload) {
+          toast.error(payload);
+        } else {
+          toast.error("Login failed. Please check your credentials.");
+        }
       })
       .addCase(clearStore.rejected, () => {
         toast.error("There was an error..");

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import NewsBlockAdmin from "./NewsBlockAdmin/NewsBlockAdmin";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getAllArticles } from "../../../reducers/allArticlesSlice";
+import { getAllArticles, deleteArticle } from "../../../reducers/allArticlesSlice";
 import ArticleModalAdmin from "./ArticleModalAdmin/ArticleModalAdmin";
 import AddArticleModalAdmin from "./AddArticleModalAdmin/AddArticleModalAdmin";
 import { createUseStyles } from "react-jss";
@@ -116,6 +116,10 @@ const NewsAdmin = () => {
     setShowAddModal(false);
   };
 
+  const handleDeleteArticle = (id) => {
+    dispatch(deleteArticle(id));
+  };
+
   return (
     <div className={classes.newsContainer}>
       <ArticleModalAdmin
@@ -141,8 +145,8 @@ const NewsAdmin = () => {
                 title={title}
                 image={image}
                 openModal={() => openModal(id_article)}
+                handleDelete={() => handleDeleteArticle(id_article)}
               />
-              ;
             </div>
           );
         })}

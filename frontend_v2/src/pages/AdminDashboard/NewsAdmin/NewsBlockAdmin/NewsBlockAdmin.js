@@ -1,3 +1,4 @@
+import { AiOutlineDelete } from "react-icons/ai";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -10,6 +11,7 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     width: "100%",
     height: "100%",
+    position: "relative",
     "& h1": {
       width: "100%",
       color: "rgb(17, 20, 48)",
@@ -49,12 +51,30 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     justifyContent: "flex-start",
   },
+  deleteIcon: {
+    position: "absolute",
+    bottom: "10px",
+    right: "10px",
+    color: "#000000",
+    cursor: "pointer",
+    transition: "all 0.2s ease-in-out",
+    zIndex: 10,
+    "&:hover": {
+      color: "#333333",
+      transform: "scale(1.1)",
+    },
+  },
 });
 
-const NewsBlockAdmin = ({ title, image, openModal }) => {
+const NewsBlockAdmin = ({ title, image, openModal, handleDelete }) => {
   const classes = useStyles();
   return (
     <div className={classes.newsBlock}>
+      <AiOutlineDelete
+        size={25}
+        className={classes.deleteIcon}
+        onClick={handleDelete}
+      />
       <div className={classes.imageContainer}>
         <img src={image} alt={title} />
       </div>

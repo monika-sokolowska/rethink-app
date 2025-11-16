@@ -16,3 +16,18 @@ export const addArticleThunk = async (url, article) => {
     return resp.data;
   } catch (error) {}
 };
+
+export const deleteArticleThunk = async (url, id, thunkAPI) => {
+  try {
+    const resp = await customFetch.delete(url, {
+      data: { id: id },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return resp.data;
+  } catch (error) {
+    console.error("Delete article request error:", error);
+    return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to delete article");
+  }
+};

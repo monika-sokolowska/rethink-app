@@ -39,7 +39,10 @@ const ActivityNavbar = () => {
     }
   }, [dispatch, user?.id]);
 
-  const dailyFootprint = stats?.userDailyFootprint ?? 0;
+  const dailyFootprintValue = stats?.userDailyFootprint;
+  const dailyFootprint = typeof dailyFootprintValue === 'number' 
+    ? dailyFootprintValue 
+    : parseFloat(dailyFootprintValue) || 0;
 
   return (
     <div className={classes.activityNav}>
