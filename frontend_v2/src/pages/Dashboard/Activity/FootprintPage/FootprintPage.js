@@ -86,8 +86,9 @@ const useStyles = createUseStyles({
       marginBottom: "4rem",
     },
     householdFootprintButton: {
-      padding: "12px 24px",
-      fontSize: "13px",
+      padding: "18px 36px",
+      fontSize: "18px",
+      minHeight: "56px",
     },
   },
   "@media (max-width: 480px)": {
@@ -97,8 +98,9 @@ const useStyles = createUseStyles({
       marginBottom: "3rem",
     },
     householdFootprintButton: {
-      padding: "10px 20px",
-      fontSize: "12px",
+      padding: "16px 32px",
+      fontSize: "16px",
+      minHeight: "54px",
     },
   },
 });

@@ -54,11 +54,11 @@ const useStyles = createUseStyles({
       marginTop: "1.5rem",
     },
     title: {
-      fontSize: "16px",
+      fontSize: "22px",
       marginLeft: "1.5rem",
     },
     footprintValue: {
-      fontSize: "16px",
+      fontSize: "22px",
     },
     editIcon: {
       marginRight: "1.5rem",
@@ -73,12 +73,12 @@ const useStyles = createUseStyles({
       alignItems: "flex-start",
     },
     title: {
-      fontSize: "15px",
+      fontSize: "20px",
       marginLeft: "1rem",
       width: "100%",
     },
     footprintValue: {
-      fontSize: "15px",
+      fontSize: "20px",
     },
     editIcon: {
       marginRight: "1rem",

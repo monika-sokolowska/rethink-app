@@ -61,11 +61,12 @@ const useStyles = createUseStyles({
       flexDirection: "row",
     },
     otherLabel: {
-      fontSize: "18px",
+      fontSize: "24px",
     },
     button: {
-      padding: "12px 24px",
-      fontSize: "13px",
+      padding: "18px 36px",
+      fontSize: "18px",
+      minHeight: "56px",
     },
   },
   "@media (max-width: 480px)": {
@@ -75,12 +76,13 @@ const useStyles = createUseStyles({
       alignItems: "flex-start",
     },
     otherLabel: {
-      fontSize: "16px",
+      fontSize: "22px",
       margin: "0.5rem 1rem",
     },
     button: {
-      padding: "10px 20px",
-      fontSize: "12px",
+      padding: "16px 32px",
+      fontSize: "16px",
+      minHeight: "54px",
       margin: "0.5rem 1rem",
     },
   },

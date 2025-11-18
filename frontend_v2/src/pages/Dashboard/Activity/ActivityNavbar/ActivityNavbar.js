@@ -38,7 +38,7 @@ const useStyles = createUseStyles({
       boxShadow: "none",
     },
     footprintDisplay: {
-      fontSize: "1rem",
+      fontSize: "1.3rem",
     },
   },
   "@media (max-width: 480px)": {
@@ -50,7 +50,7 @@ const useStyles = createUseStyles({
       boxShadow: "none",
     },
     footprintDisplay: {
-      fontSize: "0.9rem",
+      fontSize: "1.2rem",
     },
   },
 });

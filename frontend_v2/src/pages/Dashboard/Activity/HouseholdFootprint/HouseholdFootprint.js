@@ -38,6 +38,20 @@ const useStyles = createUseStyles({
       transform: "translateY(-2px)",
     },
   },
+  "@media (max-width: 768px)": {
+    householdFootprintButton: {
+      padding: "18px 36px",
+      fontSize: "18px",
+      minHeight: "56px",
+    },
+  },
+  "@media (max-width: 480px)": {
+    householdFootprintButton: {
+      padding: "16px 32px",
+      fontSize: "16px",
+      minHeight: "54px",
+    },
+  },
 });
 
 const HouseholdFootprint = () => {

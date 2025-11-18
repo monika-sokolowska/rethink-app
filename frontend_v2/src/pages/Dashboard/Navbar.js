@@ -34,8 +34,10 @@ const useStyles = createUseStyles({
       paddingRight: "1.5rem",
     },
     logOut: {
-      fontSize: "0.9rem",
+      fontSize: "1.1rem",
       color: "#2d8659",
+      padding: "8px 16px",
+      fontWeight: 500,
     },
   },
   "@media (max-width: 480px)": {
@@ -48,8 +50,10 @@ const useStyles = createUseStyles({
       paddingRight: "1rem",
     },
     logOut: {
-      fontSize: "0.8rem",
+      fontSize: "1rem",
       color: "#2d8659",
+      padding: "10px 18px",
+      fontWeight: 500,
     },
   },
 });

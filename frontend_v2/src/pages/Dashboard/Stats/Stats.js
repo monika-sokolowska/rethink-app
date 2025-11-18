@@ -91,6 +91,7 @@ const useStyles = createUseStyles({
   "@media (max-width: 768px)": {
     stats: {
       padding: "1rem 0",
+      paddingBottom: "5rem",
     },
     statsContainer: {
       padding: "1rem",
@@ -99,6 +100,7 @@ const useStyles = createUseStyles({
     chartWrapper: {
       minWidth: "100%",
       maxWidth: "100%",
+      marginBottom: "2rem",
     },
     chartContainer: {
       minHeight: "350px",
@@ -116,6 +118,7 @@ const useStyles = createUseStyles({
   "@media (max-width: 480px)": {
     stats: {
       padding: "0.5rem 0",
+      paddingBottom: "5rem",
     },
     statsContainer: {
       padding: "0.5rem",
@@ -124,6 +127,7 @@ const useStyles = createUseStyles({
     chartWrapper: {
       minWidth: "100%",
       maxWidth: "100%",
+      marginBottom: "2rem",
     },
     chartContainer: {
       minHeight: "280px",

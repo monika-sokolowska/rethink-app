@@ -41,7 +41,7 @@ const useStyles = createUseStyles({
       margin: "0.75rem",
     },
     goalTitle: {
-      fontSize: "14px",
+      fontSize: "18px",
     },
   },
   "@media (max-width: 480px)": {
@@ -52,7 +52,7 @@ const useStyles = createUseStyles({
       flexDirection: "row",
     },
     goalTitle: {
-      fontSize: "13px",
+      fontSize: "17px",
       margin: "0.5rem",
     },
     editGoalButtons: {

@@ -43,34 +43,42 @@ const useStyles = createUseStyles({
   },
   "@media (max-width: 768px)": {
     mainGoal: {
-      flexDirection: "row",
+      flexDirection: "column",
       padding: "0.75rem",
       boxShadow: "none",
+      alignItems: "center",
+      justifyContent: "center",
     },
     goalDisplay: {
-      fontSize: "1rem",
-      marginRight: "0.75rem",
+      fontSize: "1.3rem",
+      marginRight: "0",
+      marginBottom: "1rem",
+      textAlign: "center",
     },
     button: {
-      padding: "6px 16px",
-      fontSize: "13px",
+      padding: "16px 28px",
+      fontSize: "16px",
+      minHeight: "50px",
     },
   },
   "@media (max-width: 480px)": {
     mainGoal: {
       flexDirection: "column",
       padding: "0.5rem",
-      alignItems: "flex-start",
+      alignItems: "center",
+      justifyContent: "center",
       boxShadow: "none",
     },
     goalDisplay: {
-      fontSize: "0.9rem",
+      fontSize: "1.2rem",
       marginRight: "0",
-      marginBottom: "0.5rem",
+      marginBottom: "1rem",
+      textAlign: "center",
     },
     button: {
-      padding: "6px 14px",
-      fontSize: "12px",
+      padding: "14px 24px",
+      fontSize: "15px",
+      minHeight: "48px",
     },
   },
 });

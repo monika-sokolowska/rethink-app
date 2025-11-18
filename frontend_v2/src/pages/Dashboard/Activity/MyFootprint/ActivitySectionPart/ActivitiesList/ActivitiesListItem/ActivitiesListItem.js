@@ -71,18 +71,18 @@ const useStyles = createUseStyles({
       padding: "0.5rem",
     },
     itemTitle: {
-      fontSize: "14px",
+      fontSize: "18px",
       margin: "0.5rem",
       flex: "1 1 auto",
       minWidth: 0,
     },
     itemInfo: {
-      fontSize: "13px",
+      fontSize: "17px",
       margin: "0.5rem",
       maxWidth: "100px",
     },
     itemValue: {
-      fontSize: "14px",
+      fontSize: "18px",
       margin: "0.5rem",
       flex: "0 0 auto",
     },
@@ -102,18 +102,18 @@ const useStyles = createUseStyles({
       padding: "0.75rem",
     },
     itemTitle: {
-      fontSize: "13px",
+      fontSize: "17px",
       margin: "0.25rem 0",
       width: "100%",
       maxWidth: "100%",
     },
     itemInfo: {
-      fontSize: "12px",
+      fontSize: "16px",
       margin: "0.25rem 0",
       maxWidth: "100%",
     },
     itemValue: {
-      fontSize: "13px",
+      fontSize: "17px",
       margin: "0.25rem 0",
     },
     activitiesListItemRightSide: {
