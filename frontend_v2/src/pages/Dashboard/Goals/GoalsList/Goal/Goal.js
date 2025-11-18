@@ -6,18 +6,19 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   goal: {
-    background: "linear-gradient(135deg, #a8e4b8 0%, #8dd19f 50%, #6bb884 100%)",
+    background: "#a8e4b8",
     boxShadow: "3px 5px 15px rgba(45, 134, 89, 0.2)",
     borderRadius: "8px",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
-    width: "90%",
+    width: "100%",
     height: "50px",
-    margin: "1rem",
+    margin: "0.5rem 0",
     textOverflow: "ellipsis",
     border: "1px solid rgba(45, 134, 89, 0.2)",
+    boxSizing: "border-box",
   },
   goalTitle: {
     color: "#2d8659",
@@ -36,9 +37,9 @@ const useStyles = createUseStyles({
   },
   "@media (max-width: 768px)": {
     goal: {
-      width: "95%",
-      height: "45px",
-      margin: "0.75rem",
+      width: "100%",
+      height: "60px",
+      margin: "0.5rem 0",
     },
     goalTitle: {
       fontSize: "18px",
@@ -46,9 +47,9 @@ const useStyles = createUseStyles({
   },
   "@media (max-width: 480px)": {
     goal: {
-      width: "98%",
-      height: "40px",
-      margin: "0.5rem",
+      width: "100%",
+      height: "60px",
+      margin: "0.5rem 0",
       flexDirection: "row",
     },
     goalTitle: {
@@ -82,7 +83,12 @@ const Goal = ({ name, deleteItem }) => {
       <div className={classes.editGoalButtons}>
         <AiOutlineEdit
           size={20}
-          style={{ color: "#2d8659", marginRight: "1rem", height: "60%", cursor: "pointer" }}
+          style={{
+            color: "#2d8659",
+            marginRight: "1rem",
+            height: "60%",
+            cursor: "pointer",
+          }}
         />
         <AiOutlineDelete
           size={20}

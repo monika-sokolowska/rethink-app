@@ -10,17 +10,10 @@ const useStyles = createUseStyles({
     alignItems: "flex-start",
     justifyContent: "space-between",
     flexDirection: "column",
-    width: "90%",
-    margin: "1rem",
-    overflowY: "auto",
-    maxHeight: "50%",
-    scrollbarWidth: "none",
-    msOverflowStyle: "none",
-    "&::-webkit-scrollbar": {
-      display: "none",
-      width: "0",
-      height: "0",
-    },
+    width: "100%",
+    margin: 0,
+    padding: 0,
+    boxSizing: "border-box",
   },
   goalsArticle: {
     width: "100%",
@@ -28,13 +21,14 @@ const useStyles = createUseStyles({
   },
   "@media (max-width: 768px)": {
     goalsList: {
-      width: "95%",
+      width: "100%",
+      margin: 0,
     },
   },
   "@media (max-width: 480px)": {
     goalsList: {
-      width: "98%",
-      margin: "0.5rem",
+      width: "100%",
+      margin: 0,
     },
   },
 });
