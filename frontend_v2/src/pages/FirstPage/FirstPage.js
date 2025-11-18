@@ -138,6 +138,11 @@ const useStyles = createUseStyles({
     },
   },
   "@media (max-width: 768px)": {
+    firstPageContainer: {
+      "& header img": {
+        filter: "brightness(0) invert(1)",
+      },
+    },
     emptyPage: {
       flexDirection: "column",
       padding: "2rem 1rem",
@@ -146,7 +151,7 @@ const useStyles = createUseStyles({
     empty: {
       width: "100%",
       maxWidth: "100%",
-      display: "flex",
+      display: "none",
       justifyContent: "center",
       margin: "2rem 0",
       padding: "0",
@@ -167,11 +172,11 @@ const useStyles = createUseStyles({
       order: 1,
       boxSizing: "border-box",
       "& h1": {
-        fontSize: "24px",
+        fontSize: "32px",
         padding: "0 1rem",
       },
       "& h4": {
-        fontSize: "16px",
+        fontSize: "20px",
         margin: "1.5rem",
         padding: "0 1rem",
       },
@@ -189,11 +194,18 @@ const useStyles = createUseStyles({
     },
   },
   "@media (max-width: 480px)": {
+    firstPageContainer: {
+      "& header img": {
+        filter: "brightness(0) invert(1)",
+      },
+    },
     emptyPage: {
       padding: "1rem",
+      paddingTop: 0,
       boxSizing: "border-box",
     },
     empty: {
+      display: "none",
       margin: "1rem 0",
       padding: "0",
       boxSizing: "border-box",
@@ -209,23 +221,29 @@ const useStyles = createUseStyles({
       padding: "0 1rem",
       boxSizing: "border-box",
       "& h1": {
-        fontSize: "20px",
+        fontSize: "28px",
         padding: "0 0.5rem",
+        marginTop: 0,
       },
       "& h4": {
-        fontSize: "14px",
+        fontSize: "18px",
         margin: "1rem",
         padding: "0 0.5rem",
       },
     },
     buttons: {
-      maxWidth: "250px",
-      gap: "0.75rem",
+      maxWidth: "300px",
+      gap: "2rem",
       "& a": {
-        padding: "12px 24px",
-        fontSize: "13px",
+        padding: "12px 20px",
+        fontSize: "16px",
         width: "auto",
-        minWidth: "120px",
+        minWidth: "200px",
+        minHeight: "50px",
+        textAlign: "center",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       },
     },
   },

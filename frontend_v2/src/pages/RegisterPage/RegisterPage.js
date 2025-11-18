@@ -124,6 +124,11 @@ const useStyles = createUseStyles({
     textDecoration: "none",
   },
   "@media (max-width: 768px)": {
+    registerPageContainer: {
+      "& header img": {
+        filter: "brightness(0) invert(1)",
+      },
+    },
     registerPage: {
       flexDirection: "column",
       padding: "2rem 1rem",
@@ -154,11 +159,29 @@ const useStyles = createUseStyles({
     input: {
       width: "100%",
       "& input": {
-        fontSize: "16px",
+        fontSize: "20px",
+        padding: "18px 24px",
+        minHeight: "50px",
       },
+      "& label": {
+        fontSize: "18px",
+      },
+    },
+    signUpBtn: {
+      padding: "18px 36px",
+      fontSize: "18px",
+      minHeight: "56px",
+    },
+    loginLink: {
+      fontSize: "16px",
     },
   },
   "@media (max-width: 480px)": {
+    registerPageContainer: {
+      "& header img": {
+        filter: "brightness(0) invert(1)",
+      },
+    },
     registerPage: {
       padding: "1rem",
     },
@@ -184,19 +207,21 @@ const useStyles = createUseStyles({
     input: {
       margin: "0.5rem",
       "& input": {
-        fontSize: "14px",
-        padding: "10px 15px",
+        fontSize: "18px",
+        padding: "16px 20px",
+        minHeight: "50px",
       },
       "& label": {
-        fontSize: "13px",
+        fontSize: "16px",
       },
     },
     signUpBtn: {
-      padding: "12px 24px",
-      fontSize: "13px",
+      padding: "16px 32px",
+      fontSize: "16px",
+      minHeight: "54px",
     },
     loginLink: {
-      fontSize: "13px",
+      fontSize: "15px",
     },
   },
 });
