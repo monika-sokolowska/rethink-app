@@ -1,9 +1,13 @@
 import ActivitySectionPart from "./ActivitySectionPart/ActivitySectionPart";
 import { createUseStyles } from "react-jss";
 import AddTransportModal from "./AddModal/AddTransportModal/AddTransportModal";
+import AddTransportBottomSheet from "./AddModal/AddTransportModal/AddTransportBottomSheet";
 import AddFoodModal from "./AddModal/AddFoodModal/AddFoodModal";
+import AddFoodBottomSheet from "./AddModal/AddFoodModal/AddFoodBottomSheet";
 import AddOtherModal from "./AddModal/AddOtherModal/AddOtherModal";
+import AddOtherBottomSheet from "./AddModal/AddOtherModal/AddOtherBottomSheet";
 import AddCompensatedModal from "./AddModal/AddCompensatedModal/AddCompensatedModal";
+import AddCompensatedBottomSheet from "./AddModal/AddCompensatedModal/AddCompensatedBottomSheet";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -38,6 +42,7 @@ const MyFootprint = () => {
   const [showFoodModal, setShowFoodModal] = useState(false);
   const [showOtherModal, setShowOtherModal] = useState(false);
   const [showCompensatedModal, setShowCompensatedModal] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     dispatch(getTransportFootprint(user.id));
@@ -45,6 +50,15 @@ const MyFootprint = () => {
     dispatch(getOtherFootprint(user.id));
     dispatch(getCompensatedFootprint(user.id));
   }, [dispatch, user.id]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const openTransportAddModal = () => {
     setShowTransportModal(true);
@@ -80,19 +94,45 @@ const MyFootprint = () => {
 
   return (
     <section className={classes.myFootprint}>
-      <AddTransportModal
-        isOpen={showTransportModal}
-        handleClose={handleTransportModalClose}
-      />
-      <AddFoodModal isOpen={showFoodModal} handleClose={handleFoodModalClose} />
-      <AddOtherModal
-        isOpen={showOtherModal}
-        handleClose={handleOtherModalClose}
-      />
-      <AddCompensatedModal
-        isOpen={showCompensatedModal}
-        handleClose={handleCompensatedAddModalClose}
-      />
+      {isMobile ? (
+        <>
+          <AddTransportBottomSheet
+            isOpen={showTransportModal}
+            handleClose={handleTransportModalClose}
+          />
+          <AddFoodBottomSheet
+            isOpen={showFoodModal}
+            handleClose={handleFoodModalClose}
+          />
+          <AddOtherBottomSheet
+            isOpen={showOtherModal}
+            handleClose={handleOtherModalClose}
+          />
+          <AddCompensatedBottomSheet
+            isOpen={showCompensatedModal}
+            handleClose={handleCompensatedAddModalClose}
+          />
+        </>
+      ) : (
+        <>
+          <AddTransportModal
+            isOpen={showTransportModal}
+            handleClose={handleTransportModalClose}
+          />
+          <AddFoodModal
+            isOpen={showFoodModal}
+            handleClose={handleFoodModalClose}
+          />
+          <AddOtherModal
+            isOpen={showOtherModal}
+            handleClose={handleOtherModalClose}
+          />
+          <AddCompensatedModal
+            isOpen={showCompensatedModal}
+            handleClose={handleCompensatedAddModalClose}
+          />
+        </>
+      )}
       <ActivitySectionPart
         label="Transport"
         data={transport}

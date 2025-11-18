@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 import { getGoals } from "../../../reducers/goalsSlice";
 import { getUser } from "../../../reducers/userSlice";
 import AddGoalsModal from "../Activity/MyFootprint/AddModal/AddGoalsModal/AddGoalsModal";
+import AddGoalBottomSheet from "./AddGoalBottomSheet/AddGoalBottomSheet";
 import ChangeMainGoalModal from "../Activity/MyFootprint/ChangeModal/ChangeMainGoalModal/ChangeMainGoalModal";
+import ChangeMainGoalBottomSheet from "../Activity/MyFootprint/ChangeModal/ChangeMainGoalModal/ChangeMainGoalBottomSheet";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -95,16 +97,25 @@ const Goals = () => {
   const [showAddGoalsModal, setShowAddGoalsModal] = useState(false);
   const [showChangeMainGoalsModal, setShowChangeMainGoalsModal] =
     useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const dispatch = useDispatch();
 
   const mainGoal = user.mainGoal;
-  const reload = () => window.location.reload();
 
   useEffect(() => {
     dispatch(getGoals(user.id));
     dispatch(getUser(user.id));
   }, [dispatch, user.id]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   if (goals.isLoading) {
     return <div className="other">Loading...</div>;
@@ -128,14 +139,28 @@ const Goals = () => {
 
   return (
     <section className={classes.goals}>
-      <AddGoalsModal
-        isOpen={showAddGoalsModal}
-        handleClose={handleAddGoalsModalClose}
-      />
-      <ChangeMainGoalModal
-        isOpen={showChangeMainGoalsModal}
-        handleClose={handleMainGoalChangeModalClose}
-      />
+      {isMobile ? (
+        <AddGoalBottomSheet
+          isOpen={showAddGoalsModal}
+          handleClose={handleAddGoalsModalClose}
+        />
+      ) : (
+        <AddGoalsModal
+          isOpen={showAddGoalsModal}
+          handleClose={handleAddGoalsModalClose}
+        />
+      )}
+      {isMobile ? (
+        <ChangeMainGoalBottomSheet
+          isOpen={showChangeMainGoalsModal}
+          handleClose={handleMainGoalChangeModalClose}
+        />
+      ) : (
+        <ChangeMainGoalModal
+          isOpen={showChangeMainGoalsModal}
+          handleClose={handleMainGoalChangeModalClose}
+        />
+      )}
       <MainGoal goal={mainGoal} handleClick={openMainGoalChangeModal} />
       <div className={classes.other}>
         <div className={classes.otherLabel}>Other goals</div>

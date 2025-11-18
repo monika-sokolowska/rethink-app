@@ -2,10 +2,15 @@ import ActivitySectionPart from "../MyFootprint/ActivitySectionPart/ActivitySect
 import MainFootprint from "../HouseholdFootprint/MainFootprint/MainFootprint";
 import { createUseStyles } from "react-jss";
 import AddTransportModal from "../MyFootprint/AddModal/AddTransportModal/AddTransportModal";
+import AddTransportBottomSheet from "../MyFootprint/AddModal/AddTransportModal/AddTransportBottomSheet";
 import AddFoodModal from "../MyFootprint/AddModal/AddFoodModal/AddFoodModal";
+import AddFoodBottomSheet from "../MyFootprint/AddModal/AddFoodModal/AddFoodBottomSheet";
 import AddOtherModal from "../MyFootprint/AddModal/AddOtherModal/AddOtherModal";
+import AddOtherBottomSheet from "../MyFootprint/AddModal/AddOtherModal/AddOtherBottomSheet";
 import AddCompensatedModal from "../MyFootprint/AddModal/AddCompensatedModal/AddCompensatedModal";
+import AddCompensatedBottomSheet from "../MyFootprint/AddModal/AddCompensatedModal/AddCompensatedBottomSheet";
 import ChangeHouseholdFootprintModal from "../HouseholdFootprint/ChangeModal/ChangeHouseholdFootprintModal";
+import ChangeHouseholdFootprintBottomSheet from "../HouseholdFootprint/ChangeModal/ChangeHouseholdFootprintBottomSheet";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -121,6 +126,7 @@ const FootprintPage = () => {
   const [showCompensatedModal, setShowCompensatedModal] = useState(false);
   const [showHouseholdFootprintModal, setShowHouseholdFootprintModal] =
     useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     if (user?.id) {
@@ -131,6 +137,15 @@ const FootprintPage = () => {
       dispatch(getHouseholdFootprint());
     }
   }, [dispatch, user?.id]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const openTransportAddModal = () => {
     setShowTransportModal(true);
@@ -175,22 +190,45 @@ const FootprintPage = () => {
   return (
     <div className={classes.footprintPage}>
       <section className={classes.myFootprint}>
-        <AddTransportModal
-          isOpen={showTransportModal}
-          handleClose={handleTransportModalClose}
-        />
-        <AddFoodModal
-          isOpen={showFoodModal}
-          handleClose={handleFoodModalClose}
-        />
-        <AddOtherModal
-          isOpen={showOtherModal}
-          handleClose={handleOtherModalClose}
-        />
-        <AddCompensatedModal
-          isOpen={showCompensatedModal}
-          handleClose={handleCompensatedAddModalClose}
-        />
+        {isMobile ? (
+          <>
+            <AddTransportBottomSheet
+              isOpen={showTransportModal}
+              handleClose={handleTransportModalClose}
+            />
+            <AddFoodBottomSheet
+              isOpen={showFoodModal}
+              handleClose={handleFoodModalClose}
+            />
+            <AddOtherBottomSheet
+              isOpen={showOtherModal}
+              handleClose={handleOtherModalClose}
+            />
+            <AddCompensatedBottomSheet
+              isOpen={showCompensatedModal}
+              handleClose={handleCompensatedAddModalClose}
+            />
+          </>
+        ) : (
+          <>
+            <AddTransportModal
+              isOpen={showTransportModal}
+              handleClose={handleTransportModalClose}
+            />
+            <AddFoodModal
+              isOpen={showFoodModal}
+              handleClose={handleFoodModalClose}
+            />
+            <AddOtherModal
+              isOpen={showOtherModal}
+              handleClose={handleOtherModalClose}
+            />
+            <AddCompensatedModal
+              isOpen={showCompensatedModal}
+              handleClose={handleCompensatedAddModalClose}
+            />
+          </>
+        )}
         <ActivitySectionPart
           label="Transport"
           data={transport}
@@ -218,11 +256,19 @@ const FootprintPage = () => {
       </section>
 
       <section className={classes.householdFootprint}>
-        <ChangeHouseholdFootprintModal
-          isOpen={showHouseholdFootprintModal}
-          handleClose={handleHouseholdFootprintModalClose}
-          currentFootprint={householdFootprint?.footprint ?? 0}
-        />
+        {isMobile ? (
+          <ChangeHouseholdFootprintBottomSheet
+            isOpen={showHouseholdFootprintModal}
+            handleClose={handleHouseholdFootprintModalClose}
+            currentFootprint={householdFootprint?.footprint ?? 0}
+          />
+        ) : (
+          <ChangeHouseholdFootprintModal
+            isOpen={showHouseholdFootprintModal}
+            handleClose={handleHouseholdFootprintModalClose}
+            currentFootprint={householdFootprint?.footprint ?? 0}
+          />
+        )}
         <MainFootprint
           footprint={householdFootprint?.footprint ?? 0}
           onEditClick={openHouseholdFootprintModal}
