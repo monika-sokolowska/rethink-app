@@ -111,6 +111,9 @@ const useStyles = createUseStyles({
     lineHeight: "1.6",
   },
   "@media (max-width: 768px)": {
+    goals: {
+      paddingBottom: "5rem",
+    },
     otherLabel: {
       fontSize: "24px",
       margin: "0.5rem",
@@ -153,6 +156,9 @@ const useStyles = createUseStyles({
     },
   },
   "@media (max-width: 480px)": {
+    goals: {
+      paddingBottom: "5rem",
+    },
     otherLabel: {
       fontSize: "22px",
       margin: "0.5rem 0",
