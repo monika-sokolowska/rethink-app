@@ -14,13 +14,25 @@ const useStyles = createUseStyles({
     background:
       "linear-gradient(135deg, #2d8659 0%, #4a9d6e 25%, #6bb884 50%, #8dd19f 75%, #a8e4b8 100%)",
     backgroundAttachment: "fixed",
+    overflowX: "hidden",
+    overflowY: "auto",
+    maxWidth: "100vw",
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
+    "&::-webkit-scrollbar": {
+      display: "none",
+      width: "0",
+      height: "0",
+    },
   },
   loginPage: {
     display: "flex",
     alignItems: "center",
     flexDirection: "row",
     width: "100%",
+    maxWidth: "100%",
     minHeight: "calc(100vh - 80px)",
+    overflowX: "hidden",
   },
   empty: {
     height: "auto",
@@ -109,6 +121,101 @@ const useStyles = createUseStyles({
     textAlign: "center",
     margin: "0.5rem",
     textDecoration: "none",
+  },
+  "@media (max-width: 768px)": {
+    loginPageContainer: {
+      "& header img": {
+        filter: "brightness(0) invert(1)",
+      },
+    },
+    loginPage: {
+      flexDirection: "column",
+      padding: "2rem 1rem",
+    },
+    empty: {
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
+      marginBottom: "2rem",
+    },
+    firstPage: {
+      width: "60%",
+      margin: "2rem",
+    },
+    info: {
+      width: "100%",
+      "& h1": {
+        fontSize: "24px",
+      },
+      "& h4": {
+        fontSize: "16px",
+        margin: "2rem",
+      },
+    },
+    input: {
+      width: "100%",
+      "& input": {
+        fontSize: "20px",
+        padding: "18px 24px",
+        minHeight: "50px",
+      },
+      "& label": {
+        fontSize: "18px",
+      },
+    },
+    logInBtn: {
+      padding: "18px 36px",
+      fontSize: "18px",
+      minHeight: "56px",
+    },
+    registerLink: {
+      fontSize: "16px",
+    },
+  },
+  "@media (max-width: 480px)": {
+    loginPageContainer: {
+      "& header img": {
+        filter: "brightness(0) invert(1)",
+      },
+    },
+    loginPage: {
+      padding: "1rem",
+    },
+    empty: {
+      marginBottom: "1rem",
+    },
+    firstPage: {
+      width: "80%",
+      margin: "1rem",
+    },
+    info: {
+      "& h1": {
+        fontSize: "20px",
+      },
+      "& h4": {
+        fontSize: "14px",
+        margin: "1rem",
+      },
+    },
+    input: {
+      margin: "0.5rem",
+      "& input": {
+        fontSize: "18px",
+        padding: "16px 20px",
+        minHeight: "50px",
+      },
+      "& label": {
+        fontSize: "16px",
+      },
+    },
+    logInBtn: {
+      padding: "16px 32px",
+      fontSize: "16px",
+      minHeight: "54px",
+    },
+    registerLink: {
+      fontSize: "15px",
+    },
   },
 });
 

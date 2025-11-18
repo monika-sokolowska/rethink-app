@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NewsBlockAdmin from "./NewsBlockAdmin/NewsBlockAdmin";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
 import { getAllArticles, deleteArticle } from "../../../reducers/allArticlesSlice";
 import ArticleModalAdmin from "./ArticleModalAdmin/ArticleModalAdmin";
+import ArticleBottomSheet from "./ArticleModalAdmin/ArticleBottomSheet";
 import AddArticleModalAdmin from "./AddArticleModalAdmin/AddArticleModalAdmin";
+import AddArticleBottomSheet from "./AddArticleModalAdmin/AddArticleBottomSheet";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -24,26 +25,46 @@ const useStyles = createUseStyles({
     rowGap: "50px",
     alignItems: "start",
     width: "100%",
+    maxWidth: "100%",
     height: "100%",
     justifyContent: "space-between",
-    overflow: "scroll",
+    overflow: "auto",
+    overflowX: "hidden",
     scrollBehavior: "smooth",
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
     "&::-webkit-scrollbar": {
-      width: "10px",
+      display: "none",
+      width: "0",
+      height: "0",
     },
-    "&::-webkit-scrollbar-track": {
-      background: "#f1f1f1",
+    "@media (max-width: 1200px)": {
+      gridTemplateColumns: "repeat(2, 1fr)",
+      columnGap: "30px",
     },
-    "&::-webkit-scrollbar-thumb": {
-      background: "#ffffff",
-      "&:hover": {
-        background: "#ffffff",
-      },
+    "@media (max-width: 768px)": {
+      gridTemplateColumns: "1fr",
+      gridTemplateRows: "300px",
+      padding: "1rem",
+      columnGap: "10px",
+      rowGap: "15px",
+    },
+    "@media (max-width: 480px)": {
+      columnGap: "8px",
+      rowGap: "12px",
     },
   },
   newsWrapper: {
-    width: "320px",
+    width: "100%",
+    maxWidth: "350px",
     height: "400px",
+    "@media (max-width: 768px)": {
+      maxWidth: "100%",
+      height: "300px",
+    },
+    "@media (max-width: 480px)": {
+      height: "250px",
+    },
   },
   newsHeader: {
     display: "flex",
@@ -92,15 +113,27 @@ const NewsAdmin = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [articleDescription, setArticleDescription] = useState("");
   const [articleTitle, setArticleTitle] = useState("");
+  const [articleImage, setArticleImage] = useState("");
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     dispatch(getAllArticles());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const openModal = (id_article) => {
     const article = articles.find((a) => a.id_article === id_article);
     setArticleDescription(article.text);
     setArticleTitle(article.title);
+    setArticleImage(article.image);
     setShowModal(true);
   };
 
@@ -122,16 +155,34 @@ const NewsAdmin = () => {
 
   return (
     <div className={classes.newsContainer}>
-      <ArticleModalAdmin
-        isOpen={showModal}
-        handleClose={handleModalClose}
-        title={articleTitle}
-        description={articleDescription}
-      />
-      <AddArticleModalAdmin
-        isOpen={showAddModal}
-        handleClose={handleAddModalClose}
-      />
+      {isMobile ? (
+        <ArticleBottomSheet
+          isOpen={showModal}
+          handleClose={handleModalClose}
+          title={articleTitle}
+          description={articleDescription}
+          image={articleImage}
+        />
+      ) : (
+        <ArticleModalAdmin
+          isOpen={showModal}
+          handleClose={handleModalClose}
+          title={articleTitle}
+          description={articleDescription}
+          image={articleImage}
+        />
+      )}
+      {isMobile ? (
+        <AddArticleBottomSheet
+          isOpen={showAddModal}
+          handleClose={handleAddModalClose}
+        />
+      ) : (
+        <AddArticleModalAdmin
+          isOpen={showAddModal}
+          handleClose={handleAddModalClose}
+        />
+      )}
       <div className={classes.newsHeader}>
         <div className={classes.newsLabel}>News</div>
         <button onClick={openAddModal}>Add</button>

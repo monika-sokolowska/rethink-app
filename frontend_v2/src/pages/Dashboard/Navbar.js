@@ -24,6 +24,38 @@ const useStyles = createUseStyles({
     color: "white",
     textDecoration: "none",
   },
+  "@media (max-width: 768px)": {
+    navbar: {
+      height: "8%",
+      background: "#ffffff",
+      boxShadow: "none",
+    },
+    links: {
+      paddingRight: "1.5rem",
+    },
+    logOut: {
+      fontSize: "1.1rem",
+      color: "#2d8659",
+      padding: "8px 16px",
+      fontWeight: 500,
+    },
+  },
+  "@media (max-width: 480px)": {
+    navbar: {
+      height: "10%",
+      background: "#ffffff",
+      boxShadow: "none",
+    },
+    links: {
+      paddingRight: "1rem",
+    },
+    logOut: {
+      fontSize: "1rem",
+      color: "#2d8659",
+      padding: "10px 18px",
+      fontWeight: 500,
+    },
+  },
 });
 
 const Navbar = () => {

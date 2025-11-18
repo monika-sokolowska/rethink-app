@@ -6,6 +6,11 @@ const useStyles = createUseStyles({
     display: "flex",
     alignItems: "flex-start",
     flexDirection: "column",
+    width: "100%",
+    maxWidth: "100vw",
+    overflowX: "hidden",
+    boxSizing: "border-box",
+    position: "relative",
   },
 });
 

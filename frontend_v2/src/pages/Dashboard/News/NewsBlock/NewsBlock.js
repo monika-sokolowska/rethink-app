@@ -2,67 +2,157 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   newsBlock: {
-    background: "rgb(214, 230, 219)",
-    borderRadius: "15px",
+    background: "#ffffff",
+    borderRadius: "16px",
     display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
     flexDirection: "column",
     width: "100%",
     height: "100%",
-    "& h1": {
-      width: "100%",
-      color: "#2d8659",
-      fontSize: "18px",
-      marginBottom: 0,
+    overflow: "hidden",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04)",
+    transition: "transform 0.2s ease-out, box-shadow 0.2s ease-out",
+    cursor: "pointer",
+    "&:hover": {
+      transform: "translateY(-2px)",
+      boxShadow: "0 4px 16px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)",
     },
-    "& h3": {
-      color: "#2d8659",
-      marginLeft: "1rem",
-      marginRight: "1rem",
-      fontSize: "13px",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-      marginTop: "0.5rem",
-      marginBottom: "1.5rem",
-      cursor: "pointer",
-    },
-    "& img": {
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-      borderRadius: "15px",
+    "&:active": {
+      transform: "translateY(0)",
     },
   },
   imageContainer: {
-    width: "90%",
-    height: "60%",
-    backgroundColor: "black",
-    marginTop: "5%",
-    borderRadius: "15px",
+    width: "100%",
+    height: "50%",
+    overflow: "hidden",
+    position: "relative",
+    backgroundColor: "#f2f2f7",
   },
-  textContainer: {
-    width: "90%",
-    height: "40%",
+  image: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    display: "block",
+  },
+  contentContainer: {
+    flex: 1,
     display: "flex",
-    textAlign: "center",
     flexDirection: "column",
-    justifyContent: "flex-start",
+    padding: "16px",
+    justifyContent: "space-between",
+  },
+  title: {
+    color: "#000000",
+    fontSize: "17px",
+    fontWeight: 600,
+    margin: 0,
+    marginBottom: "8px",
+    lineHeight: "1.3",
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  },
+  description: {
+    color: "#8e8e93",
+    fontSize: "15px",
+    fontWeight: 400,
+    lineHeight: "1.4",
+    margin: 0,
+    marginBottom: "12px",
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    display: "-webkit-box",
+    WebkitLineClamp: 3,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    flex: 1,
+  },
+  readMoreButton: {
+    color: "#2d8659",
+    fontSize: "15px",
+    fontWeight: 500,
+    margin: 0,
+    padding: "8px 0",
+    cursor: "pointer",
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    transition: "opacity 0.2s",
+    alignSelf: "flex-start",
+    "&:active": {
+      opacity: 0.6,
+    },
+  },
+  "@media (max-width: 768px)": {
+    newsBlock: {
+      borderRadius: "12px",
+    },
+    contentContainer: {
+      padding: "14px",
+    },
+    title: {
+      fontSize: "18px",
+      marginBottom: "10px",
+    },
+    description: {
+      fontSize: "16px",
+      marginBottom: "14px",
+      WebkitLineClamp: 2,
+    },
+    readMoreButton: {
+      fontSize: "16px",
+      padding: "10px 0",
+    },
+  },
+  "@media (max-width: 480px)": {
+    newsBlock: {
+      borderRadius: "12px",
+    },
+    contentContainer: {
+      padding: "12px",
+    },
+    title: {
+      fontSize: "17px",
+      marginBottom: "8px",
+    },
+    description: {
+      fontSize: "15px",
+      marginBottom: "12px",
+      WebkitLineClamp: 2,
+    },
+    readMoreButton: {
+      fontSize: "15px",
+      padding: "8px 0",
+    },
   },
 });
 
-const NewsBlock = ({ title, image, openModal }) => {
+const NewsBlock = ({ title, image, description, openModal }) => {
   const classes = useStyles();
+  
+  // Get first 150 characters of description
+  const descriptionFragment = description
+    ? description.length > 150
+      ? description.substring(0, 150).trim() + "..."
+      : description
+    : "";
+
   return (
-    <div className={classes.newsBlock}>
+    <div className={classes.newsBlock} onClick={openModal}>
       <div className={classes.imageContainer}>
-        <img src={image} alt={title} />
+        <img src={image} alt={title} className={classes.image} />
       </div>
-      <div className={classes.textContainer}>
-        <h1>{title}</h1>
-      </div>
-      <div className={classes.textContainer}>
-        <h3 onClick={openModal}>Read more</h3>
+      <div className={classes.contentContainer}>
+        <h2 className={classes.title}>{title}</h2>
+        {descriptionFragment && (
+          <p className={classes.description}>{descriptionFragment}</p>
+        )}
+        <p className={classes.readMoreButton} onClick={(e) => {
+          e.stopPropagation();
+          openModal();
+        }}>
+          Read more
+        </p>
       </div>
     </div>
   );

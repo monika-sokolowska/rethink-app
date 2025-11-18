@@ -59,6 +59,9 @@ const useStyles = createUseStyles({
       transform: "scale(1.1)",
     },
   },
+  articleImage: {
+    display: "none",
+  },
   articleDescription: {
     padding: "2rem",
     color: "#2d8659",
@@ -67,24 +70,75 @@ const useStyles = createUseStyles({
     flex: 1,
     lineHeight: "1.6",
     fontSize: "1rem",
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
     "&::-webkit-scrollbar": {
-      width: "8px",
+      display: "none",
+      width: "0",
+      height: "0",
     },
-    "&::-webkit-scrollbar-track": {
-      background: "#f1f1f1",
-      borderRadius: "4px",
+  },
+  "@media (max-width: 768px)": {
+    articleModal: {
+      width: "100%",
+      height: "100%",
+      left: 0,
+      top: 0,
+      borderRadius: 0,
     },
-    "&::-webkit-scrollbar-thumb": {
-      background: "#2d8659",
-      borderRadius: "4px",
-      "&:hover": {
-        background: "#1a5a3f",
-      },
+    modalHeader: {
+      padding: "1rem 1.5rem",
+      borderRadius: 0,
+    },
+    modalTitle: {
+      fontSize: "1.1rem",
+    },
+    articleImage: {
+      display: "block",
+      width: "100%",
+      maxHeight: "200px",
+      objectFit: "cover",
+      marginBottom: "1rem",
+      padding: "0 1.5rem",
+      boxSizing: "border-box",
+    },
+    articleDescription: {
+      padding: "1.5rem",
+      fontSize: "0.9rem",
+    },
+  },
+  "@media (max-width: 480px)": {
+    articleModal: {
+      width: "100%",
+      height: "100%",
+      left: 0,
+      top: 0,
+      borderRadius: 0,
+    },
+    modalHeader: {
+      padding: "0.75rem 1rem",
+      borderRadius: 0,
+    },
+    modalTitle: {
+      fontSize: "1rem",
+    },
+    articleImage: {
+      display: "block",
+      width: "100%",
+      maxHeight: "180px",
+      objectFit: "cover",
+      marginBottom: "0.75rem",
+      padding: "0 1rem",
+      boxSizing: "border-box",
+    },
+    articleDescription: {
+      padding: "1rem",
+      fontSize: "0.85rem",
     },
   },
 });
 
-const ArticleModal = ({ isOpen, handleClose, title, description }) => {
+const ArticleModal = ({ isOpen, handleClose, title, description, image }) => {
   const classes = useStyles();
   const renderBackdrop = (props) => (
     <div className={classes.backdrop} {...props} />
@@ -105,6 +159,7 @@ const ArticleModal = ({ isOpen, handleClose, title, description }) => {
             </span>
           </div>
         </div>
+        {image && <img src={image} alt={title} className={classes.articleImage} />}
         <div className={classes.articleDescription}>{description}</div>
       </div>
     </Modal>

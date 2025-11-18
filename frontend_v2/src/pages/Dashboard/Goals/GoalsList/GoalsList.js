@@ -10,14 +10,26 @@ const useStyles = createUseStyles({
     alignItems: "flex-start",
     justifyContent: "space-between",
     flexDirection: "column",
-    width: "90%",
-    margin: "1rem",
-    overflowY: "scroll",
-    maxHeight: "50%",
+    width: "100%",
+    margin: 0,
+    padding: 0,
+    boxSizing: "border-box",
   },
   goalsArticle: {
     width: "100%",
     height: "100%",
+  },
+  "@media (max-width: 768px)": {
+    goalsList: {
+      width: "100%",
+      margin: 0,
+    },
+  },
+  "@media (max-width: 480px)": {
+    goalsList: {
+      width: "100%",
+      margin: 0,
+    },
   },
 });
 

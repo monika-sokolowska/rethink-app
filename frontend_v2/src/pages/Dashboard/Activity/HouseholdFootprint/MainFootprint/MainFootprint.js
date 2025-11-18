@@ -47,6 +47,43 @@ const useStyles = createUseStyles({
       transform: "scale(1.1)",
     },
   },
+  "@media (max-width: 768px)": {
+    mainFootprint: {
+      width: "95%",
+      margin: "0.75rem",
+      marginTop: "1.5rem",
+    },
+    title: {
+      fontSize: "22px",
+      marginLeft: "1.5rem",
+    },
+    footprintValue: {
+      fontSize: "22px",
+    },
+    editIcon: {
+      marginRight: "1.5rem",
+    },
+  },
+  "@media (max-width: 480px)": {
+    mainFootprint: {
+      width: "98%",
+      margin: "0.5rem",
+      marginTop: "1rem",
+      flexDirection: "column",
+      alignItems: "flex-start",
+    },
+    title: {
+      fontSize: "20px",
+      marginLeft: "1rem",
+      width: "100%",
+    },
+    footprintValue: {
+      fontSize: "20px",
+    },
+    editIcon: {
+      marginRight: "1rem",
+    },
+  },
 });
 
 const MainFootprint = ({ footprint, onEditClick }) => {

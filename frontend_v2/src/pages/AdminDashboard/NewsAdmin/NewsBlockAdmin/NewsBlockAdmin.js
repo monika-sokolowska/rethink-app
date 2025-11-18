@@ -51,6 +51,40 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     justifyContent: "flex-start",
   },
+  "@media (max-width: 768px)": {
+    newsBlock: {
+      height: "300px",
+      "& h1": {
+        fontSize: "20px",
+      },
+      "& h3": {
+        fontSize: "16px",
+      },
+    },
+    imageContainer: {
+      height: "50%",
+    },
+    textContainer: {
+      height: "25%",
+    },
+  },
+  "@media (max-width: 480px)": {
+    newsBlock: {
+      height: "250px",
+      "& h1": {
+        fontSize: "18px",
+      },
+      "& h3": {
+        fontSize: "14px",
+      },
+    },
+    imageContainer: {
+      height: "45%",
+    },
+    textContainer: {
+      height: "27.5%",
+    },
+  },
   deleteIcon: {
     position: "absolute",
     bottom: "10px",

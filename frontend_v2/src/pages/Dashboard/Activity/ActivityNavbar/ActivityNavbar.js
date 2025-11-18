@@ -7,7 +7,9 @@ const useStyles = createUseStyles({
   activityNav: {
     boxShadow: "3px 5px 10px rgba(0, 0, 0, 0.15)",
     width: "100%",
-    height: "20%",
+    height: "auto",
+    minHeight: "auto",
+    flexShrink: 0,
   },
   activityNavbar: {
     backgroundColor: "#ffffff",
@@ -19,11 +21,37 @@ const useStyles = createUseStyles({
     fontWeight: "bold",
     boxShadow: "3px 5px 20px rgba(0, 0, 0, 0.15)",
     padding: "1rem",
+    height: "auto",
+    minHeight: "auto",
   },
   footprintDisplay: {
     color: "#2d8659",
     fontSize: "1.1rem",
     fontWeight: 600,
+  },
+  "@media (max-width: 768px)": {
+    activityNav: {
+      boxShadow: "none",
+    },
+    activityNavbar: {
+      padding: "0.75rem",
+      boxShadow: "none",
+    },
+    footprintDisplay: {
+      fontSize: "1.3rem",
+    },
+  },
+  "@media (max-width: 480px)": {
+    activityNav: {
+      boxShadow: "none",
+    },
+    activityNavbar: {
+      padding: "0.5rem",
+      boxShadow: "none",
+    },
+    footprintDisplay: {
+      fontSize: "1.2rem",
+    },
   },
 });
 
@@ -40,9 +68,10 @@ const ActivityNavbar = () => {
   }, [dispatch, user?.id]);
 
   const dailyFootprintValue = stats?.userDailyFootprint;
-  const dailyFootprint = typeof dailyFootprintValue === 'number' 
-    ? dailyFootprintValue 
-    : parseFloat(dailyFootprintValue) || 0;
+  const dailyFootprint =
+    typeof dailyFootprintValue === "number"
+      ? dailyFootprintValue
+      : parseFloat(dailyFootprintValue) || 0;
 
   return (
     <div className={classes.activityNav}>

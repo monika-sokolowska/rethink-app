@@ -41,6 +41,46 @@ const useStyles = createUseStyles({
       transform: "translateY(-2px)",
     },
   },
+  "@media (max-width: 768px)": {
+    mainGoal: {
+      flexDirection: "column",
+      padding: "0.75rem",
+      boxShadow: "none",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    goalDisplay: {
+      fontSize: "1.3rem",
+      marginRight: "0",
+      marginBottom: "1rem",
+      textAlign: "center",
+    },
+    button: {
+      padding: "16px 28px",
+      fontSize: "16px",
+      minHeight: "50px",
+    },
+  },
+  "@media (max-width: 480px)": {
+    mainGoal: {
+      flexDirection: "column",
+      padding: "0.5rem",
+      alignItems: "center",
+      justifyContent: "center",
+      boxShadow: "none",
+    },
+    goalDisplay: {
+      fontSize: "1.2rem",
+      marginRight: "0",
+      marginBottom: "1rem",
+      textAlign: "center",
+    },
+    button: {
+      padding: "14px 24px",
+      fontSize: "15px",
+      minHeight: "48px",
+    },
+  },
 });
 
 const MainGoal = ({ goal, handleClick }) => {
