@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NewsBlockAdmin from "./NewsBlockAdmin/NewsBlockAdmin";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
 import { getAllArticles, deleteArticle } from "../../../reducers/allArticlesSlice";
 import ArticleModalAdmin from "./ArticleModalAdmin/ArticleModalAdmin";
+import ArticleBottomSheet from "./ArticleModalAdmin/ArticleBottomSheet";
 import AddArticleModalAdmin from "./AddArticleModalAdmin/AddArticleModalAdmin";
+import AddArticleBottomSheet from "./AddArticleModalAdmin/AddArticleBottomSheet";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -113,9 +114,19 @@ const NewsAdmin = () => {
   const [articleDescription, setArticleDescription] = useState("");
   const [articleTitle, setArticleTitle] = useState("");
   const [articleImage, setArticleImage] = useState("");
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     dispatch(getAllArticles());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const openModal = (id_article) => {
@@ -144,17 +155,34 @@ const NewsAdmin = () => {
 
   return (
     <div className={classes.newsContainer}>
-      <ArticleModalAdmin
-        isOpen={showModal}
-        handleClose={handleModalClose}
-        title={articleTitle}
-        description={articleDescription}
-        image={articleImage}
-      />
-      <AddArticleModalAdmin
-        isOpen={showAddModal}
-        handleClose={handleAddModalClose}
-      />
+      {isMobile ? (
+        <ArticleBottomSheet
+          isOpen={showModal}
+          handleClose={handleModalClose}
+          title={articleTitle}
+          description={articleDescription}
+          image={articleImage}
+        />
+      ) : (
+        <ArticleModalAdmin
+          isOpen={showModal}
+          handleClose={handleModalClose}
+          title={articleTitle}
+          description={articleDescription}
+          image={articleImage}
+        />
+      )}
+      {isMobile ? (
+        <AddArticleBottomSheet
+          isOpen={showAddModal}
+          handleClose={handleAddModalClose}
+        />
+      ) : (
+        <AddArticleModalAdmin
+          isOpen={showAddModal}
+          handleClose={handleAddModalClose}
+        />
+      )}
       <div className={classes.newsHeader}>
         <div className={classes.newsLabel}>News</div>
         <button onClick={openAddModal}>Add</button>
