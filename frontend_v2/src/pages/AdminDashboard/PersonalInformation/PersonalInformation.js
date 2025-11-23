@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { getAllUsers } from "../../../reducers/usersSlice";
 import ChangeNameModal from "./ChangeNameModal";
+import ChangeNameBottomSheet from "./ChangeNameBottomSheet";
 
 const useStyles = createUseStyles({
   usersContainer: {
@@ -145,12 +146,22 @@ const PersonalInformation = () => {
   const { user } = useSelector((store) => store.user);
   const { users, isLoading } = useSelector((store) => store.users);
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     if (user?.id) {
       dispatch(getAllUsers());
     }
   }, [dispatch, user?.id]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Find current user from the users list
   const currentUserInfo = users?.find((userItem) => userItem.id === user?.id);
@@ -205,13 +216,23 @@ const PersonalInformation = () => {
       ) : (
         <div className={classes.emptyState}>No information available</div>
       )}
-      <ChangeNameModal
-        isOpen={isNameModalOpen}
-        handleClose={handleCloseNameModal}
-        currentName={currentUserInfo?.name}
-        currentLastName={currentUserInfo?.lastName}
-        userId={user?.id}
-      />
+      {isMobile ? (
+        <ChangeNameBottomSheet
+          isOpen={isNameModalOpen}
+          handleClose={handleCloseNameModal}
+          currentName={currentUserInfo?.name}
+          currentLastName={currentUserInfo?.lastName}
+          userId={user?.id}
+        />
+      ) : (
+        <ChangeNameModal
+          isOpen={isNameModalOpen}
+          handleClose={handleCloseNameModal}
+          currentName={currentUserInfo?.name}
+          currentLastName={currentUserInfo?.lastName}
+          userId={user?.id}
+        />
+      )}
     </div>
   );
 };
