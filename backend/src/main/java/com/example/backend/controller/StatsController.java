@@ -4,6 +4,7 @@ import com.example.backend.DTO.AveragePersonDTO;
 import com.example.backend.DTO.DailyStatsDTO;
 import com.example.backend.DTO.TransportFootprintDTO;
 import com.example.backend.DTO.UpdateAverageDailyFootprintDTO;
+import com.example.backend.DTO.UpdateAverageHouseholdFootprintDTO;
 import com.example.backend.security.services.UserDetailsImpl;
 import com.example.backend.service.*;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,13 @@ public class StatsController {
     public ResponseEntity<AveragePersonDTO> updateAverageDailyFootprint(
             @RequestBody UpdateAverageDailyFootprintDTO updateDTO) {
         return ResponseEntity.ok(statsService.updateAverageDailyFootprint(updateDTO));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(path="/average-household-footprint")
+    public ResponseEntity<AveragePersonDTO> updateAverageHouseholdFootprint(
+            @RequestBody UpdateAverageHouseholdFootprintDTO updateDTO) {
+        return ResponseEntity.ok(statsService.updateAverageHouseholdFootprint(updateDTO));
     }
 
 }
