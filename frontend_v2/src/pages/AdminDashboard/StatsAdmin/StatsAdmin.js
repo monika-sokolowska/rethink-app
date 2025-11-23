@@ -1,8 +1,8 @@
-import statsImage from "../../../assets/images/stats.svg";
 import { createUseStyles } from "react-jss";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { getStats, getAveragePerson } from "../../../reducers/statsSlice";
+import { getAllUsers } from "../../../reducers/usersSlice";
 import ChangeAverageDailyFootprintModal from "./ChangeAverageDailyFootprintModal";
 import ChangeAverageHouseholdFootprintModal from "./ChangeAverageHouseholdFootprintModal";
 
@@ -101,6 +101,102 @@ const useStyles = createUseStyles({
       padding: "6px 12px",
     },
   },
+  usersContainer: {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    flex: 1,
+    padding: "2rem",
+    overflowY: "auto",
+    boxSizing: "border-box",
+  },
+  usersList: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+    width: "100%",
+  },
+  userCard: {
+    backgroundColor: "#f8f9fa",
+    border: "1px solid #e9ecef",
+    borderRadius: "8px",
+    padding: "1rem",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    transition: "box-shadow 0.2s",
+    "&:hover": {
+      boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+    },
+  },
+  userInfo: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.25rem",
+  },
+  userName: {
+    fontSize: "1rem",
+    fontWeight: 600,
+    color: "#2d8659",
+  },
+  userEmail: {
+    fontSize: "0.9rem",
+    color: "#6c757d",
+  },
+  userGoal: {
+    fontSize: "0.85rem",
+    color: "#495057",
+  },
+  userRoles: {
+    display: "flex",
+    flexDirection: "row",
+    gap: "0.5rem",
+    flexWrap: "wrap",
+  },
+  roleBadge: {
+    backgroundColor: "#2d8659",
+    color: "#ffffff",
+    padding: "4px 8px",
+    borderRadius: "4px",
+    fontSize: "0.75rem",
+    fontWeight: 500,
+  },
+  loader: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    flex: 1,
+    padding: "2rem",
+  },
+  spinner: {
+    border: "4px solid #f3f3f3",
+    borderTop: "4px solid #2d8659",
+    borderRadius: "50%",
+    width: "50px",
+    height: "50px",
+    animation: "$spin 1s linear infinite",
+  },
+  "@keyframes spin": {
+    "0%": {
+      transform: "rotate(0deg)",
+    },
+    "100%": {
+      transform: "rotate(360deg)",
+    },
+  },
+  usersHeader: {
+    fontSize: "1.5rem",
+    fontWeight: 600,
+    color: "#2d8659",
+    marginBottom: "1rem",
+  },
+  emptyState: {
+    textAlign: "center",
+    color: "#6c757d",
+    padding: "2rem",
+  },
 });
 
 const StatsAdmin = () => {
@@ -108,6 +204,7 @@ const StatsAdmin = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.user);
   const { stats, averagePerson } = useSelector((store) => store.stats);
+  const { users, isLoading } = useSelector((store) => store.users);
   const [isDailyFootprintModalOpen, setIsDailyFootprintModalOpen] =
     useState(false);
   const [isHouseholdFootprintModalOpen, setIsHouseholdFootprintModalOpen] =
@@ -117,6 +214,7 @@ const StatsAdmin = () => {
     if (user?.id) {
       dispatch(getStats());
       dispatch(getAveragePerson());
+      dispatch(getAllUsers());
     }
   }, [dispatch, user?.id]);
 
@@ -181,7 +279,48 @@ const StatsAdmin = () => {
           </div>
         </nav>
       </div>
-      <img src={statsImage} alt="stats" />
+      <div className={classes.usersContainer}>
+        <h2 className={classes.usersHeader}>All Users</h2>
+        {isLoading ? (
+          <div className={classes.loader}>
+            <div className={classes.spinner}></div>
+          </div>
+        ) : users && users.length > 0 ? (
+          <div className={classes.usersList}>
+            {users.map((userItem) => (
+              <div key={userItem.id} className={classes.userCard}>
+                <div className={classes.userInfo}>
+                  <div className={classes.userName}>
+                    {userItem.name} {userItem.lastName}
+                  </div>
+                  <div className={classes.userEmail}>{userItem.email}</div>
+                  {userItem.mainGoal !== null && (
+                    <div className={classes.userGoal}>
+                      Main Goal: {userItem.mainGoal} kg CO2
+                    </div>
+                  )}
+                </div>
+                <div className={classes.userRoles}>
+                  {userItem.roles &&
+                    Array.from(userItem.roles).map((role, index) => {
+                      const roleName = role?.name || role;
+                      return (
+                        <span key={index} className={classes.roleBadge}>
+                          {typeof roleName === "string"
+                            ? roleName.replace("ROLE_", "")
+                            : roleName?.toString().replace("ROLE_", "") ||
+                              "USER"}
+                        </span>
+                      );
+                    })}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className={classes.emptyState}>No users found</div>
+        )}
+      </div>
       <ChangeAverageDailyFootprintModal
         isOpen={isDailyFootprintModalOpen}
         handleClose={handleCloseDailyFootprintModal}

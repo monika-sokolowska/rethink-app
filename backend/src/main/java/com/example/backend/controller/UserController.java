@@ -63,7 +63,7 @@ public class UserController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping(path="/all")
     public @ResponseBody Iterable<User> getAllUsers() {
         return userService.returnAllUsers();
