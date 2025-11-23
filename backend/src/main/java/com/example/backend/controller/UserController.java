@@ -63,7 +63,7 @@ public class UserController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping(path="/all")
     public @ResponseBody Iterable<User> getAllUsers() {
         return userService.returnAllUsers();
@@ -137,5 +137,19 @@ public class UserController {
     public ResponseEntity<UserDTO> getUser() {
         UserDetailsImpl user = GetCurrentUser();
         return ResponseEntity.ok(userService.findUserById(user.getId()));
+    }
+
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PatchMapping(path="/update-name")
+    public ResponseEntity<UserDTO> updateUserName(@RequestBody UpdateUserNameDTO updateDTO) {
+        UserDetailsImpl currentUser = GetCurrentUser();
+        // Users can only update their own name, admins can update any user's name
+        if (!currentUser.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            // If not admin, ensure user is updating their own name
+            if (currentUser.getId() != updateDTO.userId()) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+        }
+        return ResponseEntity.ok(userService.updateUserNameById(updateDTO.userId(), updateDTO));
     }
 }

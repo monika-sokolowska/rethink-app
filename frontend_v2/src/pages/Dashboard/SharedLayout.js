@@ -15,11 +15,18 @@ const useStyles = createUseStyles({
     flexDirection: "row",
     justifyContent: "space-between",
     height: "100%",
+    overflow: "hidden",
   },
   dashboardPage: {
     flex: 1,
     margin: "0 auto",
     minWidth: 0,
+    overflowY: "auto",
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
     "@media (max-width: 768px)": {
       paddingBottom: "70px",
     },

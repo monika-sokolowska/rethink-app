@@ -1,165 +1,179 @@
 import Modal from "react-overlays/Modal";
+import { useEffect } from "react";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
-  articleModal: {
+  modalChange: {
     position: "fixed",
-    width: "900px",
-    height: "600px",
+    width: "700px",
+    maxWidth: "90vw",
     zIndex: 1040,
-    top: "10%",
-    left: "30%",
-    backgroundColor: "white",
-    borderRadius: "8px",
-    boxShadow: "0 8px 32px rgba(45, 134, 89, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1)",
-    overflow: "hidden",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "#ffffff",
+    borderRadius: "12px",
+    boxShadow: "0 10px 40px rgba(0, 0, 0, 0.2)",
     display: "flex",
     flexDirection: "column",
+    maxHeight: "90vh",
+  },
+  modal: {
+    position: "relative",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    borderRadius: "12px",
+    overflow: "hidden",
   },
   backdrop: {
     position: "fixed",
-    zIndex: 1040,
+    zIndex: 1039,
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    backdropFilter: "blur(4px)",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
   },
-  modalHeader: {
-    borderBottom: "1px solid rgba(45, 134, 89, 0.1)",
+  header: {
+    padding: "20px 24px 16px",
+    borderBottom: "0.5px solid rgba(0, 0, 0, 0.1)",
     display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
-    background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 100%)",
-    borderRadius: "8px 8px 0 0",
-    color: "white",
-    padding: "1.5rem 2rem",
-    boxShadow: "0 2px 8px rgba(45, 134, 89, 0.2)",
+    justifyContent: "space-between",
+    flexShrink: 0,
   },
-  modalTitle: {
+  title: {
+    fontSize: "18px",
     fontWeight: 600,
-    fontSize: "1.25rem",
-    color: "#ffffff",
+    color: "#2d8659",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    margin: 0,
+    flex: 1,
+    paddingRight: "16px",
   },
   closeButton: {
-    fontSize: "1.5rem",
-    fontWeight: 700,
-    lineHeight: 1,
-    color: "#ffffff",
+    background: "none",
     border: "none",
+    fontSize: "17px",
+    fontWeight: 400,
+    color: "#2d8659",
     cursor: "pointer",
-    backgroundColor: "transparent",
-    padding: "0.25rem 0.5rem",
-    borderRadius: "4px",
-    transition: "all 0.2s ease-in-out",
+    padding: "4px 8px",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     "&:hover": {
-      backgroundColor: "rgba(255, 255, 255, 0.2)",
-      transform: "scale(1.1)",
+      opacity: 0.7,
+    },
+    "&:active": {
+      opacity: 0.5,
     },
   },
-  articleImage: {
-    display: "none",
-  },
-  articleDescription: {
-    padding: "2rem",
-    color: "#2d8659",
-    fontWeight: 400,
-    overflowY: "auto",
+  content: {
     flex: 1,
-    lineHeight: "1.6",
-    fontSize: "1rem",
-    scrollbarWidth: "none",
-    msOverflowStyle: "none",
+    overflowY: "auto",
+    padding: "24px",
     "&::-webkit-scrollbar": {
       display: "none",
-      width: "0",
-      height: "0",
     },
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
+  },
+  articleImage: {
+    width: "100%",
+    maxHeight: "300px",
+    objectFit: "cover",
+    borderRadius: "8px",
+    marginBottom: "20px",
+  },
+  articleDescription: {
+    color: "#000000",
+    fontWeight: 400,
+    lineHeight: "1.6",
+    fontSize: "17px",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
   },
   "@media (max-width: 768px)": {
-    articleModal: {
+    modalChange: {
       width: "100%",
-      height: "100%",
+      maxWidth: "100%",
+      top: "auto",
+      bottom: 0,
       left: 0,
-      top: 0,
-      borderRadius: 0,
+      transform: "none",
+      borderRadius: "12px 12px 0 0",
+      maxHeight: "85vh",
     },
-    modalHeader: {
-      padding: "1rem 1.5rem",
-      borderRadius: 0,
+    header: {
+      padding: "16px 20px 12px",
     },
-    modalTitle: {
-      fontSize: "1.1rem",
+    content: {
+      padding: "20px",
     },
     articleImage: {
-      display: "block",
-      width: "100%",
       maxHeight: "200px",
-      objectFit: "cover",
-      marginBottom: "1rem",
-      padding: "0 1.5rem",
-      boxSizing: "border-box",
     },
     articleDescription: {
-      padding: "1.5rem",
-      fontSize: "0.9rem",
+      fontSize: "16px",
     },
   },
   "@media (max-width: 480px)": {
-    articleModal: {
-      width: "100%",
-      height: "100%",
-      left: 0,
-      top: 0,
-      borderRadius: 0,
+    modalChange: {
+      maxHeight: "90vh",
     },
-    modalHeader: {
-      padding: "0.75rem 1rem",
-      borderRadius: 0,
-    },
-    modalTitle: {
-      fontSize: "1rem",
+    title: {
+      fontSize: "16px",
     },
     articleImage: {
-      display: "block",
-      width: "100%",
       maxHeight: "180px",
-      objectFit: "cover",
-      marginBottom: "0.75rem",
-      padding: "0 1rem",
-      boxSizing: "border-box",
     },
     articleDescription: {
-      padding: "1rem",
-      fontSize: "0.85rem",
+      fontSize: "15px",
     },
   },
 });
 
 const ArticleModalAdmin = ({ isOpen, handleClose, title, description, image }) => {
   const classes = useStyles();
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   const renderBackdrop = (props) => (
     <div className={classes.backdrop} {...props} />
   );
 
+  if (!isOpen) return null;
+
   return (
     <Modal
-      className={classes.articleModal}
+      className={classes.modalChange}
       show={isOpen}
       onHide={handleClose}
       renderBackdrop={renderBackdrop}>
-      <div className={classes.articleModal}>
-        <div className={classes.modalHeader}>
-          <div className={classes.modalTitle}>{title}</div>
-          <div>
-            <span className={classes.closeButton} onClick={handleClose}>
-              x
-            </span>
-          </div>
+      <div className={classes.modal}>
+        <div className={classes.header}>
+          <h2 className={classes.title}>{title}</h2>
+          <button className={classes.closeButton} onClick={handleClose}>
+            Close
+          </button>
         </div>
-        {image && <img src={image} alt={title} className={classes.articleImage} />}
-        <div className={classes.articleDescription}>{description}</div>
+        <div className={classes.content}>
+          {image && (
+            <img src={image} alt={title} className={classes.articleImage} />
+          )}
+          <div className={classes.articleDescription}>{description}</div>
+        </div>
       </div>
     </Modal>
   );

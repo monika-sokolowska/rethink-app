@@ -1,45 +1,56 @@
-import Modal from "react-overlays/Modal";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { updateHouseholdFootprint } from "../../../../../reducers/householdFootprintSlice";
+import { updateUserName } from "../../../reducers/usersSlice";
+import { getUser } from "../../../reducers/userSlice";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
-  modalChange: {
+  overlay: {
     position: "fixed",
-    width: "500px",
-    maxWidth: "90vw",
-    zIndex: 1040,
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    backgroundColor: "#ffffff",
-    borderRadius: "12px",
-    boxShadow: "0 10px 40px rgba(0, 0, 0, 0.2)",
-    display: "flex",
-    flexDirection: "column",
-    maxHeight: "90vh",
-  },
-  modal: {
-    position: "relative",
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    borderRadius: "12px",
-    overflow: "hidden",
-  },
-  backdrop: {
-    position: "fixed",
-    zIndex: 1039,
     top: 0,
-    bottom: 0,
     left: 0,
     right: 0,
+    bottom: 0,
     backgroundColor: "rgba(0, 0, 0, 0.4)",
+    zIndex: 1050,
+    display: "flex",
+    alignItems: "flex-end",
+    justifyContent: "center",
+    opacity: 0,
+    transition: "opacity 0.3s ease-out",
+    "&.open": {
+      opacity: 1,
+    },
+  },
+  bottomSheet: {
+    backgroundColor: "#ffffff",
+    width: "100%",
+    maxWidth: "100%",
+    borderTopLeftRadius: "20px",
+    borderTopRightRadius: "20px",
+    boxShadow: "0 -4px 20px rgba(0, 0, 0, 0.15)",
+    transform: "translateY(100%)",
+    transition: "transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)",
+    maxHeight: "85vh",
+    display: "flex",
+    flexDirection: "column",
+    zIndex: 1051,
+    paddingBottom: "env(safe-area-inset-bottom)",
+    "&.open": {
+      transform: "translateY(0)",
+    },
+  },
+  handle: {
+    width: "36px",
+    height: "5px",
+    backgroundColor: "#d1d1d6",
+    borderRadius: "3px",
+    margin: "12px auto 8px",
+    flexShrink: 0,
   },
   header: {
-    padding: "20px 24px 16px",
+    padding: "16px 20px 12px",
     borderBottom: "0.5px solid rgba(0, 0, 0, 0.1)",
     display: "flex",
     alignItems: "center",
@@ -47,12 +58,11 @@ const useStyles = createUseStyles({
     flexShrink: 0,
   },
   title: {
-    fontSize: "18px",
+    fontSize: "20px",
     fontWeight: 600,
-    color: "#2d8659",
+    color: "#000000",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
-    margin: 0,
   },
   closeButton: {
     background: "none",
@@ -64,17 +74,15 @@ const useStyles = createUseStyles({
     padding: "4px 8px",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
-    "&:hover": {
-      opacity: 0.7,
-    },
     "&:active": {
-      opacity: 0.5,
+      opacity: 0.6,
     },
   },
   content: {
     flex: 1,
     overflowY: "auto",
-    padding: "24px",
+    padding: "20px",
+    paddingBottom: "24px",
     "&::-webkit-scrollbar": {
       display: "none",
     },
@@ -84,10 +92,7 @@ const useStyles = createUseStyles({
   inputContainer: {
     display: "flex",
     flexDirection: "column",
-    marginBottom: "20px",
-    "&:last-child": {
-      marginBottom: 0,
-    },
+    marginBottom: "24px",
   },
   label: {
     fontSize: "15px",
@@ -102,14 +107,13 @@ const useStyles = createUseStyles({
     padding: "12px 16px",
     fontSize: "17px",
     border: "1px solid #2d8659",
-    borderRadius: "8px",
+    borderRadius: "10px",
     backgroundColor: "#ffffff",
-    color: "#000000",
+    color: "#2d8659",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     outline: "none",
     transition: "border-color 0.2s, background-color 0.2s, box-shadow 0.2s",
-    boxSizing: "border-box",
     "&:focus": {
       borderColor: "#4a9d6e",
       backgroundColor: "#ffffff",
@@ -120,12 +124,15 @@ const useStyles = createUseStyles({
     },
   },
   footer: {
-    padding: "16px 24px 20px",
+    padding: "16px 20px",
+    paddingTop: "12px",
     borderTop: "0.5px solid rgba(0, 0, 0, 0.1)",
     display: "flex",
     gap: "12px",
     flexShrink: 0,
     backgroundColor: "#ffffff",
+    borderBottomLeftRadius: "20px",
+    borderBottomRightRadius: "20px",
   },
   cancelButton: {
     flex: 1,
@@ -135,16 +142,13 @@ const useStyles = createUseStyles({
     color: "#2d8659",
     backgroundColor: "transparent",
     border: "none",
-    borderRadius: "8px",
+    borderRadius: "10px",
     cursor: "pointer",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     transition: "background-color 0.2s",
-    "&:hover": {
-      backgroundColor: "rgba(45, 134, 89, 0.1)",
-    },
     "&:active": {
-      backgroundColor: "rgba(45, 134, 89, 0.15)",
+      backgroundColor: "rgba(45, 134, 89, 0.1)",
     },
   },
   saveButton: {
@@ -155,48 +159,23 @@ const useStyles = createUseStyles({
     color: "#ffffff",
     background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 100%)",
     border: "none",
-    borderRadius: "8px",
+    borderRadius: "10px",
     cursor: "pointer",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     boxShadow: "rgba(45, 134, 89, 0.2) 0 2px 4px 0",
     transition: "opacity 0.2s, transform 0.2s, box-shadow 0.2s",
-    "&:hover": {
-      boxShadow: "rgba(45, 134, 89, 0.3) 0 3px 8px 0",
-      transform: "translateY(-1px)",
-    },
     "&:active": {
       opacity: 0.8,
-      transform: "translateY(0)",
-    },
-  },
-  "@media (max-width: 768px)": {
-    modalChange: {
-      width: "100%",
-      maxWidth: "100%",
-      top: "auto",
-      bottom: 0,
-      left: 0,
-      transform: "none",
-      borderRadius: "12px 12px 0 0",
-      maxHeight: "85vh",
-    },
-    header: {
-      padding: "16px 20px 12px",
-    },
-    content: {
-      padding: "20px",
-    },
-    footer: {
-      padding: "16px 20px",
+      transform: "translateY(1px)",
     },
   },
   "@media (max-width: 480px)": {
-    modalChange: {
+    bottomSheet: {
       maxHeight: "90vh",
     },
     title: {
-      fontSize: "16px",
+      fontSize: "18px",
     },
     input: {
       fontSize: "16px",
@@ -212,76 +191,96 @@ const useStyles = createUseStyles({
 });
 
 const initialState = {
-  footprint: "",
+  name: "",
+  lastName: "",
 };
 
-const ChangeHouseholdFootprintModal = ({ isOpen, handleClose, currentFootprint }) => {
+const ChangeNameBottomSheet = ({
+  isOpen,
+  handleClose,
+  currentName,
+  currentLastName,
+  userId,
+}) => {
   const classes = useStyles();
-  const [values, setValues] = useState({ footprint: currentFootprint || "" });
+  const [values, setValues] = useState({
+    name: currentName || "",
+    lastName: currentLastName || "",
+  });
   const dispatch = useDispatch();
-  const min = 0;
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
-      setValues({ footprint: currentFootprint || "" });
+      setValues({
+        name: currentName || "",
+        lastName: currentLastName || "",
+      });
     } else {
       document.body.style.overflow = "";
     }
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen, currentFootprint]);
-
-  const renderBackdrop = (props) => (
-    <div className={classes.backdrop} {...props} />
-  );
+  }, [isOpen, currentName, currentLastName]);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const { footprint } = values;
+    const { name, lastName } = values;
 
-    if (footprint === "" || footprint === null || footprint === undefined) {
-      toast.error("Please enter a footprint value");
+    if (!name || name.trim() === "") {
+      toast.error("Please enter a name");
       return;
     }
 
-    if (footprint < min) {
-      toast.error(`Footprint must be at least ${min}`);
+    if (!lastName || lastName.trim() === "") {
+      toast.error("Please enter a last name");
       return;
     }
 
-    const footprintData = {
-      footprint: parseFloat(footprint),
+    const updateData = {
+      userId: userId,
+      name: name.trim(),
+      lastName: lastName.trim(),
     };
-    dispatch(updateHouseholdFootprint(footprintData));
+    dispatch(updateUserName(updateData)).then(() => {
+      dispatch(getUser());
+    });
     handleClose();
     setValues(initialState);
   };
 
   const onClose = () => {
     handleClose();
-    setValues({ footprint: currentFootprint || "" });
+    setValues({
+      name: currentName || "",
+      lastName: currentLastName || "",
+    });
   };
 
-  const handleNumberChange = (e) => {
+  const handleChange = (e) => {
     e.stopPropagation();
     const name = e.target.name;
-    const value = e.target.value === "" ? "" : Math.max(min, Number(e.target.value));
+    const value = e.target.value;
     setValues({ ...values, [name]: value });
+  };
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
   };
 
   if (!isOpen) return null;
 
   return (
-    <Modal
-      className={classes.modalChange}
-      show={isOpen}
-      onHide={handleClose}
-      renderBackdrop={renderBackdrop}>
-      <div className={classes.modal}>
+    <div
+      className={`${classes.overlay} ${isOpen ? "open" : ""}`}
+      onClick={handleOverlayClick}>
+      <div className={`${classes.bottomSheet} ${isOpen ? "open" : ""}`}>
+        <div className={classes.handle} />
         <div className={classes.header}>
-          <h2 className={classes.title}>Change Household Footprint</h2>
+          <h2 className={classes.title}>Change Name</h2>
           <button className={classes.closeButton} onClick={onClose}>
             Cancel
           </button>
@@ -289,19 +288,32 @@ const ChangeHouseholdFootprintModal = ({ isOpen, handleClose, currentFootprint }
         <form onSubmit={onSubmit}>
           <div className={classes.content}>
             <div className={classes.inputContainer}>
-              <label htmlFor="footprint" className={classes.label}>
-                Household Footprint (kg CO2)
+              <label htmlFor="name" className={classes.label}>
+                Name
               </label>
               <input
-                id="footprint"
-                type="number"
-                name="footprint"
-                value={values.footprint}
-                onChange={handleNumberChange}
+                id="name"
+                type="text"
+                name="name"
+                value={values.name}
+                onChange={handleChange}
                 className={classes.input}
-                placeholder="Enter footprint..."
-                step="0.01"
-                min={min}
+                placeholder="Enter name..."
+                required
+              />
+            </div>
+            <div className={classes.inputContainer}>
+              <label htmlFor="lastName" className={classes.label}>
+                Last Name
+              </label>
+              <input
+                id="lastName"
+                type="text"
+                name="lastName"
+                value={values.lastName}
+                onChange={handleChange}
+                className={classes.input}
+                placeholder="Enter last name..."
                 required
               />
             </div>
@@ -319,7 +331,9 @@ const ChangeHouseholdFootprintModal = ({ isOpen, handleClose, currentFootprint }
           </div>
         </form>
       </div>
-    </Modal>
+    </div>
   );
 };
-export default ChangeHouseholdFootprintModal;
+
+export default ChangeNameBottomSheet;
+

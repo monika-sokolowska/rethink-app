@@ -5,6 +5,7 @@ import {
   AiOutlineFlag,
   AiOutlineThunderbolt,
   AiOutlineRead,
+  AiOutlineUser,
 } from "react-icons/ai";
 
 const useStyles = createUseStyles({
@@ -15,6 +16,16 @@ const useStyles = createUseStyles({
     minWidth: "200px",
     borderRight: "1px solid rgba(45, 134, 89, 0.2)",
     boxShadow: "2px 0 8px rgba(0, 0, 0, 0.04)",
+    position: "sticky",
+    top: 0,
+    height: "100vh",
+    alignSelf: "flex-start",
+    overflowY: "auto",
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
     "@media (max-width: 768px)": {
       display: "none",
     },
@@ -99,6 +110,14 @@ const Sidebar = () => {
           }>
           <AiOutlineRead className={classes.icon} />
           News
+        </NavLink>
+        <NavLink
+          to="/home/personalInformation"
+          className={({ isActive }) =>
+            `${classes.link} ${isActive ? classes.activeLink : ""}`
+          }>
+          <AiOutlineUser className={classes.icon} />
+          My Information
         </NavLink>
       </div>
     </div>

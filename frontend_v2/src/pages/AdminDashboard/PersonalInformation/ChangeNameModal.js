@@ -2,7 +2,7 @@ import Modal from "react-overlays/Modal";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { updateHouseholdFootprint } from "../../../../../reducers/householdFootprintSlice";
+import { updateUserName } from "../../../reducers/usersSlice";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -212,26 +212,38 @@ const useStyles = createUseStyles({
 });
 
 const initialState = {
-  footprint: "",
+  name: "",
+  lastName: "",
 };
 
-const ChangeHouseholdFootprintModal = ({ isOpen, handleClose, currentFootprint }) => {
+const ChangeNameModal = ({
+  isOpen,
+  handleClose,
+  currentName,
+  currentLastName,
+  userId,
+}) => {
   const classes = useStyles();
-  const [values, setValues] = useState({ footprint: currentFootprint || "" });
+  const [values, setValues] = useState({
+    name: currentName || "",
+    lastName: currentLastName || "",
+  });
   const dispatch = useDispatch();
-  const min = 0;
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
-      setValues({ footprint: currentFootprint || "" });
+      setValues({
+        name: currentName || "",
+        lastName: currentLastName || "",
+      });
     } else {
       document.body.style.overflow = "";
     }
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen, currentFootprint]);
+  }, [isOpen, currentName, currentLastName]);
 
   const renderBackdrop = (props) => (
     <div className={classes.backdrop} {...props} />
@@ -239,35 +251,40 @@ const ChangeHouseholdFootprintModal = ({ isOpen, handleClose, currentFootprint }
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const { footprint } = values;
+    const { name, lastName } = values;
 
-    if (footprint === "" || footprint === null || footprint === undefined) {
-      toast.error("Please enter a footprint value");
+    if (!name || name.trim() === "") {
+      toast.error("Please enter a name");
       return;
     }
 
-    if (footprint < min) {
-      toast.error(`Footprint must be at least ${min}`);
+    if (!lastName || lastName.trim() === "") {
+      toast.error("Please enter a last name");
       return;
     }
 
-    const footprintData = {
-      footprint: parseFloat(footprint),
+    const updateData = {
+      userId: userId,
+      name: name.trim(),
+      lastName: lastName.trim(),
     };
-    dispatch(updateHouseholdFootprint(footprintData));
+    dispatch(updateUserName(updateData));
     handleClose();
     setValues(initialState);
   };
 
   const onClose = () => {
     handleClose();
-    setValues({ footprint: currentFootprint || "" });
+    setValues({
+      name: currentName || "",
+      lastName: currentLastName || "",
+    });
   };
 
-  const handleNumberChange = (e) => {
+  const handleChange = (e) => {
     e.stopPropagation();
     const name = e.target.name;
-    const value = e.target.value === "" ? "" : Math.max(min, Number(e.target.value));
+    const value = e.target.value;
     setValues({ ...values, [name]: value });
   };
 
@@ -281,7 +298,7 @@ const ChangeHouseholdFootprintModal = ({ isOpen, handleClose, currentFootprint }
       renderBackdrop={renderBackdrop}>
       <div className={classes.modal}>
         <div className={classes.header}>
-          <h2 className={classes.title}>Change Household Footprint</h2>
+          <h2 className={classes.title}>Change Name</h2>
           <button className={classes.closeButton} onClick={onClose}>
             Cancel
           </button>
@@ -289,19 +306,32 @@ const ChangeHouseholdFootprintModal = ({ isOpen, handleClose, currentFootprint }
         <form onSubmit={onSubmit}>
           <div className={classes.content}>
             <div className={classes.inputContainer}>
-              <label htmlFor="footprint" className={classes.label}>
-                Household Footprint (kg CO2)
+              <label htmlFor="name" className={classes.label}>
+                Name
               </label>
               <input
-                id="footprint"
-                type="number"
-                name="footprint"
-                value={values.footprint}
-                onChange={handleNumberChange}
+                id="name"
+                type="text"
+                name="name"
+                value={values.name}
+                onChange={handleChange}
                 className={classes.input}
-                placeholder="Enter footprint..."
-                step="0.01"
-                min={min}
+                placeholder="Enter name..."
+                required
+              />
+            </div>
+            <div className={classes.inputContainer}>
+              <label htmlFor="lastName" className={classes.label}>
+                Last Name
+              </label>
+              <input
+                id="lastName"
+                type="text"
+                name="lastName"
+                value={values.lastName}
+                onChange={handleChange}
+                className={classes.input}
+                placeholder="Enter last name..."
                 required
               />
             </div>
@@ -322,4 +352,4 @@ const ChangeHouseholdFootprintModal = ({ isOpen, handleClose, currentFootprint }
     </Modal>
   );
 };
-export default ChangeHouseholdFootprintModal;
+export default ChangeNameModal;

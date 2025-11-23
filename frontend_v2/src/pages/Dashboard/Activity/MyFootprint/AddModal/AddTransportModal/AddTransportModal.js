@@ -10,6 +10,241 @@ import {
   calculateFootprintClimatiq,
 } from "./utils";
 
+const useStyles = createUseStyles({
+  modalChange: {
+    position: "fixed",
+    width: "500px",
+    maxWidth: "90vw",
+    zIndex: 1040,
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "#ffffff",
+    borderRadius: "12px",
+    boxShadow: "0 10px 40px rgba(0, 0, 0, 0.2)",
+    display: "flex",
+    flexDirection: "column",
+    maxHeight: "90vh",
+  },
+  modal: {
+    position: "relative",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    borderRadius: "12px",
+    overflow: "hidden",
+  },
+  backdrop: {
+    position: "fixed",
+    zIndex: 1039,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+  },
+  header: {
+    padding: "20px 24px 16px",
+    borderBottom: "0.5px solid rgba(0, 0, 0, 0.1)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexShrink: 0,
+  },
+  title: {
+    fontSize: "18px",
+    fontWeight: 600,
+    color: "#2d8659",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    margin: 0,
+  },
+  closeButton: {
+    background: "none",
+    border: "none",
+    fontSize: "17px",
+    fontWeight: 400,
+    color: "#2d8659",
+    cursor: "pointer",
+    padding: "4px 8px",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    "&:hover": {
+      opacity: 0.7,
+    },
+    "&:active": {
+      opacity: 0.5,
+    },
+  },
+  content: {
+    flex: 1,
+    overflowY: "auto",
+    padding: "24px",
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
+  },
+  inputContainer: {
+    display: "flex",
+    flexDirection: "column",
+    marginBottom: "20px",
+    "&:last-child": {
+      marginBottom: 0,
+    },
+  },
+  label: {
+    fontSize: "15px",
+    fontWeight: 500,
+    color: "#2d8659",
+    marginBottom: "8px",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+  },
+  input: {
+    width: "100%",
+    padding: "12px 16px",
+    fontSize: "17px",
+    border: "1px solid #2d8659",
+    borderRadius: "8px",
+    backgroundColor: "#ffffff",
+    color: "#000000",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    outline: "none",
+    transition: "border-color 0.2s, background-color 0.2s, box-shadow 0.2s",
+    boxSizing: "border-box",
+    "&:focus": {
+      borderColor: "#4a9d6e",
+      backgroundColor: "#ffffff",
+      boxShadow: "0 0 0 3px rgba(45, 134, 89, 0.2)",
+    },
+    "&::placeholder": {
+      color: "#8e8e93",
+    },
+  },
+  select: {
+    width: "100%",
+    padding: "12px 16px",
+    fontSize: "17px",
+    border: "1px solid #2d8659",
+    borderRadius: "8px",
+    backgroundColor: "#ffffff",
+    color: "#000000",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    outline: "none",
+    transition: "border-color 0.2s, background-color 0.2s, box-shadow 0.2s",
+    boxSizing: "border-box",
+    cursor: "pointer",
+    "&:focus": {
+      borderColor: "#4a9d6e",
+      backgroundColor: "#ffffff",
+      boxShadow: "0 0 0 3px rgba(45, 134, 89, 0.2)",
+    },
+    "& option": {
+      padding: "8px",
+      backgroundColor: "#ffffff",
+      color: "#000000",
+    },
+  },
+  footer: {
+    padding: "16px 24px 20px",
+    borderTop: "0.5px solid rgba(0, 0, 0, 0.1)",
+    display: "flex",
+    gap: "12px",
+    flexShrink: 0,
+    backgroundColor: "#ffffff",
+  },
+  cancelButton: {
+    flex: 1,
+    padding: "14px 20px",
+    fontSize: "17px",
+    fontWeight: 400,
+    color: "#2d8659",
+    backgroundColor: "transparent",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    transition: "background-color 0.2s",
+    "&:hover": {
+      backgroundColor: "rgba(45, 134, 89, 0.1)",
+    },
+    "&:active": {
+      backgroundColor: "rgba(45, 134, 89, 0.15)",
+    },
+  },
+  saveButton: {
+    flex: 1,
+    padding: "14px 20px",
+    fontSize: "17px",
+    fontWeight: 600,
+    color: "#ffffff",
+    background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 100%)",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    boxShadow: "rgba(45, 134, 89, 0.2) 0 2px 4px 0",
+    transition: "opacity 0.2s, transform 0.2s, box-shadow 0.2s",
+    "&:hover": {
+      boxShadow: "rgba(45, 134, 89, 0.3) 0 3px 8px 0",
+      transform: "translateY(-1px)",
+    },
+    "&:active": {
+      opacity: 0.8,
+      transform: "translateY(0)",
+    },
+  },
+  "@media (max-width: 768px)": {
+    modalChange: {
+      width: "100%",
+      maxWidth: "100%",
+      top: "auto",
+      bottom: 0,
+      left: 0,
+      transform: "none",
+      borderRadius: "12px 12px 0 0",
+      maxHeight: "85vh",
+    },
+    header: {
+      padding: "16px 20px 12px",
+    },
+    content: {
+      padding: "20px",
+    },
+    footer: {
+      padding: "16px 20px",
+    },
+  },
+  "@media (max-width: 480px)": {
+    modalChange: {
+      maxHeight: "90vh",
+    },
+    title: {
+      fontSize: "16px",
+    },
+    input: {
+      fontSize: "16px",
+      padding: "14px 16px",
+    },
+    select: {
+      fontSize: "16px",
+      padding: "14px 16px",
+    },
+    saveButton: {
+      fontSize: "16px",
+    },
+    cancelButton: {
+      fontSize: "16px",
+    },
+  },
+});
+
 const initialState = {
   name: "",
   kilometers: 0,
@@ -56,12 +291,18 @@ const AddTransportModal = ({ isOpen, handleClose }) => {
   };
 
   useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
     return () => {
+      document.body.style.overflow = "";
       if (debounceTimer.current) {
         clearTimeout(debounceTimer.current);
       }
     };
-  }, []);
+  }, [isOpen]);
 
   const estimateFootprint = async (transportName, kilometers) => {
     if (!transportName || !kilometers || kilometers <= 0) {
@@ -144,31 +385,33 @@ const AddTransportModal = ({ isOpen, handleClose }) => {
     }
   };
 
+  if (!isOpen) return null;
+
   return (
     <Modal
-      className={classes.modal}
+      className={classes.modalChange}
       show={isOpen}
       onHide={handleClose}
       renderBackdrop={renderBackdrop}>
       <div className={classes.modal}>
-        <div className={classes.modalHeader}>
-          <div className={classes.bottomSheetHandle}></div>
-          <div className={classes.modalTitle}>Add transport footprint</div>
-          <div>
-            <span className={classes.closeButton} onClick={handleClose}>
-              x
-            </span>
-          </div>
+        <div className={classes.header}>
+          <h2 className={classes.title}>Add Transport Footprint</h2>
+          <button className={classes.closeButton} onClick={onClose}>
+            Cancel
+          </button>
         </div>
-        <form className="footprint-form" onSubmit={onSubmit}>
-          <div className={classes.modalDesc}>
-            <div className={classes.footprintInput}>
-              <label>Transport type</label>
+        <form onSubmit={onSubmit}>
+          <div className={classes.content}>
+            <div className={classes.inputContainer}>
+              <label htmlFor="name" className={classes.label}>
+                Transport Type
+              </label>
               <select
                 id="name"
                 onChange={handleChange}
                 name="name"
                 value={values.name}
+                className={classes.select}
                 required>
                 <option value="">Select transport type</option>
                 {TRANSPORT_OPTIONS.map((option) => (
@@ -178,43 +421,51 @@ const AddTransportModal = ({ isOpen, handleClose }) => {
                 ))}
               </select>
             </div>
-            <div className={classes.footprintInput}>
-              <label>Kilometers</label>
+            <div className={classes.inputContainer}>
+              <label htmlFor="kilometers" className={classes.label}>
+                Kilometers {isCalculating && "(calculating...)"}
+              </label>
               <input
-                type="number"
                 id="kilometers"
-                onChange={handleNumberChange}
+                type="number"
                 name="kilometers"
                 value={values.kilometers}
+                onChange={handleNumberChange}
+                className={classes.input}
+                placeholder="Enter kilometers..."
                 min={minKilometers}
                 max={maxKilometers}
+                required
               />
             </div>
-            <div className={classes.footprintInput}>
-              <label>Footprint {isCalculating && "(calculating...)"}</label>
+            <div className={classes.inputContainer}>
+              <label htmlFor="footprint" className={classes.label}>
+                Footprint (kg CO2)
+              </label>
               <input
-                type="float"
                 id="footprint"
-                onChange={handleNumberChange}
+                type="number"
                 name="footprint"
                 value={values.footprint}
+                onChange={handleNumberChange}
+                className={classes.input}
                 placeholder="Auto-calculated"
                 min={minFootprint}
                 max={maxFootprint}
+                required
               />
             </div>
           </div>
-          <div className={classes.modalFooter}>
+          <div className={classes.footer}>
             <button
-              className={classes.secondaryButton}
-              onClick={onClose}
-              type="button">
-              Close
+              type="button"
+              className={classes.cancelButton}
+              onClick={onClose}>
+              Cancel
             </button>
-            <input
-              type="submit"
-              value="Save Changes"
-              className={classes.primaryButton}></input>
+            <button type="submit" className={classes.saveButton}>
+              Save Changes
+            </button>
           </div>
         </form>
       </div>
@@ -222,253 +473,3 @@ const AddTransportModal = ({ isOpen, handleClose }) => {
   );
 };
 export default AddTransportModal;
-
-const useStyles = createUseStyles({
-  modal: {
-    position: "fixed",
-    width: "700px",
-    zIndex: 1040,
-    top: "35%",
-    left: "40%",
-    backgroundColor: "white",
-    borderRadius: "10px",
-    boxShadow: "0 5px 25px rgba(0, 0, 0, 0.7)",
-  },
-  backdrop: {
-    position: "fixed",
-    zIndex: 1040,
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: "#000",
-    opacity: 0.5,
-  },
-  modalHeader: {
-    borderBottom: "1px solid #e9ecef",
-    display: "flex",
-    justifyContent: "space-between",
-    background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 100%)",
-    borderRadius: "10px 10px 0 0",
-    color: "white",
-    padding: "20px",
-  },
-  modalTitle: {
-    fontWeight: 500,
-    fontSize: "1rem",
-  },
-  closeButton: {
-    fontSize: "1.5rem",
-    fontWeight: 700,
-    lineHeight: 1,
-    color: "#ffffff",
-    border: "none",
-    cursor: "pointer",
-  },
-  modalDesc: {
-    height: "40%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "20px",
-  },
-  footprintInput: {
-    display: "flex",
-    alignItems: "flex-start",
-    flexDirection: "column",
-    margin: "1rem",
-    width: "30%",
-    "& input": {
-      padding: "12px 20px",
-      fontSize: "2.5vh",
-      borderWidth: "calc(var(--border-width) * 1px)",
-      borderStyle: "solid",
-      borderColor: "#2d8659",
-      borderRadius: "10px",
-      textAlign: "center",
-      outline: "transparent",
-      width: "100%",
-    },
-    "& select": {
-      padding: "12px 20px",
-      fontSize: "2.5vh",
-      borderWidth: "calc(var(--border-width) * 1px)",
-      borderStyle: "solid",
-      borderColor: "#2d8659",
-      borderRadius: "10px",
-      textAlign: "center",
-      outline: "transparent",
-      width: "100%",
-      backgroundColor: "#ffffff",
-      color: "#2d8659",
-      cursor: "pointer",
-      fontFamily:
-        '"Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif',
-      "&:focus": {
-        borderColor: "#4a9d6e",
-        boxShadow: "0 0 0 3px rgba(45, 134, 89, 0.2)",
-      },
-      "& option": {
-        padding: "8px",
-        backgroundColor: "#ffffff",
-        color: "#2d8659",
-      },
-    },
-    "& label": {
-      fontSize: "15px",
-      color: "#2d8659",
-      textAlign: "center",
-      marginBottom: "0.5rem",
-      marginLeft: "0.5rem",
-    },
-  },
-  modalFooter: {
-    borderTop: "1px solid #e9ecef",
-    display: "flex",
-    justifyContent: "flex-end",
-    padding: "8px",
-    paddingRight: "20px",
-  },
-  secondaryButton: {
-    background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 100%)",
-    border: "none",
-    borderRadius: "8px",
-    boxShadow: "rgba(45, 134, 89, 0.2) 0 2px 4px 0",
-    boxSizing: "border-box",
-    color: "#ffffff",
-    cursor: "pointer",
-    fontFamily:
-      '"Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif',
-    fontSize: "14px",
-    fontWeight: 400,
-    padding: "15px 30px",
-    textAlign: "center",
-    transform: "translateY(0)",
-    transition: "transform 150ms, box-shadow 150ms",
-    touchAction: "manipulation",
-    margin: "0.5rem",
-    "&:hover": {
-      boxShadow: "rgba(45, 134, 89, 0.3) 0 3px 9px 0",
-      transform: "translateY(-2px)",
-    },
-  },
-  primaryButton: {
-    background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 100%)",
-    border: "none",
-    borderRadius: "8px",
-    boxShadow: "rgba(45, 134, 89, 0.2) 0 2px 4px 0",
-    boxSizing: "border-box",
-    color: "#fff",
-    cursor: "pointer",
-    fontFamily:
-      '"Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif',
-    fontSize: "14px",
-    fontWeight: 400,
-    textAlign: "center",
-    transform: "translateY(0)",
-    transition: "transform 150ms, box-shadow 150ms",
-    touchAction: "manipulation",
-    padding: "15px 30px",
-    margin: "0.5rem",
-    "&:hover": {
-      boxShadow: "rgba(45, 134, 89, 0.3) 0 3px 9px 0",
-      transform: "translateY(-2px)",
-    },
-  },
-  bottomSheetHandle: {
-    display: "none",
-  },
-  "@media (max-width: 768px)": {
-    modal: {
-      width: "100%",
-      left: 0,
-      right: 0,
-      top: "auto",
-      bottom: 0,
-      maxHeight: "85vh",
-      borderRadius: "16px 16px 0 0",
-      transform: "translateY(0)",
-      transition: "transform 0.3s ease-out",
-    },
-    modalHeader: {
-      padding: "15px",
-      borderRadius: "16px 16px 0 0",
-      position: "relative",
-      paddingTop: "25px",
-    },
-    bottomSheetHandle: {
-      display: "block",
-      position: "absolute",
-      top: "8px",
-      left: "50%",
-      transform: "translateX(-50%)",
-      width: "40px",
-      height: "4px",
-      backgroundColor: "rgba(255, 255, 255, 0.5)",
-      borderRadius: "2px",
-    },
-    modalDesc: {
-      flexDirection: "column",
-      padding: "15px",
-      maxHeight: "calc(85vh - 200px)",
-      overflowY: "auto",
-    },
-    footprintInput: {
-      width: "100%",
-      margin: "0.75rem",
-      "& select": {
-        fontSize: "18px",
-        padding: "14px 18px",
-      },
-    },
-  },
-  "@media (max-width: 480px)": {
-    modal: {
-      width: "100%",
-      left: 0,
-      right: 0,
-      top: "auto",
-      bottom: 0,
-      maxHeight: "90vh",
-      borderRadius: "16px 16px 0 0",
-    },
-    modalHeader: {
-      padding: "12px",
-      paddingTop: "22px",
-      borderRadius: "16px 16px 0 0",
-    },
-    modalTitle: {
-      fontSize: "0.9rem",
-    },
-    modalDesc: {
-      padding: "12px",
-      maxHeight: "calc(90vh - 180px)",
-    },
-    footprintInput: {
-      margin: "0.5rem",
-      "& input": {
-        fontSize: "16px",
-        padding: "10px 15px",
-      },
-      "& select": {
-        fontSize: "16px",
-        padding: "10px 15px",
-      },
-      "& label": {
-        fontSize: "14px",
-      },
-    },
-    modalFooter: {
-      padding: "6px",
-      paddingRight: "12px",
-    },
-    secondaryButton: {
-      padding: "10px 20px",
-      fontSize: "13px",
-    },
-    primaryButton: {
-      padding: "10px 20px",
-      fontSize: "13px",
-    },
-  },
-});

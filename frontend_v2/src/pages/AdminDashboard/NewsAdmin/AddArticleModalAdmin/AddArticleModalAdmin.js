@@ -1,262 +1,241 @@
 import Modal from "react-overlays/Modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addArticle } from "../../../../reducers/allArticlesSlice";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
-  addArticleModal: {
+  modalChange: {
     position: "fixed",
-    width: "900px",
-    height: "600px",
+    width: "600px",
+    maxWidth: "90vw",
     zIndex: 1040,
-    top: "10%",
-    left: "30%",
-    backgroundColor: "white",
-    borderRadius: "10px",
-    boxShadow: "0 5px 25px rgba(0, 0, 0, 0.7)",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "#ffffff",
+    borderRadius: "12px",
+    boxShadow: "0 10px 40px rgba(0, 0, 0, 0.2)",
+    display: "flex",
+    flexDirection: "column",
+    maxHeight: "90vh",
+  },
+  modal: {
+    position: "relative",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    borderRadius: "12px",
     overflow: "hidden",
   },
   backdrop: {
     position: "fixed",
-    zIndex: 1040,
+    zIndex: 1039,
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: "#000",
-    opacity: 0.5,
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
   },
-  articleModalHeader: {
-    borderBottom: "1px solid #e9ecef",
+  header: {
+    padding: "20px 24px 16px",
+    borderBottom: "0.5px solid rgba(0, 0, 0, 0.1)",
     display: "flex",
+    alignItems: "center",
     justifyContent: "space-between",
-    background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 100%)",
-    borderRadius: "10px 10px 0 0",
-    color: "white",
-    padding: "20px",
+    flexShrink: 0,
   },
-  modalTitle: {
-    fontWeight: 500,
-    fontSize: "1.25rem",
+  title: {
+    fontSize: "18px",
+    fontWeight: 600,
+    color: "#2d8659",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    margin: 0,
   },
   closeButton: {
-    fontSize: "1.5rem",
-    fontWeight: 700,
-    lineHeight: 1,
-    color: "#ffffff",
+    background: "none",
     border: "none",
+    fontSize: "17px",
+    fontWeight: 400,
+    color: "#2d8659",
     cursor: "pointer",
+    padding: "4px 8px",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    "&:hover": {
+      opacity: 0.7,
+    },
+    "&:active": {
+      opacity: 0.5,
+    },
   },
-  articleModalDesc: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "center",
+  content: {
+    flex: 1,
     overflowY: "auto",
-    height: "75%",
-    scrollbarWidth: "none",
-    msOverflowStyle: "none",
+    padding: "24px",
     "&::-webkit-scrollbar": {
       display: "none",
-      width: "0",
-      height: "0",
     },
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
   },
-  articleForm: {
+  inputContainer: {
     display: "flex",
     flexDirection: "column",
-    height: "100%",
-    overflow: "hidden",
+    marginBottom: "20px",
+    "&:last-child": {
+      marginBottom: 0,
+    },
   },
-  articleInput: {
+  label: {
+    fontSize: "15px",
+    fontWeight: 500,
+    color: "#2d8659",
+    marginBottom: "8px",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+  },
+  input: {
+    width: "100%",
+    padding: "12px 16px",
+    fontSize: "17px",
+    border: "1px solid #2d8659",
+    borderRadius: "8px",
+    backgroundColor: "#ffffff",
+    color: "#000000",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    outline: "none",
+    transition: "border-color 0.2s, background-color 0.2s, box-shadow 0.2s",
+    boxSizing: "border-box",
+    "&:focus": {
+      borderColor: "#4a9d6e",
+      backgroundColor: "#ffffff",
+      boxShadow: "0 0 0 3px rgba(45, 134, 89, 0.2)",
+    },
+    "&::placeholder": {
+      color: "#8e8e93",
+    },
+  },
+  textarea: {
+    width: "100%",
+    padding: "12px 16px",
+    fontSize: "17px",
+    border: "1px solid #2d8659",
+    borderRadius: "8px",
+    backgroundColor: "#ffffff",
+    color: "#000000",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    outline: "none",
+    transition: "border-color 0.2s, background-color 0.2s, box-shadow 0.2s",
+    boxSizing: "border-box",
+    minHeight: "150px",
+    resize: "vertical",
+    "&:focus": {
+      borderColor: "#4a9d6e",
+      backgroundColor: "#ffffff",
+      boxShadow: "0 0 0 3px rgba(45, 134, 89, 0.2)",
+    },
+    "&::placeholder": {
+      color: "#8e8e93",
+    },
+  },
+  footer: {
+    padding: "16px 24px 20px",
+    borderTop: "0.5px solid rgba(0, 0, 0, 0.1)",
     display: "flex",
-    alignItems: "flex-start",
-    flexDirection: "column",
-    margin: "1rem",
-    width: "90%",
-    "& input": {
-      padding: "12px 20px",
-      fontSize: "1.1rem",
-      borderWidth: "calc(var(--border-width) * 1px)",
-      borderStyle: "solid",
-      borderColor: "#2d8659",
-      borderRadius: "10px",
-      textAlign: "left",
-      outline: "transparent",
-      width: "100%",
-    },
-    "& textarea": {
-      padding: "12px 20px",
-      fontSize: "1.1rem",
-      borderWidth: "calc(var(--border-width) * 1px)",
-      borderStyle: "solid",
-      borderColor: "#2d8659",
-      borderRadius: "10px",
-      textAlign: "left",
-      outline: "transparent",
-      width: "100%",
-      minWidth: "100%",
-      minHeight: "200px",
-      maxWidth: "100%",
-    },
-    "& label": {
-      fontSize: "18px",
-      color: "#2d8659",
-      textAlign: "center",
-      marginBottom: "0.5rem",
-      marginLeft: "0.5rem",
-      fontWeight: 500,
-    },
+    gap: "12px",
+    flexShrink: 0,
+    backgroundColor: "#ffffff",
   },
-  articleModalFooter: {
-    borderTop: "1px solid #e9ecef",
-    display: "flex",
-    justifyContent: "flex-end",
-    padding: "8px",
-    paddingRight: "20px",
-    height: "fit-content",
-  },
-  secondaryButton: {
-    background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 100%)",
+  cancelButton: {
+    flex: 1,
+    padding: "14px 20px",
+    fontSize: "17px",
+    fontWeight: 400,
+    color: "#2d8659",
+    backgroundColor: "transparent",
     border: "none",
     borderRadius: "8px",
-    boxShadow: "rgba(45, 134, 89, 0.2) 0 2px 4px 0",
-    boxSizing: "border-box",
+    cursor: "pointer",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    transition: "background-color 0.2s",
+    "&:hover": {
+      backgroundColor: "rgba(45, 134, 89, 0.1)",
+    },
+    "&:active": {
+      backgroundColor: "rgba(45, 134, 89, 0.15)",
+    },
+  },
+  saveButton: {
+    flex: 1,
+    padding: "14px 20px",
+    fontSize: "17px",
+    fontWeight: 600,
     color: "#ffffff",
-    cursor: "pointer",
-    fontFamily:
-      '"Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif',
-    fontSize: "16px",
-    fontWeight: 500,
-    padding: "18px 40px",
-    textAlign: "center",
-    transform: "translateY(0)",
-    transition: "transform 150ms, box-shadow 150ms",
-    touchAction: "manipulation",
-    margin: "0.5rem",
-    "&:hover": {
-      boxShadow: "rgba(45, 134, 89, 0.3) 0 3px 9px 0",
-      transform: "translateY(-2px)",
-    },
-  },
-  primaryButton: {
     background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 100%)",
     border: "none",
     borderRadius: "8px",
-    boxShadow: "rgba(45, 134, 89, 0.2) 0 2px 4px 0",
-    boxSizing: "border-box",
-    color: "#fff",
     cursor: "pointer",
     fontFamily:
-      '"Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif',
-    fontSize: "16px",
-    fontWeight: 500,
-    textAlign: "center",
-    transform: "translateY(0)",
-    transition: "transform 150ms, box-shadow 150ms",
-    touchAction: "manipulation",
-    padding: "18px 40px",
-    margin: "0.5rem",
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    boxShadow: "rgba(45, 134, 89, 0.2) 0 2px 4px 0",
+    transition: "opacity 0.2s, transform 0.2s, box-shadow 0.2s",
     "&:hover": {
-      boxShadow: "rgba(45, 134, 89, 0.3) 0 3px 9px 0",
-      transform: "translateY(-2px)",
+      boxShadow: "rgba(45, 134, 89, 0.3) 0 3px 8px 0",
+      transform: "translateY(-1px)",
+    },
+    "&:active": {
+      opacity: 0.8,
+      transform: "translateY(0)",
     },
   },
   "@media (max-width: 768px)": {
-    addArticleModal: {
+    modalChange: {
       width: "100%",
-      height: "100%",
+      maxWidth: "100%",
+      top: "auto",
+      bottom: 0,
       left: 0,
-      top: 0,
-      borderRadius: 0,
+      transform: "none",
+      borderRadius: "12px 12px 0 0",
+      maxHeight: "85vh",
     },
-    articleModalHeader: {
-      padding: "1rem 1.5rem",
-      borderRadius: 0,
+    header: {
+      padding: "16px 20px 12px",
     },
-    modalTitle: {
-      fontSize: "1.2rem",
+    content: {
+      padding: "20px",
     },
-    articleModalDesc: {
-      padding: "1.5rem",
-      maxHeight: "calc(100vh - 200px)",
-    },
-    articleInput: {
-      width: "100%",
-      margin: "0.75rem",
-      "& input": {
-        fontSize: "18px",
-        padding: "12px 18px",
-      },
-      "& textarea": {
-        fontSize: "18px",
-        padding: "12px 18px",
-        minHeight: "150px",
-      },
-      "& label": {
-        fontSize: "16px",
-      },
-    },
-    articleModalFooter: {
-      padding: "6px",
-      paddingRight: "12px",
-    },
-    secondaryButton: {
-      padding: "14px 28px",
-      fontSize: "15px",
-    },
-    primaryButton: {
-      padding: "14px 28px",
-      fontSize: "15px",
+    footer: {
+      padding: "16px 20px",
     },
   },
   "@media (max-width: 480px)": {
-    addArticleModal: {
-      width: "100%",
-      height: "100%",
-      left: 0,
-      top: 0,
-      borderRadius: 0,
+    modalChange: {
+      maxHeight: "90vh",
     },
-    articleModalHeader: {
-      padding: "0.75rem 1rem",
-      borderRadius: 0,
+    title: {
+      fontSize: "16px",
     },
-    modalTitle: {
-      fontSize: "1.1rem",
+    input: {
+      fontSize: "16px",
+      padding: "14px 16px",
     },
-    articleModalDesc: {
-      padding: "1rem",
-      maxHeight: "calc(100vh - 180px)",
+    textarea: {
+      fontSize: "16px",
+      padding: "14px 16px",
+      minHeight: "120px",
     },
-    articleInput: {
-      margin: "0.5rem",
-      "& input": {
-        fontSize: "16px",
-        padding: "10px 15px",
-      },
-      "& textarea": {
-        fontSize: "16px",
-        padding: "10px 15px",
-        minHeight: "120px",
-      },
-      "& label": {
-        fontSize: "15px",
-      },
+    saveButton: {
+      fontSize: "16px",
     },
-    articleModalFooter: {
-      padding: "4px",
-      paddingRight: "8px",
-    },
-    secondaryButton: {
-      padding: "12px 24px",
-      fontSize: "14px",
-    },
-    primaryButton: {
-      padding: "12px 24px",
-      fontSize: "14px",
+    cancelButton: {
+      fontSize: "16px",
     },
   },
 });
@@ -269,11 +248,23 @@ const initialState = {
 
 const AddArticleModalAdmin = ({ isOpen, handleClose }) => {
   const classes = useStyles();
+  const [values, setValues] = useState(initialState);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   const renderBackdrop = (props) => (
     <div className={classes.backdrop} {...props} />
   );
-  const [values, setValues] = useState(initialState);
-  const dispatch = useDispatch();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -295,70 +286,84 @@ const AddArticleModalAdmin = ({ isOpen, handleClose }) => {
   };
 
   const handleChange = (e) => {
+    e.stopPropagation();
     const name = e.target.name;
     const value = e.target.value;
-
     setValues({ ...values, [name]: value });
   };
 
+  if (!isOpen) return null;
+
   return (
     <Modal
-      className={classes.addArticleModal}
+      className={classes.modalChange}
       show={isOpen}
       onHide={handleClose}
       renderBackdrop={renderBackdrop}>
-      <div className={classes.addArticleModal}>
-        <div className={classes.articleModalHeader}>
-          <div className={classes.modalTitle}>Add article</div>
-          <div>
-            <span className={classes.closeButton} onClick={handleClose}>
-              x
-            </span>
-          </div>
+      <div className={classes.modal}>
+        <div className={classes.header}>
+          <h2 className={classes.title}>Add Article</h2>
+          <button className={classes.closeButton} onClick={onClose}>
+            Cancel
+          </button>
         </div>
-        <form className={classes.articleForm} onSubmit={onSubmit}>
-          <div className={classes.articleModalDesc}>
-            <div className={classes.articleInput}>
-              <label>Title</label>
+        <form onSubmit={onSubmit}>
+          <div className={classes.content}>
+            <div className={classes.inputContainer}>
+              <label htmlFor="name" className={classes.label}>
+                Title
+              </label>
               <input
-                type="text"
                 id="name"
-                onChange={handleChange}
+                type="text"
                 name="name"
                 value={values.name}
+                onChange={handleChange}
+                className={classes.input}
+                placeholder="Enter article title..."
+                required
               />
             </div>
-            <div className={classes.articleInput}>
-              <label>Image url</label>
+            <div className={classes.inputContainer}>
+              <label htmlFor="image" className={classes.label}>
+                Image URL
+              </label>
               <input
-                type="text"
                 id="image"
-                onChange={handleChange}
+                type="text"
                 name="image"
                 value={values.image}
+                onChange={handleChange}
+                className={classes.input}
+                placeholder="Enter image URL..."
+                required
               />
             </div>
-            <div className={classes.articleInput}>
-              <label>Article</label>
+            <div className={classes.inputContainer}>
+              <label htmlFor="description" className={classes.label}>
+                Article
+              </label>
               <textarea
-                type="text"
-                onChange={handleChange}
+                id="description"
                 name="description"
                 value={values.description}
+                onChange={handleChange}
+                className={classes.textarea}
+                placeholder="Enter article content..."
+                required
               />
             </div>
           </div>
-          <div className={classes.articleModalFooter}>
+          <div className={classes.footer}>
             <button
               type="button"
-              className={classes.secondaryButton}
+              className={classes.cancelButton}
               onClick={onClose}>
-              Close
+              Cancel
             </button>
-            <input
-              type="submit"
-              value="Save Changes"
-              className={classes.primaryButton}></input>
+            <button type="submit" className={classes.saveButton}>
+              Save Changes
+            </button>
           </div>
         </form>
       </div>
