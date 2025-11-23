@@ -70,19 +70,13 @@ const AddTransportModal = ({ isOpen, handleClose }) => {
 
     setIsCalculating(true);
 
-    // Clear existing timer
     if (debounceTimer.current) {
       clearTimeout(debounceTimer.current);
     }
 
     debounceTimer.current = setTimeout(async () => {
       try {
-        // const estimatedFootprint = await calculateFootprintClimatiq(
-        //   transportName,
-        //   kilometers
-        // );
-
-        const estimatedFootprint = calculateFootprintLocal(
+        const estimatedFootprint = await calculateFootprintClimatiq(
           transportName,
           kilometers
         );
@@ -112,7 +106,6 @@ const AddTransportModal = ({ isOpen, handleClose }) => {
 
     setValues({ ...values, [name]: value });
 
-    // Auto-calculate footprint when name or kilometers change
     if (name === "name" || name === "kilometers") {
       const newValues = { ...values, [name]: value };
       if (newValues.name && newValues.kilometers) {
@@ -200,7 +193,7 @@ const AddTransportModal = ({ isOpen, handleClose }) => {
             <div className={classes.footprintInput}>
               <label>Footprint {isCalculating && "(calculating...)"}</label>
               <input
-                type="number"
+                type="float"
                 id="footprint"
                 onChange={handleNumberChange}
                 name="footprint"

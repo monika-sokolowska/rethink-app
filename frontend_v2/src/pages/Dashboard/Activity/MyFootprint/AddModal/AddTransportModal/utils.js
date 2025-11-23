@@ -15,8 +15,6 @@ export const TRANSPORT_OPTIONS = [
   { value: "truck", label: "Truck" },
   { value: "bicycle", label: "Bicycle" },
   { value: "bike", label: "Bike" },
-  { value: "walking", label: "Walking" },
-  { value: "walk", label: "Walk" },
 ];
 
 export const EMISSION_FACTORS = {
@@ -28,8 +26,6 @@ export const EMISSION_FACTORS = {
   airplane: 0.25,
   bicycle: 0,
   bike: 0,
-  walking: 0,
-  walk: 0,
   motorcycle: 0.12,
   motorbike: 0.12,
   truck: 0.3,
@@ -74,33 +70,28 @@ export const calculateFootprintClimatiq = async (transportName, kilometers) => {
     const activityId =
       TRANSPORT_ACTIVITY_IDS[transportType] || TRANSPORT_ACTIVITY_IDS.default;
 
-    if (
-      transportType === "bicycle" ||
-      transportType === "bike" ||
-      transportType === "walking" ||
-      transportType === "walk"
-    ) {
+    if (transportType === "bicycle" || transportType === "bike") {
       return 0;
     }
 
     const response = null;
-    // await fetch(CLIMATIQ_API_URL, {
-    //   method: "POST",
-    //   headers: {
-    //     Authorization: `Bearer ${CLIMATIQ_API_KEY}`,
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     emission_factor: {
-    //       activity_id: activityId,
-    //       data_version: "^21",
-    //     },
-    //     parameters: {
-    //       distance: kilometers,
-    //       distance_unit: "km",
-    //     },
-    //   }),
-    // });
+    await fetch(CLIMATIQ_API_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${CLIMATIQ_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        emission_factor: {
+          activity_id: activityId,
+          data_version: "^21",
+        },
+        parameters: {
+          distance: kilometers,
+          distance_unit: "km",
+        },
+      }),
+    });
 
     if (!response.ok) {
       throw new Error(`API error: ${response.status}`);
