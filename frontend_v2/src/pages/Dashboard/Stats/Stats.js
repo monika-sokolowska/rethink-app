@@ -1,13 +1,14 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getStats } from "../../../reducers/statsSlice";
+import { getStats, getAveragePerson } from "../../../reducers/statsSlice";
 import {
   getTransportFootprint,
   getFoodFootprint,
   getOtherFootprint,
   getCompensatedFootprint,
 } from "../../../reducers/dailyFootprintSlice";
+import { getHouseholdFootprint } from "../../../reducers/householdFootprintSlice";
 import { createUseStyles } from "react-jss";
 import {
   Chart as ChartJS,
@@ -159,19 +160,24 @@ const Stats = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.user);
-  const { stats } = useSelector((store) => store.stats);
+  const { stats, averagePerson } = useSelector((store) => store.stats);
   const { transport, food, other, compensated } = useSelector(
     (store) => store.footprint
+  );
+  const { householdFootprint } = useSelector(
+    (store) => store.householdFootprint
   );
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     if (user?.id) {
       dispatch(getStats());
+      dispatch(getAveragePerson());
       dispatch(getTransportFootprint());
       dispatch(getFoodFootprint());
       dispatch(getOtherFootprint());
       dispatch(getCompensatedFootprint());
+      dispatch(getHouseholdFootprint());
     }
   }, [dispatch, user?.id]);
 
@@ -231,6 +237,33 @@ const Stats = () => {
       },
     ],
   };
+
+  const avgHouseholdFootprintValue = averagePerson?.householdFootprint;
+  const avgHouseholdFootprint =
+    typeof avgHouseholdFootprintValue === "number"
+      ? avgHouseholdFootprintValue
+      : parseFloat(avgHouseholdFootprintValue) || 0;
+
+  const userHouseholdFootprintValue = householdFootprint?.footprint;
+  const userHouseholdFootprint =
+    typeof userHouseholdFootprintValue === "number"
+      ? userHouseholdFootprintValue
+      : parseFloat(userHouseholdFootprintValue) || 0;
+
+  const householdFootprintChartData =
+    averagePerson && householdFootprint
+      ? {
+          labels: ["Average Household Footprint", "Your Household Footprint"],
+          datasets: [
+            {
+              label: "Household Carbon Footprint (kg CO2)",
+              data: [avgHouseholdFootprint, userHouseholdFootprint],
+              backgroundColor: [greenShades[0], greenShades[1]],
+              borderRadius: 8,
+            },
+          ],
+        }
+      : null;
 
   const barChartOptions = {
     responsive: true,
@@ -368,6 +401,30 @@ const Stats = () => {
                 />
               ) : (
                 <Bar data={footprintTypesData} options={barChartOptions} />
+              )}
+            </div>
+          </div>
+        )}
+
+        {householdFootprintChartData && (
+          <div className={classes.chartWrapper}>
+            <h2 className={classes.chartTitle}>
+              Household Footprint Comparison
+            </h2>
+            <div
+              className={
+                isMobile ? classes.doughnutContainer : classes.chartContainer
+              }>
+              {isMobile ? (
+                <Doughnut
+                  data={householdFootprintChartData}
+                  options={doughnutChartOptions}
+                />
+              ) : (
+                <Bar
+                  data={householdFootprintChartData}
+                  options={barChartOptions}
+                />
               )}
             </div>
           </div>

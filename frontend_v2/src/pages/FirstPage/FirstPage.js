@@ -1,6 +1,8 @@
 import firstPage from "../../assets/images/firstPage.svg";
 import Header from "../Header/Header";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -251,6 +253,16 @@ const useStyles = createUseStyles({
 
 const FirstPage = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
+  const { user } = useSelector((store) => store.user);
+
+  useEffect(() => {
+    if (user) {
+      if (user.roles.includes("ROLE_ADMIN")) navigate("/admin");
+      else navigate("/home");
+    }
+  }, [navigate, user]);
+
   return (
     <div className={classes.firstPageContainer}>
       <Header />

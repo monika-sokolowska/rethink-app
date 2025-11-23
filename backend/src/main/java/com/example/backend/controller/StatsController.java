@@ -57,7 +57,7 @@ public class StatsController {
         return ResponseEntity.ok(statsService.updateAverageHouseholdFootprint(updateDTO));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(path="/average-person")
     public ResponseEntity<AveragePersonDTO> getAveragePerson() {
         return ResponseEntity.ok(statsService.getAveragePerson());
