@@ -34,7 +34,7 @@ public class StatsController {
     }
 
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(path="/daily")
     public ResponseEntity<DailyStatsDTO> getDailyStats() {
 
@@ -55,6 +55,12 @@ public class StatsController {
     public ResponseEntity<AveragePersonDTO> updateAverageHouseholdFootprint(
             @RequestBody UpdateAverageHouseholdFootprintDTO updateDTO) {
         return ResponseEntity.ok(statsService.updateAverageHouseholdFootprint(updateDTO));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(path="/average-person")
+    public ResponseEntity<AveragePersonDTO> getAveragePerson() {
+        return ResponseEntity.ok(statsService.getAveragePerson());
     }
 
 }

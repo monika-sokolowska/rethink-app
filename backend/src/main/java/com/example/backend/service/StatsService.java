@@ -181,4 +181,17 @@ public class StatsService {
                 saved.getHouseholdFootprint()
         );
     }
+
+    public AveragePersonDTO getAveragePerson() {
+        AveragePerson averagePerson = averagePersonRepository.findAvergagePerson();
+        if (averagePerson == null) {
+            return new AveragePersonDTO(null, "PL", 0.0f, 0.0f);
+        }
+        return new AveragePersonDTO(
+                averagePerson.getId(),
+                averagePerson.getCountry(),
+                averagePerson.getDailyFootprint(),
+                averagePerson.getHouseholdFootprint()
+        );
+    }
 }
