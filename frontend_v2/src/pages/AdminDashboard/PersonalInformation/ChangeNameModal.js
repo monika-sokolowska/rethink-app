@@ -15,7 +15,7 @@ const useStyles = createUseStyles({
     left: "50%",
     transform: "translate(-50%, -50%)",
     backgroundColor: "#ffffff",
-    borderRadius: "20px",
+    borderRadius: "12px",
     boxShadow: "0 10px 40px rgba(0, 0, 0, 0.2)",
     display: "flex",
     flexDirection: "column",
@@ -26,7 +26,7 @@ const useStyles = createUseStyles({
     width: "100%",
     display: "flex",
     flexDirection: "column",
-    borderRadius: "20px",
+    borderRadius: "12px",
     overflow: "hidden",
   },
   backdrop: {
@@ -47,9 +47,9 @@ const useStyles = createUseStyles({
     flexShrink: 0,
   },
   title: {
-    fontSize: "20px",
+    fontSize: "18px",
     fontWeight: 600,
-    color: "#000000",
+    color: "#2d8659",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
     margin: 0,
@@ -102,7 +102,7 @@ const useStyles = createUseStyles({
     padding: "12px 16px",
     fontSize: "17px",
     border: "1px solid #2d8659",
-    borderRadius: "10px",
+    borderRadius: "8px",
     backgroundColor: "#ffffff",
     color: "#000000",
     fontFamily:
@@ -135,7 +135,7 @@ const useStyles = createUseStyles({
     color: "#2d8659",
     backgroundColor: "transparent",
     border: "none",
-    borderRadius: "10px",
+    borderRadius: "8px",
     cursor: "pointer",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
@@ -155,7 +155,7 @@ const useStyles = createUseStyles({
     color: "#ffffff",
     background: "linear-gradient(135deg, #2d8659 0%, #4a9d6e 100%)",
     border: "none",
-    borderRadius: "10px",
+    borderRadius: "8px",
     cursor: "pointer",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
@@ -178,7 +178,7 @@ const useStyles = createUseStyles({
       bottom: 0,
       left: 0,
       transform: "none",
-      borderRadius: "20px 20px 0 0",
+      borderRadius: "12px 12px 0 0",
       maxHeight: "85vh",
     },
     header: {
@@ -196,7 +196,7 @@ const useStyles = createUseStyles({
       maxHeight: "90vh",
     },
     title: {
-      fontSize: "18px",
+      fontSize: "16px",
     },
     input: {
       fontSize: "16px",
@@ -216,7 +216,13 @@ const initialState = {
   lastName: "",
 };
 
-const ChangeNameModal = ({ isOpen, handleClose, currentName, currentLastName, userId }) => {
+const ChangeNameModal = ({
+  isOpen,
+  handleClose,
+  currentName,
+  currentLastName,
+  userId,
+}) => {
   const classes = useStyles();
   const [values, setValues] = useState({
     name: currentName || "",
