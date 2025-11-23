@@ -46,6 +46,17 @@ public class UserService {
         return convertUserToUserDTO(user);
     }
 
+    public UserDTO updateUserNameById(Integer id, UpdateUserNameDTO updateDTO) {
+        User user = userRepository.findUserById(id);
+        if (updateDTO.name() != null && !updateDTO.name().trim().isEmpty()) {
+            user.setName(updateDTO.name());
+        }
+        if (updateDTO.lastName() != null && !updateDTO.lastName().trim().isEmpty()) {
+            user.setLastName(updateDTO.lastName());
+        }
+        userRepository.save(user);
+        return convertUserToUserDTO(user);
+    }
 
     public UserDTO convertUserToUserDTO(User user) {
         return new UserDTO(

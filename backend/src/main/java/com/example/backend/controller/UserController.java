@@ -138,4 +138,10 @@ public class UserController {
         UserDetailsImpl user = GetCurrentUser();
         return ResponseEntity.ok(userService.findUserById(user.getId()));
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping(path="/update-name")
+    public ResponseEntity<UserDTO> updateUserName(@RequestBody UpdateUserNameDTO updateDTO) {
+        return ResponseEntity.ok(userService.updateUserNameById(updateDTO.userId(), updateDTO));
+    }
 }
