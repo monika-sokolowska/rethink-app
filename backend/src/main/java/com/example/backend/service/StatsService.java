@@ -3,6 +3,7 @@ package com.example.backend.service;
 import com.example.backend.DTO.AveragePersonDTO;
 import com.example.backend.DTO.DailyFootprintDTO;
 import com.example.backend.DTO.DailyStatsDTO;
+import com.example.backend.DTO.UpdateAverageDailyFootprintDTO;
 import com.example.backend.model.*;
 import com.example.backend.repository.*;
 import org.springframework.stereotype.Service;
@@ -143,6 +144,23 @@ public class StatsService {
         return new DailyStatsDTO(
                 averagePerson.getDailyFootprint(),
                 dailyFootprint
+        );
+    }
+
+    public AveragePersonDTO updateAverageDailyFootprint(UpdateAverageDailyFootprintDTO updateDTO) {
+        AveragePerson averagePerson = averagePersonRepository.findAvergagePerson();
+        if (averagePerson == null) {
+            averagePerson = new AveragePerson();
+            averagePerson.setCountry("PL");
+            averagePerson.setHouseholdFootprint(0.0f);
+        }
+        averagePerson.setDailyFootprint(updateDTO.avgDailyFootprint());
+        AveragePerson saved = averagePersonRepository.save(averagePerson);
+        return new AveragePersonDTO(
+                saved.getId(),
+                saved.getCountry(),
+                saved.getDailyFootprint(),
+                saved.getHouseholdFootprint()
         );
     }
 }
