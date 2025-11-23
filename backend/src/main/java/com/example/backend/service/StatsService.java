@@ -36,30 +36,64 @@ public class StatsService {
 
     public Float sumDailyFootprintById(Integer id)  {
 
-        List<DailyFootprint> listOfEntities = dailyFootprintRepository.findMonthlyFootprintById(id);
-        Float sum = (float) 0;
-
-        for (DailyFootprint t : listOfEntities) {
-            sum = sum+1;
-        }
-
-
-        Float transportFootprintSum = sumMonthlyTransportFootprintById(id);
-        Float foodFootprintSum = sumMonthlyFoodFootprintById(id);
-        Float otherFootprintSum = sumMonthlyOtherFootprintById(id);
-        Float compensatedFootprintSum = sumMonthlyCompensatedFootprintById(id);
+        Float transportFootprintSum = sumDailyTransportFootprintById(id);
+        Float foodFootprintSum = sumDailyFoodFootprintById(id);
+        Float otherFootprintSum = sumDailyOtherFootprintById(id);
+        Float compensatedFootprintSum = sumDailyCompensatedFootprintById(id);
 
         System.out.println(transportFootprintSum);
         System.out.println(foodFootprintSum);
         System.out.println(otherFootprintSum);
         System.out.println(compensatedFootprintSum);
-        System.out.println(sum);
-        System.out.println((transportFootprintSum+foodFootprintSum+otherFootprintSum-compensatedFootprintSum)/sum);
+        System.out.println((transportFootprintSum+foodFootprintSum+otherFootprintSum-compensatedFootprintSum));
 
-
-        return (transportFootprintSum+foodFootprintSum+otherFootprintSum-compensatedFootprintSum)/sum;
+        return transportFootprintSum+foodFootprintSum+otherFootprintSum-compensatedFootprintSum;
     }
 
+
+    public Float sumDailyTransportFootprintById(Integer id)  {
+
+        List<TransportFootprint> listOfEntities = transportFootprintRepository.findTransportFootprintById(id);
+        Float sum = (float) 0;
+
+        for (TransportFootprint t : listOfEntities) {
+            sum += t.getFootprint();
+        }
+        return sum;
+    }
+
+    public Float sumDailyFoodFootprintById(Integer id)  {
+
+        List<FoodFootprint> listOfEntities = foodFootprintRepository.findFoodFootprintById(id);
+        Float sum = (float) 0;
+
+        for (FoodFootprint t : listOfEntities) {
+            sum += t.getFootprint();
+        }
+        return sum;
+    }
+
+    public Float sumDailyOtherFootprintById(Integer id)  {
+
+        List<OtherFootprint> listOfEntities = otherFootprintRepository.findOtherFootprintById(id);
+        Float sum = (float) 0;
+
+        for (OtherFootprint t : listOfEntities) {
+            sum += t.getFootprint();
+        }
+        return sum;
+    }
+
+    public Float sumDailyCompensatedFootprintById(Integer id)  {
+
+        List<CompensatedFootprint> listOfEntities = compensatedFootprintRepository.findCompensatedFootprintById(id);
+        Float sum = (float) 0;
+
+        for (CompensatedFootprint t : listOfEntities) {
+            sum += t.getFootprint();
+        }
+        return sum;
+    }
 
     public Float sumMonthlyTransportFootprintById(Integer id)  {
 
