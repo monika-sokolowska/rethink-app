@@ -1,9 +1,234 @@
 import Modal from "react-overlays/Modal";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addTransportFootprint } from "../../../../../../reducers/dailyFootprintSlice";
 import { createUseStyles } from "react-jss";
+import {
+  calculateFootprintLocal,
+  TRANSPORT_OPTIONS,
+  calculateFootprintClimatiq,
+} from "./utils";
+
+const initialState = {
+  name: "",
+  kilometers: 0,
+  footprint: 0,
+};
+
+const AddTransportModal = ({ isOpen, handleClose }) => {
+  const classes = useStyles();
+  const [values, setValues] = useState(initialState);
+  const [isCalculating, setIsCalculating] = useState(false);
+  const dispatch = useDispatch();
+  const debounceTimer = useRef(null);
+  const renderBackdrop = (props) => (
+    <div className={classes.backdrop} {...props} />
+  );
+  const minFootprint = 0;
+  const maxFootprint = 5000;
+
+  const minKilometers = 0;
+  const maxKilometers = 10000;
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const { name, kilometers, footprint } = values;
+    if (!name || !kilometers || !footprint) {
+      toast.error("Please fill out all fields");
+      return;
+    }
+
+    dispatch(
+      addTransportFootprint({
+        name: name,
+        kilometers: kilometers,
+        footprint: footprint,
+      })
+    );
+    handleClose();
+    setValues(initialState);
+  };
+
+  const onClose = () => {
+    handleClose();
+    setValues(initialState);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+    };
+  }, []);
+
+  const estimateFootprint = async (transportName, kilometers) => {
+    if (!transportName || !kilometers || kilometers <= 0) {
+      return;
+    }
+
+    setIsCalculating(true);
+
+    // Clear existing timer
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    debounceTimer.current = setTimeout(async () => {
+      try {
+        // const estimatedFootprint = await calculateFootprintClimatiq(
+        //   transportName,
+        //   kilometers
+        // );
+
+        const estimatedFootprint = calculateFootprintLocal(
+          transportName,
+          kilometers
+        );
+
+        setValues((prev) => ({
+          ...prev,
+          footprint: estimatedFootprint,
+        }));
+      } catch (error) {
+        const estimatedFootprint = calculateFootprintLocal(
+          transportName,
+          kilometers
+        );
+        setValues((prev) => ({
+          ...prev,
+          footprint: estimatedFootprint,
+        }));
+      } finally {
+        setIsCalculating(false);
+      }
+    }, 500);
+  };
+
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setValues({ ...values, [name]: value });
+
+    // Auto-calculate footprint when name or kilometers change
+    if (name === "name" || name === "kilometers") {
+      const newValues = { ...values, [name]: value };
+      if (newValues.name && newValues.kilometers) {
+        estimateFootprint(
+          newValues.name,
+          parseFloat(newValues.kilometers) || 0
+        );
+      }
+    }
+  };
+
+  const handleNumberChange = (e) => {
+    e.stopPropagation();
+
+    const name = e.target.name;
+    let value = e.target.value;
+
+    if (name === "footprint") {
+      value = Math.max(
+        minFootprint,
+        Math.min(maxFootprint, Number(e.target.value))
+      );
+    } else if (name === "kilometers") {
+      value = Math.max(
+        minKilometers,
+        Math.min(maxKilometers, Number(e.target.value))
+      );
+    }
+
+    const newValues = { ...values, [name]: value };
+    setValues(newValues);
+
+    // Auto-calculate footprint when kilometers change
+    if (name === "kilometers" && newValues.name && newValues.kilometers) {
+      estimateFootprint(newValues.name, parseFloat(newValues.kilometers) || 0);
+    }
+  };
+
+  return (
+    <Modal
+      className={classes.modal}
+      show={isOpen}
+      onHide={handleClose}
+      renderBackdrop={renderBackdrop}>
+      <div className={classes.modal}>
+        <div className={classes.modalHeader}>
+          <div className={classes.bottomSheetHandle}></div>
+          <div className={classes.modalTitle}>Add transport footprint</div>
+          <div>
+            <span className={classes.closeButton} onClick={handleClose}>
+              x
+            </span>
+          </div>
+        </div>
+        <form className="footprint-form" onSubmit={onSubmit}>
+          <div className={classes.modalDesc}>
+            <div className={classes.footprintInput}>
+              <label>Transport type</label>
+              <select
+                id="name"
+                onChange={handleChange}
+                name="name"
+                value={values.name}
+                required>
+                <option value="">Select transport type</option>
+                {TRANSPORT_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className={classes.footprintInput}>
+              <label>Kilometers</label>
+              <input
+                type="number"
+                id="kilometers"
+                onChange={handleNumberChange}
+                name="kilometers"
+                value={values.kilometers}
+                min={minKilometers}
+                max={maxKilometers}
+              />
+            </div>
+            <div className={classes.footprintInput}>
+              <label>Footprint {isCalculating && "(calculating...)"}</label>
+              <input
+                type="number"
+                id="footprint"
+                onChange={handleNumberChange}
+                name="footprint"
+                value={values.footprint}
+                placeholder="Auto-calculated"
+                min={minFootprint}
+                max={maxFootprint}
+              />
+            </div>
+          </div>
+          <div className={classes.modalFooter}>
+            <button
+              className={classes.secondaryButton}
+              onClick={onClose}
+              type="button">
+              Close
+            </button>
+            <input
+              type="submit"
+              value="Save Changes"
+              className={classes.primaryButton}></input>
+          </div>
+        </form>
+      </div>
+    </Modal>
+  );
+};
+export default AddTransportModal;
 
 const useStyles = createUseStyles({
   modal: {
@@ -70,6 +295,31 @@ const useStyles = createUseStyles({
       textAlign: "center",
       outline: "transparent",
       width: "100%",
+    },
+    "& select": {
+      padding: "12px 20px",
+      fontSize: "2.5vh",
+      borderWidth: "calc(var(--border-width) * 1px)",
+      borderStyle: "solid",
+      borderColor: "#2d8659",
+      borderRadius: "10px",
+      textAlign: "center",
+      outline: "transparent",
+      width: "100%",
+      backgroundColor: "#ffffff",
+      color: "#2d8659",
+      cursor: "pointer",
+      fontFamily:
+        '"Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif',
+      "&:focus": {
+        borderColor: "#4a9d6e",
+        boxShadow: "0 0 0 3px rgba(45, 134, 89, 0.2)",
+      },
+      "& option": {
+        padding: "8px",
+        backgroundColor: "#ffffff",
+        color: "#2d8659",
+      },
     },
     "& label": {
       fontSize: "15px",
@@ -173,6 +423,10 @@ const useStyles = createUseStyles({
     footprintInput: {
       width: "100%",
       margin: "0.75rem",
+      "& select": {
+        fontSize: "18px",
+        padding: "14px 18px",
+      },
     },
   },
   "@media (max-width: 480px)": {
@@ -203,6 +457,10 @@ const useStyles = createUseStyles({
         fontSize: "16px",
         padding: "10px 15px",
       },
+      "& select": {
+        fontSize: "16px",
+        padding: "10px 15px",
+      },
       "& label": {
         fontSize: "14px",
       },
@@ -221,142 +479,3 @@ const useStyles = createUseStyles({
     },
   },
 });
-
-const initialState = {
-  name: "",
-  kilometers: 0,
-  footprint: 0,
-};
-
-const AddTransportModal = ({ isOpen, handleClose }) => {
-  const classes = useStyles();
-  const [values, setValues] = useState(initialState);
-  const dispatch = useDispatch();
-  const renderBackdrop = (props) => (
-    <div className={classes.backdrop} {...props} />
-  );
-  const minFootprint = 0;
-  const maxFootprint = 5000;
-
-  const minKilometers = 0;
-  const maxKilometers = 10000;
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const { name, kilometers, footprint } = values;
-    if (!name || !kilometers || !footprint) {
-      toast.error("Please fill out all fields");
-      return;
-    }
-
-    dispatch(
-      addTransportFootprint({
-        name: name,
-        kilometers: kilometers,
-        footprint: footprint,
-      })
-    );
-    handleClose();
-    setValues(initialState);
-  };
-
-  const onClose = () => {
-    handleClose();
-    setValues(initialState);
-  };
-
-  const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
-    setValues({ ...values, [name]: value });
-  };
-
-  const handleNumberChange = (e) => {
-    e.stopPropagation();
-
-    const name = e.target.name;
-    let value = e.target.value;
-
-    if (name === "footprint") {
-      value = Math.max(
-        minFootprint,
-        Math.min(maxFootprint, Number(e.target.value))
-      );
-    } else if (name === "kilometers") {
-      value = Math.max(
-        minKilometers,
-        Math.min(maxKilometers, Number(e.target.value))
-      );
-    }
-
-    setValues({ ...values, [name]: value });
-  };
-
-  return (
-    <Modal
-      className={classes.modal}
-      show={isOpen}
-      onHide={handleClose}
-      renderBackdrop={renderBackdrop}>
-      <div className={classes.modal}>
-        <div className={classes.modalHeader}>
-          <div className={classes.bottomSheetHandle}></div>
-          <div className={classes.modalTitle}>Add transport footprint</div>
-          <div>
-            <span className={classes.closeButton} onClick={handleClose}>
-              x
-            </span>
-          </div>
-        </div>
-        <form className="footprint-form" onSubmit={onSubmit}>
-          <div className={classes.modalDesc}>
-            <div className={classes.footprintInput}>
-              <label>Transport name</label>
-              <input
-                type="text"
-                id="name"
-                onChange={handleChange}
-                name="name"
-                value={values.name}
-              />
-            </div>
-            <div className={classes.footprintInput}>
-              <label>Kilometers</label>
-              <input
-                type="number"
-                id="kilometers"
-                onChange={handleChange}
-                name="kilometers"
-                value={values.kilometers}
-              />
-            </div>
-            <div className={classes.footprintInput}>
-              <label>Footprint</label>
-              <input
-                type="number"
-                id="footprint"
-                onChange={handleChange}
-                name="footprint"
-                value={values.footprint}
-              />
-            </div>
-          </div>
-          <div className={classes.modalFooter}>
-            <button
-              className={classes.secondaryButton}
-              onClick={onClose}
-              type="button">
-              Close
-            </button>
-            <input
-              type="submit"
-              value="Save Changes"
-              className={classes.primaryButton}></input>
-          </div>
-        </form>
-      </div>
-    </Modal>
-  );
-};
-export default AddTransportModal;
