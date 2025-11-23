@@ -1,8 +1,9 @@
 import statsImage from "../../../assets/images/stats.svg";
 import { createUseStyles } from "react-jss";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getStats, getAveragePerson } from "../../../reducers/statsSlice";
+import ChangeAverageDailyFootprintModal from "./ChangeAverageDailyFootprintModal";
 
 const useStyles = createUseStyles({
   stats: {
@@ -106,6 +107,8 @@ const StatsAdmin = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.user);
   const { stats, averagePerson } = useSelector((store) => store.stats);
+  const [isDailyFootprintModalOpen, setIsDailyFootprintModalOpen] =
+    useState(false);
 
   useEffect(() => {
     if (user?.id) {
@@ -128,7 +131,11 @@ const StatsAdmin = () => {
       : parseFloat(avgHouseholdFootprintValue) || 0;
 
   const handleEditDailyFootprint = () => {
-    // TODO: Implement edit functionality
+    setIsDailyFootprintModalOpen(true);
+  };
+
+  const handleCloseDailyFootprintModal = () => {
+    setIsDailyFootprintModalOpen(false);
   };
 
   const handleEditHouseholdFootprint = () => {
@@ -168,6 +175,11 @@ const StatsAdmin = () => {
         </nav>
       </div>
       <img src={statsImage} alt="stats" />
+      <ChangeAverageDailyFootprintModal
+        isOpen={isDailyFootprintModalOpen}
+        handleClose={handleCloseDailyFootprintModal}
+        currentFootprint={avgDailyFootprint}
+      />
     </section>
   );
 };
