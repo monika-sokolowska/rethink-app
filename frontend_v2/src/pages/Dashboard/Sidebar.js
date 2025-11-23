@@ -5,6 +5,7 @@ import {
   AiOutlineFlag,
   AiOutlineThunderbolt,
   AiOutlineRead,
+  AiOutlineUser,
 } from "react-icons/ai";
 
 const useStyles = createUseStyles({
@@ -99,6 +100,14 @@ const Sidebar = () => {
           }>
           <AiOutlineRead className={classes.icon} />
           News
+        </NavLink>
+        <NavLink
+          to="/home/personalInformation"
+          className={({ isActive }) =>
+            `${classes.link} ${isActive ? classes.activeLink : ""}`
+          }>
+          <AiOutlineUser className={classes.icon} />
+          My Information
         </NavLink>
       </div>
     </div>

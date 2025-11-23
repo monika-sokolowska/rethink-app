@@ -5,6 +5,7 @@ import {
   AiOutlineFlag,
   AiOutlineThunderbolt,
   AiOutlineRead,
+  AiOutlineUser,
 } from "react-icons/ai";
 
 const useStyles = createUseStyles({
@@ -100,6 +101,11 @@ const BottomNavbar = () => {
       to: "/home/news",
       icon: AiOutlineRead,
       label: "News",
+    },
+    {
+      to: "/home/personalInformation",
+      icon: AiOutlineUser,
+      label: "My Info",
     },
   ];
 
