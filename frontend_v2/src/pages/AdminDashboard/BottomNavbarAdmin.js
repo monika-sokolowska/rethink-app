@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { createUseStyles } from "react-jss";
-import { AiOutlineBarChart, AiOutlineRead } from "react-icons/ai";
+import { AiOutlineBarChart, AiOutlineRead, AiOutlineUser } from "react-icons/ai";
 
 const useStyles = createUseStyles({
   bottomNavbar: {
@@ -85,6 +85,11 @@ const BottomNavbarAdmin = () => {
       to: "/admin/news",
       icon: AiOutlineRead,
       label: "News",
+    },
+    {
+      to: "/admin/users",
+      icon: AiOutlineUser,
+      label: "My Info",
     },
   ];
 
