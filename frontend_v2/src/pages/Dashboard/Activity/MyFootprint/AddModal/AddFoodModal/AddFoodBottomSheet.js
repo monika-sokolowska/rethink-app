@@ -36,6 +36,7 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     zIndex: 1051,
+    paddingBottom: "env(safe-area-inset-bottom)",
     "&.open": {
       transform: "translateY(0)",
     },
