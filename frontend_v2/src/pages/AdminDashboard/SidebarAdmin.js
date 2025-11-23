@@ -1,6 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { createUseStyles } from "react-jss";
-import { AiOutlineBarChart, AiOutlineRead, AiOutlineUser } from "react-icons/ai";
+import {
+  AiOutlineBarChart,
+  AiOutlineRead,
+  AiOutlineUser,
+} from "react-icons/ai";
 
 const useStyles = createUseStyles({
   sidebarContainer: {
@@ -80,7 +84,7 @@ const SidebarAdmin = () => {
           News
         </NavLink>
         <NavLink
-          to="/admin/users"
+          to="/admin/personalInformation"
           className={({ isActive }) =>
             `${classes.link} ${isActive ? classes.activeLink : ""}`
           }>

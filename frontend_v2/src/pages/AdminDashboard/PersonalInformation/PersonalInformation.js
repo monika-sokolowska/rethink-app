@@ -1,7 +1,8 @@
 import { createUseStyles } from "react-jss";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAllUsers } from "../../../reducers/usersSlice";
+import ChangeNameModal from "./ChangeNameModal";
 
 const useStyles = createUseStyles({
   usersContainer: {
@@ -73,6 +74,26 @@ const useStyles = createUseStyles({
     fontSize: "0.8rem",
     fontWeight: 500,
   },
+  editButton: {
+    backgroundColor: "#2d8659",
+    color: "#ffffff",
+    border: "none",
+    borderRadius: "8px",
+    padding: "8px 16px",
+    fontSize: "0.9rem",
+    fontWeight: 500,
+    cursor: "pointer",
+    transition: "background-color 0.2s, transform 0.2s",
+    marginTop: "1rem",
+    width: "fit-content",
+    "&:hover": {
+      backgroundColor: "#4a9d6e",
+      transform: "translateY(-2px)",
+    },
+    "&:active": {
+      transform: "translateY(0)",
+    },
+  },
   loader: {
     display: "flex",
     justifyContent: "center",
@@ -118,11 +139,12 @@ const useStyles = createUseStyles({
   },
 });
 
-const UsersAdmin = () => {
+const PersonalInformation = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.user);
   const { users, isLoading } = useSelector((store) => store.users);
+  const [isNameModalOpen, setIsNameModalOpen] = useState(false);
 
   useEffect(() => {
     if (user?.id) {
@@ -132,6 +154,14 @@ const UsersAdmin = () => {
 
   // Find current user from the users list
   const currentUserInfo = users?.find((userItem) => userItem.id === user?.id);
+
+  const handleEditName = () => {
+    setIsNameModalOpen(true);
+  };
+
+  const handleCloseNameModal = () => {
+    setIsNameModalOpen(false);
+  };
 
   return (
     <div className={classes.usersContainer}>
@@ -153,6 +183,9 @@ const UsersAdmin = () => {
                   Main Goal: {currentUserInfo.mainGoal} kg CO2
                 </div>
               )}
+              <button className={classes.editButton} onClick={handleEditName}>
+                Edit Name
+              </button>
             </div>
             <div className={classes.userRoles}>
               {currentUserInfo.roles &&
@@ -172,8 +205,15 @@ const UsersAdmin = () => {
       ) : (
         <div className={classes.emptyState}>No information available</div>
       )}
+      <ChangeNameModal
+        isOpen={isNameModalOpen}
+        handleClose={handleCloseNameModal}
+        currentName={currentUserInfo?.name}
+        currentLastName={currentUserInfo?.lastName}
+        userId={user?.id}
+      />
     </div>
   );
 };
-export default UsersAdmin;
+export default PersonalInformation;
 

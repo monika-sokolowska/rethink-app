@@ -10,7 +10,7 @@ import News from "./pages/Dashboard/News/News";
 import SharedAdminLayout from "./pages/AdminDashboard/SharedAdminLayout";
 import StatsAdmin from "./pages/AdminDashboard/StatsAdmin/StatsAdmin";
 import NewsAdmin from "./pages/AdminDashboard/NewsAdmin/NewsAdmin";
-import UsersAdmin from "./pages/AdminDashboard/UsersAdmin/UsersAdmin";
+import PersonalInformation from "./pages/AdminDashboard/PersonalInformation/PersonalInformation";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store";
@@ -36,7 +36,10 @@ function App() {
           <Route path="/admin" element={<SharedAdminLayout />}>
             <Route index element={<StatsAdmin />} />
             <Route path="/admin/news" element={<NewsAdmin />} />
-            <Route path="/admin/users" element={<UsersAdmin />} />
+            <Route
+              path="/admin/personalInformation"
+              element={<PersonalInformation />}
+            />
           </Route>
         </Routes>
         <ToastContainer
