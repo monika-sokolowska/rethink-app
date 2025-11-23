@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { getStats, getAveragePerson } from "../../../reducers/statsSlice";
 import ChangeAverageDailyFootprintModal from "./ChangeAverageDailyFootprintModal";
+import ChangeAverageHouseholdFootprintModal from "./ChangeAverageHouseholdFootprintModal";
 
 const useStyles = createUseStyles({
   stats: {
@@ -109,6 +110,8 @@ const StatsAdmin = () => {
   const { stats, averagePerson } = useSelector((store) => store.stats);
   const [isDailyFootprintModalOpen, setIsDailyFootprintModalOpen] =
     useState(false);
+  const [isHouseholdFootprintModalOpen, setIsHouseholdFootprintModalOpen] =
+    useState(false);
 
   useEffect(() => {
     if (user?.id) {
@@ -139,7 +142,11 @@ const StatsAdmin = () => {
   };
 
   const handleEditHouseholdFootprint = () => {
-    // TODO: Implement edit functionality
+    setIsHouseholdFootprintModalOpen(true);
+  };
+
+  const handleCloseHouseholdFootprintModal = () => {
+    setIsHouseholdFootprintModalOpen(false);
   };
 
   return (
@@ -179,6 +186,11 @@ const StatsAdmin = () => {
         isOpen={isDailyFootprintModalOpen}
         handleClose={handleCloseDailyFootprintModal}
         currentFootprint={avgDailyFootprint}
+      />
+      <ChangeAverageHouseholdFootprintModal
+        isOpen={isHouseholdFootprintModalOpen}
+        handleClose={handleCloseHouseholdFootprintModal}
+        currentFootprint={avgHouseholdFootprint}
       />
     </section>
   );

@@ -1,6 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { getStatsThunk, updateAverageDailyFootprintThunk } from "./statsThunk";
+import {
+  getStatsThunk,
+  updateAverageDailyFootprintThunk,
+  updateAverageHouseholdFootprintThunk,
+} from "./statsThunk";
 
 const initialState = {
   isLoading: false,
@@ -27,6 +31,19 @@ export const updateAverageDailyFootprint = createAsyncThunk(
   async (data, thunkAPI) => {
     const result = await updateAverageDailyFootprintThunk(
       `/stats/average-daily-footprint`,
+      data,
+      thunkAPI
+    );
+    thunkAPI.dispatch(getAveragePerson());
+    return result;
+  }
+);
+
+export const updateAverageHouseholdFootprint = createAsyncThunk(
+  "stats/updateAverageHouseholdFootprint",
+  async (data, thunkAPI) => {
+    const result = await updateAverageHouseholdFootprintThunk(
+      `/stats/average-household-footprint`,
       data,
       thunkAPI
     );
@@ -75,7 +92,25 @@ const statsSlice = createSlice({
       .addCase(updateAverageDailyFootprint.rejected, (state, { payload }) => {
         state.isLoading = false;
         toast.error(payload);
-      });
+      })
+      .addCase(updateAverageHouseholdFootprint.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(
+        updateAverageHouseholdFootprint.fulfilled,
+        (state, { payload }) => {
+          state.isLoading = false;
+          state.averagePerson = payload;
+          toast.success("Average household footprint updated successfully");
+        }
+      )
+      .addCase(
+        updateAverageHouseholdFootprint.rejected,
+        (state, { payload }) => {
+          state.isLoading = false;
+          toast.error(payload);
+        }
+      );
   },
 });
 
