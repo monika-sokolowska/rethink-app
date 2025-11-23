@@ -528,4 +528,3 @@ const AddFoodBottomSheet = ({ isOpen, handleClose }) => {
 };
 
 export default AddFoodBottomSheet;
-
