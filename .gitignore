@@ -108,5 +108,6 @@
 .idea/libraries/Maven__org_yaml_snakeyaml_1_33.xml
 
 # Environment files with sensitive data
+.env
 db.env
 api.env
