@@ -7,6 +7,7 @@ import com.example.backend.model.Role;
 import com.example.backend.model.User;
 import com.example.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,10 +20,12 @@ public class UserService {
 
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Iterable<User> returnAllUsers() {
@@ -55,6 +58,23 @@ public class UserService {
             user.setLastName(updateDTO.lastName());
         }
         userRepository.save(user);
+        return convertUserToUserDTO(user);
+    }
+
+    public UserDTO updatePasswordById(Integer id, UpdatePasswordDTO updateDTO) {
+        User user = userRepository.findUserById(id);
+        
+        if (!passwordEncoder.matches(updateDTO.currentPassword(), user.getPassword())) {
+            throw new RuntimeException("Current password is incorrect");
+        }
+
+        if (passwordEncoder.matches(updateDTO.newPassword(), user.getPassword())) {
+            throw new RuntimeException("New password must be different from current password");
+        }
+
+        user.setPassword(passwordEncoder.encode(updateDTO.newPassword()));
+        userRepository.save(user);
+        
         return convertUserToUserDTO(user);
     }
 

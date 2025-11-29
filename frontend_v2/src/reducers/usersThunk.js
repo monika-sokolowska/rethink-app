@@ -22,3 +22,14 @@ export const updateUserNameThunk = async (url, data, thunkAPI) => {
   }
 };
 
+export const updateUserPasswordThunk = async (url, data, thunkAPI) => {
+  try {
+    const resp = await customFetch.patch(url, data);
+    return resp.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error.response?.data?.message || "Failed to update password"
+    );
+  }
+};
+
