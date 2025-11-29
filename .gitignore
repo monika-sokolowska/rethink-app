@@ -106,3 +106,7 @@
 .idea/libraries/Maven__org_springframework_spring_webmvc_6_0_7.xml
 .idea/libraries/Maven__org_xmlunit_xmlunit_core_2_9_1.xml
 .idea/libraries/Maven__org_yaml_snakeyaml_1_33.xml
+
+# Environment files with sensitive data
+db.env
+api.env

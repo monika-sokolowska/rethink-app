@@ -152,4 +152,23 @@ public class UserController {
         }
         return ResponseEntity.ok(userService.updateUserNameById(updateDTO.userId(), updateDTO));
     }
+
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PatchMapping(path="/update-password")
+    public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordDTO updateDTO) {
+        UserDetailsImpl currentUser = GetCurrentUser();
+        if (!currentUser.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            if (currentUser.getId() != updateDTO.userId()) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+        }
+        
+        try {
+            UserDTO updatedUser = userService.updatePasswordById(updateDTO.userId(), updateDTO);
+            return ResponseEntity.ok(updatedUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new MessageResponse(e.getMessage()));
+        }
+    }
 }

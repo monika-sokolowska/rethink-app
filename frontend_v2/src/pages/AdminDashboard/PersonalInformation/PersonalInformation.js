@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getAllUsers } from "../../../reducers/usersSlice";
 import ChangeNameModal from "./ChangeNameModal";
 import ChangeNameBottomSheet from "./ChangeNameBottomSheet";
+import ChangePasswordModal from "./ChangePasswordModal";
 
 const useStyles = createUseStyles({
   usersContainer: {
@@ -146,6 +147,7 @@ const PersonalInformation = () => {
   const { user } = useSelector((store) => store.user);
   const { users, isLoading } = useSelector((store) => store.users);
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
@@ -174,6 +176,14 @@ const PersonalInformation = () => {
     setIsNameModalOpen(false);
   };
 
+  const handleChangePassword = () => {
+    setIsPasswordModalOpen(true);
+  };
+
+  const handleClosePasswordModal = () => {
+    setIsPasswordModalOpen(false);
+  };
+
   return (
     <div className={classes.usersContainer}>
       <h2 className={classes.usersHeader}>My Information</h2>
@@ -189,14 +199,23 @@ const PersonalInformation = () => {
                 {currentUserInfo.name} {currentUserInfo.lastName}
               </div>
               <div className={classes.userEmail}>{currentUserInfo.email}</div>
-              {currentUserInfo.mainGoal !== null && currentUserInfo.mainGoal !== undefined && (
-                <div className={classes.userGoal}>
-                  Main Goal: {currentUserInfo.mainGoal} kg CO2
-                </div>
-              )}
-              <button className={classes.editButton} onClick={handleEditName}>
-                Edit Name
-              </button>
+              {currentUserInfo.mainGoal !== null &&
+                currentUserInfo.mainGoal !== undefined && (
+                  <div className={classes.userGoal}>
+                    Main Goal: {currentUserInfo.mainGoal} kg CO2
+                  </div>
+                )}
+              <div
+                style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                <button className={classes.editButton} onClick={handleEditName}>
+                  Edit Name
+                </button>
+                <button
+                  className={classes.editButton}
+                  onClick={handleChangePassword}>
+                  Change Password
+                </button>
+              </div>
             </div>
             <div className={classes.userRoles}>
               {currentUserInfo.roles &&
@@ -233,8 +252,12 @@ const PersonalInformation = () => {
           userId={user?.id}
         />
       )}
+      <ChangePasswordModal
+        isOpen={isPasswordModalOpen}
+        handleClose={handleClosePasswordModal}
+        userId={user?.id}
+      />
     </div>
   );
 };
 export default PersonalInformation;
-
