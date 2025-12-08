@@ -5,6 +5,7 @@ import { getAllUsers } from "../../../reducers/usersSlice";
 import ChangeNameModal from "./ChangeNameModal";
 import ChangeNameBottomSheet from "./ChangeNameBottomSheet";
 import ChangePasswordModal from "./ChangePasswordModal";
+import ChangePasswordBottomSheet from "./ChangePasswordBottomSheet";
 
 const useStyles = createUseStyles({
   usersContainer: {
@@ -252,11 +253,19 @@ const PersonalInformation = () => {
           userId={user?.id}
         />
       )}
-      <ChangePasswordModal
-        isOpen={isPasswordModalOpen}
-        handleClose={handleClosePasswordModal}
-        userId={user?.id}
-      />
+      {isMobile ? (
+        <ChangePasswordBottomSheet
+          isOpen={isPasswordModalOpen}
+          handleClose={handleClosePasswordModal}
+          userId={user?.id}
+        />
+      ) : (
+        <ChangePasswordModal
+          isOpen={isPasswordModalOpen}
+          handleClose={handleClosePasswordModal}
+          userId={user?.id}
+        />
+      )}
     </div>
   );
 };

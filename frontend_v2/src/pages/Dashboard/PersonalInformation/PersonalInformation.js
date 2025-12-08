@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { getUser } from "../../../reducers/userSlice";
 import ChangeNameModal from "./ChangeNameModal";
 import ChangeNameBottomSheet from "./ChangeNameBottomSheet";
+import ChangePasswordModal from "./ChangePasswordModal";
+import ChangePasswordBottomSheet from "./ChangePasswordBottomSheet";
 
 const useStyles = createUseStyles({
   usersContainer: {
@@ -145,6 +147,7 @@ const PersonalInformation = () => {
   const dispatch = useDispatch();
   const { user, isLoading } = useSelector((store) => store.user);
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
@@ -170,6 +173,14 @@ const PersonalInformation = () => {
     setIsNameModalOpen(false);
   };
 
+  const handleChangePassword = () => {
+    setIsPasswordModalOpen(true);
+  };
+
+  const handleClosePasswordModal = () => {
+    setIsPasswordModalOpen(false);
+  };
+
   return (
     <div className={classes.usersContainer}>
       <h2 className={classes.usersHeader}>My Information</h2>
@@ -190,9 +201,17 @@ const PersonalInformation = () => {
                   Main Goal: {user.mainGoal} kg CO2
                 </div>
               )}
-              <button className={classes.editButton} onClick={handleEditName}>
-                Edit Name
-              </button>
+              <div
+                style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                <button className={classes.editButton} onClick={handleEditName}>
+                  Edit Name
+                </button>
+                <button
+                  className={classes.editButton}
+                  onClick={handleChangePassword}>
+                  Change Password
+                </button>
+              </div>
             </div>
             <div className={classes.userRoles}>
               {user.roles &&
@@ -229,8 +248,20 @@ const PersonalInformation = () => {
           userId={user?.id}
         />
       )}
+      {isMobile ? (
+        <ChangePasswordBottomSheet
+          isOpen={isPasswordModalOpen}
+          handleClose={handleClosePasswordModal}
+          userId={user?.id}
+        />
+      ) : (
+        <ChangePasswordModal
+          isOpen={isPasswordModalOpen}
+          handleClose={handleClosePasswordModal}
+          userId={user?.id}
+        />
+      )}
     </div>
   );
 };
 export default PersonalInformation;
-
