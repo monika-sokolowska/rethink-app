@@ -77,6 +77,33 @@ const useStyles = createUseStyles({
     textAlign: "center",
     width: "100%",
   },
+  overviewSection: {
+    width: "100%",
+    maxWidth: "1400px",
+    padding: "2rem",
+    backgroundColor: "white",
+    marginBottom: "0.5rem",
+  },
+  overviewText: {
+    fontSize: "1.1rem",
+    lineHeight: "1.7",
+    color: "#2d8659",
+    textAlign: "center",
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    fontWeight: "400",
+    letterSpacing: "-0.01em",
+  },
+  overviewTextMobile: {
+    fontSize: "1rem",
+    lineHeight: "1.6",
+    color: "#2d8659",
+    textAlign: "center",
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    fontWeight: "400",
+    letterSpacing: "-0.01em",
+  },
   "@media (max-width: 1200px)": {
     statsContainer: {
       flexDirection: "column",
@@ -97,6 +124,10 @@ const useStyles = createUseStyles({
     statsContainer: {
       padding: "1rem",
       gap: "1.5rem",
+    },
+    overviewSection: {
+      padding: "1rem",
+      marginBottom: "0.25rem",
     },
     chartWrapper: {
       minWidth: "100%",
@@ -368,8 +399,67 @@ const Stats = () => {
     },
   };
 
+  const fullOverviewText = (
+    <>
+      <p
+        style={{
+          marginBottom: "0.5rem",
+          fontWeight: "600",
+          fontSize: "1.25rem",
+          letterSpacing: "-0.02em",
+        }}>
+        Track your carbon footprint effortlessly, and make every day count.
+      </p>
+      <p style={{ marginBottom: "0.5rem" }}>
+        Our app helps you understand and reduce your environmental impact by
+        letting you log your daily carbon footprint across key areas like
+        transport, food, and household habits.
+      </p>
+      <p style={{ marginBottom: "0.5rem" }}>
+        Get instant insights with clear, easy-to-read stats that show how your
+        daily footprint compares to the average person and to the personal goals
+        you set in the Goals tab.
+      </p>
+      <p style={{ marginBottom: "0.5rem" }}>
+        Whether you're taking your first steps toward sustainable living or
+        striving to hit ambitious eco-targets, our app gives you the tools and
+        motivation to stay on track.
+      </p>
+      <p>
+        Start today and see how small changes can lead to a lighter, greener
+        future.
+      </p>
+    </>
+  );
+
+  const mobileOverviewText = (
+    <>
+      <p
+        style={{
+          marginBottom: "0.5rem",
+          fontWeight: "600",
+          fontSize: "1.15rem",
+          letterSpacing: "-0.02em",
+        }}>
+        Track your carbon footprint effortlessly — and make every day count.
+      </p>
+      <p>
+        Our app helps you understand and reduce your environmental impact by
+        letting you log your daily carbon footprint
+      </p>
+    </>
+  );
+
   return (
     <section className={classes.stats}>
+      <div className={classes.overviewSection}>
+        <div
+          className={
+            isMobile ? classes.overviewTextMobile : classes.overviewText
+          }>
+          {isMobile ? mobileOverviewText : fullOverviewText}
+        </div>
+      </div>
       <div className={classes.statsContainer}>
         {stats && user && chartData && (
           <div className={classes.chartWrapper}>
