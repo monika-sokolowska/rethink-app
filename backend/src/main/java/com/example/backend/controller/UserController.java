@@ -124,6 +124,48 @@ public class UserController {
         return ResponseEntity.ok(1);
     }
 
+    /**
+     * DEV ONLY: Register an admin account
+     * This endpoint should be disabled or removed in production
+     */
+    @PostMapping("/register-admin")
+    public ResponseEntity<?> registerAdmin(@RequestBody RegisterDTO register) {
+
+        if (userRepository.existsByEmail(register.email())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
+
+        // Create new admin account
+        User user = new User(register.name(), register.lastName(), register.email(),
+                encoder.encode(register.password()));
+
+        Set<Role> roles = new HashSet<>();
+
+        // Add both USER and ADMIN roles
+        Role userRole = roleRepository.findByName(ERole.ROLE_USER);
+        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
+        
+        if(userRole == null || adminRole == null) {
+            throw new RuntimeException("Role not found");
+        }
+        
+        roles.add(userRole);
+        roles.add(adminRole);
+
+        user.setRoles(roles);
+        User savedUser = userRepository.save(user);
+        
+        HouseholdFootprint householdFootprint = new HouseholdFootprint();
+        householdFootprint.setUser(savedUser);
+        householdFootprint.setFootprint(0.0f);
+        householdFootprint.setDate(Date.valueOf(LocalDate.now()));
+        householdFootprintRepository.save(householdFootprint);
+
+        return ResponseEntity.ok(1);
+    }
+
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PatchMapping(path="/goal/change")
     public ResponseEntity<UserDTO> changeMainGoal(@RequestBody MainGoalDTO mainGoalDTO) {

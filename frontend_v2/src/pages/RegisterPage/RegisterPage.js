@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../../reducers/userSlice";
+import { registerUser, registerAdmin } from "../../reducers/userSlice";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -122,6 +122,37 @@ const useStyles = createUseStyles({
     textAlign: "center",
     margin: "0.5rem",
     textDecoration: "none",
+  },
+  devButton: {
+    backgroundColor: "#ff6b6b",
+    borderRadius: "4px",
+    boxShadow: "rgba(0, 0, 0, 0.1) 0 2px 4px 0",
+    borderStyle: "none",
+    boxSizing: "border-box",
+    color: "#ffffff",
+    cursor: "pointer",
+    fontFamily:
+      '"Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif',
+    fontSize: "12px",
+    fontWeight: 400,
+    padding: "10px 20px",
+    textAlign: "center",
+    transform: "translateY(0)",
+    transition: "transform 150ms, box-shadow 150ms",
+    touchAction: "manipulation",
+    marginTop: "0.5rem",
+    "&:hover": {
+      boxShadow: "rgba(0, 0, 0, 0.15) 0 3px 9px 0",
+      transform: "translateY(-2px)",
+      backgroundColor: "#ff5252",
+    },
+  },
+  devLabel: {
+    fontSize: "10px",
+    color: "#ffcc00",
+    textAlign: "center",
+    marginTop: "1rem",
+    fontWeight: "bold",
   },
   "@media (max-width: 768px)": {
     registerPageContainer: {
@@ -276,6 +307,25 @@ const RegisterPage = () => {
     [dispatch, values]
   );
 
+  const onAdminRegister = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (!Boolean(Object.keys(values).every((key) => values[key]))) {
+        toast.error("Please fill out all fields!");
+        return;
+      }
+      const v = {
+        name: values.name,
+        lastName: values["last-name"],
+        email: values.email,
+        password: values.password,
+      };
+      dispatch(registerAdmin(v));
+      setRequestSent(true);
+    },
+    [dispatch, values]
+  );
+
   return (
     <div className={classes.registerPageContainer}>
       <Header />
@@ -333,6 +383,17 @@ const RegisterPage = () => {
             <Link to="/login" className={classes.loginLink}>
               Log in
             </Link>
+            {process.env.NODE_ENV === "development" && (
+              <>
+                <span className={classes.devLabel}>DEV ONLY</span>
+                <button
+                  type="button"
+                  className={classes.devButton}
+                  onClick={onAdminRegister}>
+                  Register as Admin
+                </button>
+              </>
+            )}
           </form>
         </div>
       </div>
