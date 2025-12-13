@@ -22,7 +22,12 @@ import {
   getCompensatedFootprint,
 } from "../../../../reducers/dailyFootprintSlice";
 import { getHouseholdFootprint } from "../../../../reducers/householdFootprintSlice";
+import {
+  getRecurringFootprints,
+  deleteRecurringFootprint,
+} from "../../../../reducers/recurringFootprintSlice";
 import { Link } from "react-router-dom";
+import { FaSync } from "react-icons/fa";
 
 const useStyles = createUseStyles({
   footprintPage: {
@@ -76,6 +81,110 @@ const useStyles = createUseStyles({
       transform: "translateY(-2px)",
     },
   },
+  dailySection: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    width: "100%",
+    height: "100%",
+    marginTop: "2rem",
+    marginBottom: "1rem",
+  },
+  dailySectionHeader: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "90%",
+  },
+  dailySectionLabel: {
+    margin: "1rem",
+    color: "#2d8659",
+    fontSize: "20px",
+    textAlign: "center",
+    fontWeight: "bold",
+    display: "flex",
+    alignItems: "center",
+    gap: "0.75rem",
+  },
+  dailyIcon: {
+    fontSize: "24px",
+    color: "#2d8659",
+  },
+  dailyList: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.75rem",
+  },
+  dailyItem: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "12px 16px",
+    backgroundColor: "rgba(45, 134, 89, 0.1)",
+    borderRadius: "8px",
+    border: "1px solid rgba(45, 134, 89, 0.25)",
+    transition: "box-shadow 0.2s",
+    "&:hover": {
+      boxShadow: "0 2px 8px rgba(45, 134, 89, 0.15)",
+      backgroundColor: "rgba(45, 134, 89, 0.15)",
+    },
+  },
+  dailyItemInfo: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4px",
+  },
+  dailyItemName: {
+    fontSize: "15px",
+    fontWeight: 500,
+    color: "#333",
+  },
+  dailyItemDetails: {
+    fontSize: "13px",
+    color: "#666",
+    display: "flex",
+    gap: "12px",
+  },
+  dailyItemType: {
+    backgroundColor: "rgba(45, 134, 89, 0.1)",
+    color: "#2d8659",
+    padding: "2px 8px",
+    borderRadius: "4px",
+    fontSize: "11px",
+    fontWeight: 500,
+    textTransform: "uppercase",
+  },
+  dailyItemActions: {
+    display: "flex",
+    gap: "8px",
+  },
+  deleteButton: {
+    background: "none",
+    border: "1px solid #dc3545",
+    borderRadius: "6px",
+    padding: "6px 12px",
+    fontSize: "12px",
+    color: "#dc3545",
+    cursor: "pointer",
+    transition: "all 0.2s",
+    "&:hover": {
+      backgroundColor: "rgba(220, 53, 69, 0.1)",
+    },
+  },
+  emptyDaily: {
+    textAlign: "center",
+    color: "#888",
+    padding: "1.5rem",
+    fontSize: "14px",
+    width: "90%",
+    backgroundColor: "#f8f9fa",
+    borderRadius: "8px",
+  },
+  dailyListContainer: {
+    width: "90%",
+  },
   "@media (max-width: 768px)": {
     footprintPage: {
       flexDirection: "column",
@@ -119,6 +228,9 @@ const FootprintPage = () => {
   const { householdFootprint } = useSelector(
     (store) => store.householdFootprint
   );
+  const { recurringFootprints } = useSelector(
+    (store) => store.recurringFootprint
+  );
   const dispatch = useDispatch();
   const [showTransportModal, setShowTransportModal] = useState(false);
   const [showFoodModal, setShowFoodModal] = useState(false);
@@ -135,8 +247,17 @@ const FootprintPage = () => {
       dispatch(getOtherFootprint());
       dispatch(getCompensatedFootprint());
       dispatch(getHouseholdFootprint());
+      dispatch(getRecurringFootprints());
     }
   }, [dispatch, user?.id]);
+
+  const handleDeleteRecurring = (id) => {
+    dispatch(deleteRecurringFootprint(id));
+  };
+
+  const formatFootprintType = (type) => {
+    return type?.toLowerCase() || "other";
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -253,6 +374,53 @@ const FootprintPage = () => {
           onAddButton={openCompensatedAddModal}
           activityType="compensated"
         />
+
+        {/* Daily/Recurring Footprints Section */}
+        <div className={classes.dailySection}>
+          <div className={classes.dailySectionHeader}>
+            <div className={classes.dailySectionLabel}>
+              <FaSync className={classes.dailyIcon} />
+              Daily Footprints
+            </div>
+          </div>
+          {recurringFootprints && recurringFootprints.length > 0 ? (
+            <div className={classes.dailyListContainer}>
+              <div className={classes.dailyList}>
+                {recurringFootprints.map((item) => (
+                  <div
+                    key={item.id}
+                    className={`${classes.dailyItem} ${
+                      !item.isActive ? classes.dailyItemInactive : ""
+                    }`}>
+                    <div className={classes.dailyItemInfo}>
+                      <span className={classes.dailyItemName}>{item.name}</span>
+                      <div className={classes.dailyItemDetails}>
+                        <span className={classes.dailyItemType}>
+                          {formatFootprintType(item.footprintType)}
+                        </span>
+                        <span>{item.footprint} kg CO2</span>
+                        {item.kilometers && <span>{item.kilometers} km</span>}
+                        {item.meal && <span>{item.meal}</span>}
+                      </div>
+                    </div>
+                    <div className={classes.dailyItemActions}>
+                      <button
+                        className={classes.deleteButton}
+                        onClick={() => handleDeleteRecurring(item.id)}>
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className={classes.emptyDaily}>
+              No daily footprints set. Check "Repeat daily" when adding a
+              footprint to create one.
+            </div>
+          )}
+        </div>
       </section>
 
       <section className={classes.householdFootprint}>

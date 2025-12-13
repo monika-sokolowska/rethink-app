@@ -4,6 +4,7 @@ import {
   getAllUsersThunk,
   updateUserNameThunk,
   updateUserPasswordThunk,
+  deleteUserThunk,
 } from "./usersThunk";
 
 const initialState = {
@@ -43,6 +44,13 @@ export const updateUserPassword = createAsyncThunk(
   }
 );
 
+export const deleteUser = createAsyncThunk(
+  "users/deleteUser",
+  async (userId, thunkAPI) => {
+    return deleteUserThunk(userId, thunkAPI);
+  }
+);
+
 const usersSlice = createSlice({
   name: "users",
   initialState,
@@ -79,6 +87,18 @@ const usersSlice = createSlice({
         toast.success("Password updated successfully");
       })
       .addCase(updateUserPassword.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(payload);
+      })
+      .addCase(deleteUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteUser.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.users = state.users.filter((user) => user.id !== payload.userId);
+        toast.success("User deleted successfully");
+      })
+      .addCase(deleteUser.rejected, (state, { payload }) => {
         state.isLoading = false;
         toast.error(payload);
       });

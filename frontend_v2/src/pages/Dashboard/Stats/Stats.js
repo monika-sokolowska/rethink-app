@@ -30,7 +30,7 @@ const useStyles = createUseStyles({
     width: "100%",
     minHeight: "100vh",
     backgroundColor: "white",
-    padding: "2rem 0",
+    padding: "1rem 0",
   },
   statsContainer: {
     display: "flex",
@@ -42,51 +42,51 @@ const useStyles = createUseStyles({
     maxWidth: "1400px",
     height: "auto",
     backgroundColor: "white",
-    padding: "2rem",
-    gap: "2rem",
+    padding: "1rem 2rem",
+    gap: "1.5rem",
   },
   chartWrapper: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    flex: "1 1 45%",
-    minWidth: "300px",
-    maxWidth: "600px",
+    flex: "1 1 30%",
+    minWidth: "280px",
+    maxWidth: "400px",
     width: "100%",
   },
   chartContainer: {
     width: "100%",
-    minHeight: "400px",
-    height: "400px",
-    marginTop: "1rem",
+    minHeight: "220px",
+    height: "220px",
+    marginTop: "0.5rem",
     position: "relative",
   },
   doughnutContainer: {
     width: "100%",
-    minHeight: "300px",
-    height: "300px",
+    minHeight: "200px",
+    height: "200px",
     position: "relative",
-    maxWidth: "400px",
-    margin: "1rem auto",
+    maxWidth: "280px",
+    margin: "0.5rem auto",
   },
   chartTitle: {
-    fontSize: "1.5rem",
+    fontSize: "1.1rem",
     fontWeight: "bold",
     color: "rgb(17, 20, 48)",
-    marginBottom: "1rem",
+    marginBottom: "0.5rem",
     textAlign: "center",
     width: "100%",
   },
   overviewSection: {
     width: "100%",
     maxWidth: "1400px",
-    padding: "2rem",
+    padding: "1rem 2rem",
     backgroundColor: "white",
-    marginBottom: "0.5rem",
+    marginBottom: "0.25rem",
   },
   overviewText: {
-    fontSize: "1.1rem",
-    lineHeight: "1.7",
+    fontSize: "0.95rem",
+    lineHeight: "1.5",
     color: "#2d8659",
     textAlign: "center",
     fontFamily:
@@ -95,8 +95,8 @@ const useStyles = createUseStyles({
     letterSpacing: "-0.01em",
   },
   overviewTextMobile: {
-    fontSize: "1rem",
-    lineHeight: "1.6",
+    fontSize: "0.9rem",
+    lineHeight: "1.4",
     color: "#2d8659",
     textAlign: "center",
     fontFamily:
@@ -106,45 +106,55 @@ const useStyles = createUseStyles({
   },
   "@media (max-width: 1200px)": {
     statsContainer: {
+      padding: "1rem",
+    },
+    chartWrapper: {
+      flex: "1 1 45%",
+      minWidth: "280px",
+      maxWidth: "350px",
+    },
+  },
+  "@media (max-width: 900px)": {
+    statsContainer: {
       flexDirection: "column",
       alignItems: "center",
-      padding: "1.5rem",
+      padding: "1rem",
     },
     chartWrapper: {
       flex: "1 1 100%",
-      minWidth: "350px",
+      minWidth: "280px",
       maxWidth: "100%",
     },
   },
   "@media (max-width: 768px)": {
     stats: {
-      padding: "1rem 0",
+      padding: "0.5rem 0",
       paddingBottom: "5rem",
     },
     statsContainer: {
-      padding: "1rem",
-      gap: "1.5rem",
+      padding: "0.75rem",
+      gap: "1rem",
     },
     overviewSection: {
-      padding: "1rem",
+      padding: "0.75rem",
       marginBottom: "0.25rem",
     },
     chartWrapper: {
       minWidth: "100%",
       maxWidth: "100%",
-      marginBottom: "2rem",
+      marginBottom: "1rem",
     },
     chartContainer: {
-      minHeight: "350px",
-      height: "350px",
+      minHeight: "200px",
+      height: "200px",
     },
     doughnutContainer: {
-      minHeight: "300px",
-      height: "300px",
-      maxWidth: "350px",
+      minHeight: "180px",
+      height: "180px",
+      maxWidth: "250px",
     },
     chartTitle: {
-      fontSize: "1.25rem",
+      fontSize: "1rem",
     },
   },
   "@media (max-width: 480px)": {
@@ -154,24 +164,24 @@ const useStyles = createUseStyles({
     },
     statsContainer: {
       padding: "0.5rem",
-      gap: "1rem",
+      gap: "0.75rem",
     },
     chartWrapper: {
       minWidth: "100%",
       maxWidth: "100%",
-      marginBottom: "2rem",
+      marginBottom: "1rem",
     },
     chartContainer: {
-      minHeight: "280px",
-      height: "280px",
+      minHeight: "180px",
+      height: "180px",
     },
     doughnutContainer: {
-      minHeight: "250px",
-      height: "250px",
-      maxWidth: "300px",
+      minHeight: "160px",
+      height: "160px",
+      maxWidth: "220px",
     },
     chartTitle: {
-      fontSize: "1rem",
+      fontSize: "0.9rem",
     },
   },
 });
@@ -308,9 +318,12 @@ const Stats = () => {
         display: true,
         position: "top",
         labels: {
-          boxWidth: 12,
-          padding: 10,
+          boxWidth: 8,
+          padding: 6,
           usePointStyle: true,
+          font: {
+            size: 10,
+          },
         },
       },
       tooltip: {
@@ -336,6 +349,9 @@ const Stats = () => {
         beginAtZero: true,
         ticks: {
           color: "rgb(17, 20, 48)",
+          font: {
+            size: 9,
+          },
           callback: function (value) {
             return value + " kg";
           },
@@ -344,11 +360,17 @@ const Stats = () => {
           display: true,
           text: "kg CO2",
           color: "rgb(17, 20, 48)",
+          font: {
+            size: 10,
+          },
         },
       },
       x: {
         ticks: {
           color: "rgb(17, 20, 48)",
+          font: {
+            size: 9,
+          },
         },
       },
     },
@@ -362,11 +384,11 @@ const Stats = () => {
         display: true,
         position: "bottom",
         labels: {
-          boxWidth: 12,
-          padding: 12,
+          boxWidth: 8,
+          padding: 6,
           usePointStyle: true,
           font: {
-            size: 12,
+            size: 9,
           },
         },
       },
@@ -403,9 +425,9 @@ const Stats = () => {
     <>
       <p
         style={{
-          marginBottom: "0.5rem",
+          marginBottom: "0.25rem",
           fontWeight: "600",
-          fontSize: "1.25rem",
+          fontSize: "1.1rem",
           letterSpacing: "-0.02em",
         }}>
         Track your carbon footprint effortlessly, and make every day count.
@@ -413,21 +435,10 @@ const Stats = () => {
       <p style={{ marginBottom: "0.5rem" }}>
         Our app helps you understand and reduce your environmental impact by
         letting you log your daily carbon footprint across key areas like
-        transport, food, and household habits.
-      </p>
-      <p style={{ marginBottom: "0.5rem" }}>
-        Get instant insights with clear, easy-to-read stats that show how your
-        daily footprint compares to the average person and to the personal goals
-        you set in the Goals tab.
-      </p>
-      <p style={{ marginBottom: "0.5rem" }}>
-        Whether you're taking your first steps toward sustainable living or
-        striving to hit ambitious eco-targets, our app gives you the tools and
-        motivation to stay on track.
-      </p>
-      <p>
-        Start today and see how small changes can lead to a lighter, greener
-        future.
+        transport, food, and household habits.Get instant insights with clear,
+        easy-to-read stats that show how your daily footprint compares to the
+        average person and to the personal goals you set in the Goals tab. Start
+        today and see how small changes can lead to a lighter, greener future.
       </p>
     </>
   );
@@ -436,9 +447,9 @@ const Stats = () => {
     <>
       <p
         style={{
-          marginBottom: "0.5rem",
+          marginBottom: "0.25rem",
           fontWeight: "600",
-          fontSize: "1.15rem",
+          fontSize: "1rem",
           letterSpacing: "-0.02em",
         }}>
         Track your carbon footprint effortlessly — and make every day count.
