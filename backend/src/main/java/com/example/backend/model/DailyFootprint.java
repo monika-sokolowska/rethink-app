@@ -21,7 +21,7 @@ public class DailyFootprint {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
     @JoinColumn(name = "id_user", referencedColumnName = "id_user",
             foreignKey = @ForeignKey(name = "fk_daily_footprint_user"))
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     public DailyFootprint() {
