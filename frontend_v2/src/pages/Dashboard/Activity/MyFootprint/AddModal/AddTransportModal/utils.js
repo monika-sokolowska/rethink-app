@@ -74,8 +74,7 @@ export const calculateFootprintClimatiq = async (transportName, kilometers) => {
       return 0;
     }
 
-    const response = null;
-    await fetch(CLIMATIQ_API_URL, {
+    const response = await fetch(CLIMATIQ_API_URL, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${CLIMATIQ_API_KEY}`,

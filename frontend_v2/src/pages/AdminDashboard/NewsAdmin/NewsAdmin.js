@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import NewsBlockAdmin from "./NewsBlockAdmin/NewsBlockAdmin";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllArticles, deleteArticle } from "../../../reducers/allArticlesSlice";
+import {
+  getAllArticles,
+  deleteArticle,
+} from "../../../reducers/allArticlesSlice";
 import ArticleModalAdmin from "./ArticleModalAdmin/ArticleModalAdmin";
 import ArticleBottomSheet from "./ArticleModalAdmin/ArticleBottomSheet";
 import AddArticleModalAdmin from "./AddArticleModalAdmin/AddArticleModalAdmin";
