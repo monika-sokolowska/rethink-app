@@ -12,11 +12,35 @@ import SharedAdminLayout from "./pages/AdminDashboard/SharedAdminLayout";
 import StatsAdmin from "./pages/AdminDashboard/StatsAdmin/StatsAdmin";
 import NewsAdmin from "./pages/AdminDashboard/NewsAdmin/NewsAdmin";
 import PersonalInformationAdmin from "./pages/AdminDashboard/PersonalInformation/PersonalInformation";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Provider } from "react-redux";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Provider, useSelector } from "react-redux";
 import { store } from "./store";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+const ProtectedRoute = ({ children }) => {
+  const { user } = useSelector((store) => store.user);
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+};
+
+const AdminRoute = ({ children }) => {
+  const { user } = useSelector((store) => store.user);
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!user.roles?.includes("ROLE_ADMIN")) {
+    return <Navigate to="/home" replace />;
+  }
+
+  return children;
+};
 
 function App() {
   return (
@@ -26,7 +50,14 @@ function App() {
           <Route path="/" element={<FirstPage />}></Route>
           <Route path="/register" element={<RegisterPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
-          <Route path="/home" element={<SharedLayout />}>
+
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <SharedLayout />
+              </ProtectedRoute>
+            }>
             <Route index element={<Stats />} />
             <Route path="/home/goals" element={<Goals />} />
             <Route path="/home/activity" element={<Activity />}>
@@ -38,7 +69,14 @@ function App() {
               element={<PersonalInformation />}
             />
           </Route>
-          <Route path="/admin" element={<SharedAdminLayout />}>
+
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <SharedAdminLayout />
+              </AdminRoute>
+            }>
             <Route index element={<StatsAdmin />} />
             <Route path="/admin/news" element={<NewsAdmin />} />
             <Route

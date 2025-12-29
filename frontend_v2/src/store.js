@@ -6,6 +6,7 @@ import dailyFootprintSlice from "./reducers/dailyFootprintSlice";
 import householdFootprintSlice from "./reducers/householdFootprintSlice";
 import stats from "./reducers/statsSlice";
 import usersSlice from "./reducers/usersSlice";
+import recurringFootprintSlice from "./reducers/recurringFootprintSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     householdFootprint: householdFootprintSlice,
     stats: stats,
     users: usersSlice,
+    recurringFootprint: recurringFootprintSlice,
   },
 });

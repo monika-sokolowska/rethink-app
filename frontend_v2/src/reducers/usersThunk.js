@@ -33,3 +33,14 @@ export const updateUserPasswordThunk = async (url, data, thunkAPI) => {
   }
 };
 
+export const deleteUserThunk = async (userId, thunkAPI) => {
+  try {
+    const resp = await customFetch.delete(`/user/${userId}`);
+    return { userId, message: resp.data };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error.response?.data?.message || "Failed to delete user"
+    );
+  }
+};
+

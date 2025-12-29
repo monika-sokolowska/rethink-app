@@ -3,11 +3,7 @@ const CLIMATIQ_SEARCH_URL = process.env.REACT_APP_CLIMATIQ_SEARCH_URL;
 export const CLIMATIQ_API_URL = process.env.REACT_APP_CLIMATIQ_API_URL;
 
 export const searchFoodCategory = async (mealDescription) => {
-  if (process.env.NODE_ENV === "development") {
-    console.log("searchFoodCategory called with:", mealDescription);
-  }
-
-  if (!mealDescription || mealDescription.trim().length < 2) {
+  if (!mealDescription || mealDescription.trim().length < 3) {
     if (process.env.NODE_ENV === "development") {
       console.log("Meal description too short, skipping search");
     }
@@ -26,10 +22,6 @@ export const searchFoodCategory = async (mealDescription) => {
       mealDescription
     )}`;
 
-    if (process.env.NODE_ENV === "development") {
-      console.log("Making request to:", searchUrl);
-    }
-
     const response = await fetch(searchUrl, {
       method: "GET",
       headers: {
@@ -40,9 +32,6 @@ export const searchFoodCategory = async (mealDescription) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      if (process.env.NODE_ENV === "development") {
-        console.error(`Climatiq API error: ${response.status} - ${errorText}`);
-      }
       throw new Error(`API error: ${response.status} - ${errorText}`);
     }
 

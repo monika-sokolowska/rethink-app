@@ -38,6 +38,14 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+export const registerAdmin = createAsyncThunk(
+  "user/registerAdmin",
+  async (data, thunkAPI) => {
+    const result = await loginUserThunk("/user/register-admin", data, thunkAPI);
+    return result;
+  }
+);
+
 export const loginUserFlow = createAsyncThunk(
   "user/loginUserFlow",
   async (user, thunkAPI) => {
@@ -149,6 +157,15 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.registered = true;
         toast.success(`You are registered! You can now log in.`);
+      })
+      .addCase(registerAdmin.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.registered = true;
+        toast.success(`Admin account created! You can now log in.`);
+      })
+      .addCase(registerAdmin.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(payload || "Failed to create admin account");
       });
   },
 });

@@ -2,7 +2,7 @@ import { createUseStyles } from "react-jss";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { getStats, getAveragePerson } from "../../../reducers/statsSlice";
-import { getAllUsers } from "../../../reducers/usersSlice";
+import { getAllUsers, deleteUser } from "../../../reducers/usersSlice";
 import ChangeAverageDailyFootprintModal from "./ChangeAverageDailyFootprintModal";
 import ChangeAverageHouseholdFootprintModal from "./ChangeAverageHouseholdFootprintModal";
 
@@ -162,6 +162,90 @@ const useStyles = createUseStyles({
     fontSize: "0.75rem",
     fontWeight: 500,
   },
+  deleteButton: {
+    backgroundColor: "#dc3545",
+    color: "#ffffff",
+    border: "none",
+    borderRadius: "8px",
+    padding: "8px 16px",
+    fontSize: "0.85rem",
+    fontWeight: 500,
+    cursor: "pointer",
+    transition: "background-color 0.2s, transform 0.2s",
+    marginLeft: "1rem",
+    "&:hover": {
+      backgroundColor: "#c82333",
+      transform: "translateY(-2px)",
+    },
+    "&:active": {
+      transform: "translateY(0)",
+    },
+  },
+  confirmOverlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1000,
+  },
+  confirmDialog: {
+    backgroundColor: "#ffffff",
+    borderRadius: "12px",
+    padding: "2rem",
+    maxWidth: "400px",
+    width: "90%",
+    boxShadow: "0 10px 40px rgba(0, 0, 0, 0.2)",
+    textAlign: "center",
+  },
+  confirmTitle: {
+    fontSize: "1.25rem",
+    fontWeight: 600,
+    color: "#333",
+    marginBottom: "1rem",
+  },
+  confirmMessage: {
+    fontSize: "1rem",
+    color: "#666",
+    marginBottom: "1.5rem",
+  },
+  confirmButtons: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "1rem",
+  },
+  confirmCancel: {
+    backgroundColor: "#6c757d",
+    color: "#ffffff",
+    border: "none",
+    borderRadius: "8px",
+    padding: "10px 24px",
+    fontSize: "0.9rem",
+    fontWeight: 500,
+    cursor: "pointer",
+    transition: "background-color 0.2s",
+    "&:hover": {
+      backgroundColor: "#5a6268",
+    },
+  },
+  confirmDelete: {
+    backgroundColor: "#dc3545",
+    color: "#ffffff",
+    border: "none",
+    borderRadius: "8px",
+    padding: "10px 24px",
+    fontSize: "0.9rem",
+    fontWeight: 500,
+    cursor: "pointer",
+    transition: "background-color 0.2s",
+    "&:hover": {
+      backgroundColor: "#c82333",
+    },
+  },
   loader: {
     display: "flex",
     justifyContent: "center",
@@ -209,6 +293,7 @@ const StatsAdmin = () => {
     useState(false);
   const [isHouseholdFootprintModalOpen, setIsHouseholdFootprintModalOpen] =
     useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
 
   useEffect(() => {
     if (user?.id) {
@@ -245,6 +330,21 @@ const StatsAdmin = () => {
 
   const handleCloseHouseholdFootprintModal = () => {
     setIsHouseholdFootprintModalOpen(false);
+  };
+
+  const handleDeleteClick = (userItem) => {
+    setUserToDelete(userItem);
+  };
+
+  const handleCancelDelete = () => {
+    setUserToDelete(null);
+  };
+
+  const handleConfirmDelete = () => {
+    if (userToDelete) {
+      dispatch(deleteUser(userToDelete.id));
+      setUserToDelete(null);
+    }
   };
 
   return (
@@ -313,6 +413,11 @@ const StatsAdmin = () => {
                         </span>
                       );
                     })}
+                  <button
+                    className={classes.deleteButton}
+                    onClick={() => handleDeleteClick(userItem)}>
+                    Delete
+                  </button>
                 </div>
               </div>
             ))}
@@ -331,6 +436,34 @@ const StatsAdmin = () => {
         handleClose={handleCloseHouseholdFootprintModal}
         currentFootprint={avgHouseholdFootprint}
       />
+      {userToDelete && (
+        <div className={classes.confirmOverlay} onClick={handleCancelDelete}>
+          <div
+            className={classes.confirmDialog}
+            onClick={(e) => e.stopPropagation()}>
+            <h3 className={classes.confirmTitle}>Delete User Account</h3>
+            <p className={classes.confirmMessage}>
+              Are you sure you want to delete the account for{" "}
+              <strong>
+                {userToDelete.name} {userToDelete.lastName}
+              </strong>
+              ? This action cannot be undone.
+            </p>
+            <div className={classes.confirmButtons}>
+              <button
+                className={classes.confirmCancel}
+                onClick={handleCancelDelete}>
+                Cancel
+              </button>
+              <button
+                className={classes.confirmDelete}
+                onClick={handleConfirmDelete}>
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

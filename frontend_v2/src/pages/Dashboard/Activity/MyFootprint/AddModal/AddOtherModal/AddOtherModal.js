@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addOtherFootprint } from "../../../../../../reducers/dailyFootprintSlice";
+import { addRecurringFootprint } from "../../../../../../reducers/recurringFootprintSlice";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -170,6 +171,30 @@ const useStyles = createUseStyles({
       transform: "translateY(0)",
     },
   },
+  checkboxContainer: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    marginBottom: "20px",
+    padding: "12px 16px",
+    backgroundColor: "rgba(45, 134, 89, 0.05)",
+    borderRadius: "8px",
+    border: "1px solid rgba(45, 134, 89, 0.2)",
+  },
+  checkbox: {
+    width: "20px",
+    height: "20px",
+    accentColor: "#2d8659",
+    cursor: "pointer",
+  },
+  checkboxLabel: {
+    fontSize: "15px",
+    fontWeight: 500,
+    color: "#2d8659",
+    cursor: "pointer",
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+  },
   "@media (max-width: 768px)": {
     modalChange: {
       width: "100%",
@@ -219,6 +244,7 @@ const initialState = {
 const AddOtherModal = ({ isOpen, handleClose }) => {
   const classes = useStyles();
   const [values, setValues] = useState(initialState);
+  const [isDaily, setIsDaily] = useState(false);
   const dispatch = useDispatch();
   const minFootprint = 0;
   const maxFootprint = 5000;
@@ -247,13 +273,28 @@ const AddOtherModal = ({ isOpen, handleClose }) => {
     }
 
     dispatch(addOtherFootprint({ name: name, footprint: footprint }));
+
+    if (isDaily) {
+      dispatch(
+        addRecurringFootprint({
+          footprintType: "OTHER",
+          name: name,
+          footprint: footprint,
+          kilometers: null,
+          meal: null,
+        })
+      );
+    }
+
     handleClose();
     setValues(initialState);
+    setIsDaily(false);
   };
 
   const onClose = () => {
     handleClose();
     setValues(initialState);
+    setIsDaily(false);
   };
 
   const handleChange = (e) => {
@@ -311,6 +352,18 @@ const AddOtherModal = ({ isOpen, handleClose }) => {
                 max={maxFootprint}
                 required
               />
+            </div>
+            <div className={classes.checkboxContainer}>
+              <input
+                id="isDaily"
+                type="checkbox"
+                checked={isDaily}
+                onChange={(e) => setIsDaily(e.target.checked)}
+                className={classes.checkbox}
+              />
+              <label htmlFor="isDaily" className={classes.checkboxLabel}>
+                Repeat daily
+              </label>
             </div>
           </div>
           <div className={classes.footer}>

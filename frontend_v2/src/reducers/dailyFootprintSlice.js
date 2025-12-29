@@ -145,7 +145,7 @@ const dailyFootprintSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getTransportFootprint.pending, (state, { payload }) => {
+      .addCase(getTransportFootprint.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(getTransportFootprint.fulfilled, (state, { payload }) => {
